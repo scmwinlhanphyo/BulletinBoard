@@ -1,0 +1,47 @@
+.user-table {
+  margin: 0 10px;
+  .add-user-btn-container {
+    display: block;
+    float: right;
+    margin-top: 15px;
+    margin-right: 15px;
+    ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+      padding: 0.4em 0px !important;
+    }
+    ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+      padding-top: 0px;
+      height: 43px;
+    }
+  }
+
+  .download-user-btn {
+    margin: 10px 24px 0 5px;
+  }
+
+  .user-btn {
+    margin: 10px 5px 0 5px;
+  }
+
+  table {
+    width: 95%;
+    margin: 30px auto;
+  }
+
+  .mat-table {
+    background: #fff;
+    color: #000;
+  }
+
+  .mat-header-cell {
+    background: #3f51b5;
+    color: #fff;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+  }
+
+  .mat-cell,
+  .mat-footer-cell {
+    color: #000;
+    border-bottom: 1px solid #ccc;
+  }
+}

@@ -13,7 +13,11 @@
   <button mat-button class="header-btn">
     Admin
   </button>
-  <button mat-icon-button class="header-btn">
-    <mat-icon>share</mat-icon>
+  <button mat-icon-button class="header-btn" [matMenuTriggerFor]="menu">
+    <mat-icon>person</mat-icon>
   </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Profile</button>
+    <button mat-menu-item>Logout</button>
+  </mat-menu>
 </mat-toolbar>
