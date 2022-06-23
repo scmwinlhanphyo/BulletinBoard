@@ -10,9 +10,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  emailWrong = false;
-  passwordWrong = false;
-  emailpwWrong = false;
+  loginErrMsg = "";
 
   constructor(
     private fb: FormBuilder,
@@ -27,12 +25,12 @@ export class LoginComponent implements OnInit {
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ]),
       password: new FormControl('', [
-       Validators.required,
-       Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{6,20}')
+        Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{6,20}')
       ]),
       rememberme: ['']
-  })
-}
+    })
+  }
 
   get myLoginForm() {
     return this.loginForm.controls;
@@ -42,12 +40,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.value.email === "admin@gmail.com" && this.loginForm.value.password === "Admin@123") {
       sessionStorage.setItem("Userinfo", "Admin");
       this.router.navigate(["/post-list"]);
-    } else if (this.loginForm.value.email !== "admin@gmail.com" && this.loginForm.value.password === "Admin@123") {
-      this.emailWrong = true;
-    }else if (this.loginForm.value.email === "admin@gmail.com" && this.loginForm.value.password !== "Admin@123") {
-      this.passwordWrong = true;
-    } else {
-      this.emailpwWrong = true;
+    } else if (this.loginForm.value.email !== "admin@gmail.com" && this.loginForm.value.password !== "Admin@123") {
+      this.loginErrMsg = "Incorrect Email & Password!"
+    } else if (this.loginForm.value.email !== "admin@gmail.com") {
+      this.loginErrMsg = "Email does not Exists.";
+    } else if (this.loginForm.value.password !== "Admin@123") {
+      this.loginErrMsg = "Incorrect Password!"
     }
   }
 }

@@ -1,9 +1,7 @@
 <div class="login-container">
   <h2>Bulletin Board</h2>
   <div class="form-container">
-    <div class="alert-login" *ngIf="passwordWrong">Incorrect Password!</div>
-      <div class="alert-login" *ngIf="emailWrong">Email does not Exists.</div>
-      <div class="alert-login" *ngIf="emailpwWrong">Incorrect Email & Password!</div>
+    <div class="alert-login" *ngIf="loginErrMsg">{{loginErrMsg}}</div>
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
 
 
