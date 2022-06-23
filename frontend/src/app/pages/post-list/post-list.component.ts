@@ -72,13 +72,16 @@ export class PostListComponent implements OnInit {
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
-
+  public message:any ="";
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<PostDataModel>(this.tableData);
     this.currentPage = 0;
     this.totalSize = this.tableData.length;
+    if(sessionStorage.getItem('message')){
+      this.message= sessionStorage.getItem('message');
+    }
   }
 
   public createUser() {
