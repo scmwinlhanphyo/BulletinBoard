@@ -1,1 +1,34 @@
-<p>login works!</p>
+<div class="login-container">
+  <h2>Bulletin Board</h2>
+  <div class="form-container">
+    <div class="alert-login" *ngIf="loginErrMsg">{{loginErrMsg}}</div>
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
+
+
+      <label>Email Address:</label>
+      <mat-form-field appearance="outline">
+        <input matInput type="email" formControlName="email">
+        <mat-error *ngIf="myLoginForm['email'].hasError('required')">Email can't be blank.</mat-error>
+        <mat-error *ngIf="myLoginForm['email'].hasError('pattern')">Email Format is invalid.</mat-error>
+      </mat-form-field>
+
+      <label>Password:</label>
+      <mat-form-field appearance="outline">
+        <input matInput type="password" formControlName="password">
+        <mat-error *ngIf="myLoginForm['password'].hasError('required')">Password can't be blank.</mat-error>
+        <mat-error *ngIf="myLoginForm['password'].hasError('pattern')">Password must contain number, capital letters,
+          small letters and special characters.</mat-error>
+      </mat-form-field>
+      <div class="checkforget">
+        <mat-checkbox class="remember" color="primary" formControlName="rememberme">Remember Me</mat-checkbox>
+        <a class="forgetpw">forgotten password?</a>
+      </div>
+      <div class="login-btn">
+        <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
+          Log in
+        </button>
+      </div>
+      <a class="register">Create Account? <mat-icon>person_add</mat-icon></a>
+    </form>
+  </div>
+</div>
