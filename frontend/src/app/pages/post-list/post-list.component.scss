@@ -1,5 +1,14 @@
+.post-delete-alert
+  {
+    width: 96.4%;
+    padding: 20px 20px 20px 35px;
+    background-color: #f00d20;
+    color: #fff;
+    margin-bottom: 20px;
+  }
 .user-table {
   margin: 0 10px;
+
   .add-user-btn-container {
     display: block;
     float: right;
@@ -43,5 +52,15 @@
   .mat-footer-cell {
     color: #000;
     border-bottom: 1px solid #ccc;
+  }
+
+  .postTitle{
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .postTitle:hover {
+    color: #0000ff;
   }
 }
