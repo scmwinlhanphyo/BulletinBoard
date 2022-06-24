@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PostDeleteDialogComponent } from 'src/app/components/post-delete-dialog/post-delete-dialog.component';
 import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog/post-detail-dialog.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 export interface PostDataModel {
   title: string,
@@ -74,18 +74,24 @@ export class PostListComponent implements OnInit {
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
-  postDelete = "";
   keyword = "";
+  public message:any ="";
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<PostDataModel>(this.tableData);
     this.currentPage = 0;
     this.totalSize = this.tableData.length;
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('msg') === "success") {
+        this.message = "Post successfully created."
+      }
+    })
   }
 
   public createUser() {
@@ -149,7 +155,7 @@ export class PostListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        this.postDelete = "Post Delete Successfully.";
+        this.message = "Post Delete Successfully.";
         // console.log('delete success');
       }
     });

@@ -1,4 +1,4 @@
-<div class="post-delete-alert" *ngIf="postDelete">{{postDelete}}</div>
+<div class="alert-success" *ngIf="message">{{ message }}</div>
 <div class="user-table">
   <div class="add-user-btn-container">
     <mat-label class="search-form-label">Keyword:</mat-label>
@@ -7,7 +7,7 @@
     </mat-form-field>
 
     <button mat-raised-button color="primary" class="user-btn" (click)="searchUser()">Search</button>
-    <button mat-raised-button color="primary" class="user-btn" (click)="createUser()">Create</button>
+    <button mat-raised-button color="primary" class="user-btn" (click)="createUser()" [routerLink]="['/post-create']" >Create</button>
     <button mat-raised-button color="primary" class="user-btn" (click)="uploadPost()">Upload</button>
     <button mat-raised-button color="primary" class="download-user-btn" (click)="downloadUser()">Download</button>
   </div>

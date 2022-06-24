@@ -1,0 +1,29 @@
+
+    <div class="login-container">
+    <mat-card fxFlex="500px" fxFlex.xs="100%">
+        <mat-card-title>Create a new post</mat-card-title>
+        <form [formGroup]="postCreateForm" autocomplete="off" novalidate (ngSubmit)="createPost()" 
+        fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <mat-card-content>
+            <label>Title:</label>
+            <mat-form-field appearance="outline">
+                <input matInput type="text" placeholder="Title" formControlName="title" id="title" name="title">
+                <!-- <mat-hint align="end">Not more then 60 characters long.</mat-hint> -->
+                <mat-error *ngIf="hasError('title', 'required')">Title can't be blank.</mat-error>
+                <mat-error *ngIf="hasError('title', 'maxlength')">255 characters is the maximum allowed.</mat-error>
+              </mat-form-field>
+               <label>Description:</label>
+                <mat-form-field appearance="outline">
+                <input matInput type="text" placeholder="Description" formControlName="description">
+                <!-- <mat-hint align="end">Not more then 100 characters long.</mat-hint> -->
+                <mat-error *ngIf="hasError('description', 'required')">Description can't be blank.</mat-error>
+              </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary">{{confirmView === true ? 'Confirm' : 'Create'}}</button>
+            <button type="button" mat-raised-button (click)="onClear()">{{confirmView === true ? 'Cancel' : 'Clear'}}</button>
+        </mat-card-actions>
+        
+        </form>
+      </mat-card>
+    </div>
