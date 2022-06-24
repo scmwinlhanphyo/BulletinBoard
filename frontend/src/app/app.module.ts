@@ -25,7 +25,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FooterComponent,
     UserListComponent,
     PostDeleteDialogComponent,
-    PostDetailDialogComponent
+    PostDetailDialogComponent,
     UploadPostComponent
   ],
   imports: [
