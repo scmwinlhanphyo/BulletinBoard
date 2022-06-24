@@ -21,8 +21,31 @@ body {
   color: #fff;
 }
 
+.mat-header-cell {
+  background: #3f51b5;
+  color: #fff;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.mat-cell,
+.mat-footer-cell {
+  color: #000;
+  border-bottom: 1px solid #ccc;
+}
+
+.error-alert {
+  background-color: #f8d7da;
+  padding: 20px 0px 20px 30px;
+  margin-bottom: 20px;
+}
+
+.search-form-label {
+  padding: 8px 10px;
+}
+
 .alert-success {
   background-color: #cce5ff;
   padding: 20px 0px 20px 30px;
-  margin-bottom: 20px;
+  margin-bottom: 20px
 }
