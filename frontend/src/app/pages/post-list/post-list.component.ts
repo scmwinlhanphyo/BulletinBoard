@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { PostDeleteComponent } from 'src/app/components/post-delete/post-delete.component';
-import { PostDetailComponent } from 'src/app/components/post-detail/post-detail.component';
+import { PostDeleteDialogComponent } from 'src/app/components/post-delete-dialog/post-delete-dialog.component';
+import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog/post-detail-dialog.component';
 
 export interface PostDataModel {
   title: string,
@@ -116,7 +116,7 @@ export class PostListComponent implements OnInit {
   }
 
   public postDetail() {
-    this.dialog.open(PostDetailComponent, {
+    this.dialog.open(PostDetailDialogComponent, {
       width: '40%',
       data: {
         title: "Title01",
@@ -131,7 +131,7 @@ export class PostListComponent implements OnInit {
   }
 
   public deletePost() {
-    let dialogRef = this.dialog.open(PostDeleteComponent, {
+    let dialogRef = this.dialog.open(PostDeleteDialogComponent, {
       width: '40%',
       data: {
         id: 2,

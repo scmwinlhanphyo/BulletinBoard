@@ -2,11 +2,11 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-post-detail',
-  templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.scss']
+  selector: 'app-post-detail-dialog',
+  templateUrl: './post-detail-dialog.component.html',
+  styleUrls: ['./post-detail-dialog.component.scss']
 })
-export class PostDetailComponent implements OnInit {
+export class PostDetailDialogComponent implements OnInit {
 
   title?: string;
   description?: string;
@@ -17,8 +17,8 @@ export class PostDetailComponent implements OnInit {
   updated_at?: string
 
   constructor(
-    public dialogRef: MatDialogRef<PostDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: PostDetailComponent,
+    public dialogRef: MatDialogRef<PostDetailDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: PostDetailDialogComponent,
   ) { }
 
   ngOnInit(): void {
@@ -27,4 +27,5 @@ export class PostDetailComponent implements OnInit {
   cancel() {
     this.dialogRef.close();
   }
+
 }

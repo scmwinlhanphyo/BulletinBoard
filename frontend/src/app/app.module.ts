@@ -10,8 +10,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AngularMaterialImportsModule } from './angular-material-imports.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './pages/user-list/user-list.component';
-import { PostDeleteComponent } from './components/post-delete/post-delete.component';
-import { PostDetailComponent } from './components/post-detail/post-detail.component';
+import { PostDeleteDialogComponent } from './components/post-delete-dialog/post-delete-dialog.component';
+import { PostDetailDialogComponent } from './components/post-detail-dialog/post-detail-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,8 +21,8 @@ import { PostDetailComponent } from './components/post-detail/post-detail.compon
     HeaderComponent,
     FooterComponent,
     UserListComponent,
-    PostDeleteComponent,
-    PostDetailComponent
+    PostDeleteDialogComponent,
+    PostDetailDialogComponent
   ],
   imports: [
     BrowserModule,

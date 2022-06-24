@@ -2,11 +2,11 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-post-delete',
-  templateUrl: './post-delete.component.html',
-  styleUrls: ['./post-delete.component.scss']
+  selector: 'app-post-delete-dialog',
+  templateUrl: './post-delete-dialog.component.html',
+  styleUrls: ['./post-delete-dialog.component.scss']
 })
-export class PostDeleteComponent implements OnInit {
+export class PostDeleteDialogComponent implements OnInit {
 
   id?: number;
   title?: string;
@@ -14,8 +14,8 @@ export class PostDeleteComponent implements OnInit {
   status?: string;
 
   constructor(
-    public dialogRef: MatDialogRef<PostDeleteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: PostDeleteComponent,
+    public dialogRef: MatDialogRef<PostDeleteDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: PostDeleteDialogComponent,
   ) { }
 
   ngOnInit(): void {
@@ -28,4 +28,5 @@ export class PostDeleteComponent implements OnInit {
   remove(){
     this.dialogRef.close('delete');
   }
+
 }
