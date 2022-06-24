@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Router } from '@angular/router';
-
+import { PostDeleteDialogComponent } from 'src/app/components/post-delete-dialog/post-delete-dialog.component';
+import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog/post-detail-dialog.component';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 export interface PostDataModel {
   title: string,
@@ -79,15 +80,18 @@ export class PostListComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private router: Router,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<PostDataModel>(this.tableData);
     this.currentPage = 0;
     this.totalSize = this.tableData.length;
-    if(sessionStorage.getItem('message')){
-      this.message= sessionStorage.getItem('message');
-    }
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('msg') === "success") {
+        this.message = "Post successfully created."
+      }
+    })
   }
 
   public createUser() {
@@ -124,4 +128,36 @@ export class PostListComponent implements OnInit {
 
   }
 
+  public postDetail() {
+    this.dialog.open(PostDetailDialogComponent, {
+      width: '40%',
+      data: {
+        title: "Title01",
+        description: "Description01",
+        status: "Active",
+        created_user: "admin",
+        created_at: "2022/06/23",
+        updated_user: "admin",
+        updated_at: "2022/06/23"
+      }
+    });
+  }
+
+  public deletePost() {
+    let dialogRef = this.dialog.open(PostDeleteDialogComponent, {
+      width: '40%',
+      data: {
+        id: 2,
+        title: "Title01",
+        description: "Description01",
+        status: "Active",
+      }
+    });
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        this.message = "Post Delete Successfully.";
+        // console.log('delete success');
+      }
+    });
+  }
 }

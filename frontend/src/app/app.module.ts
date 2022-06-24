@@ -12,6 +12,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AngularMaterialImportsModule } from './angular-material-imports.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { PostDeleteDialogComponent } from './components/post-delete-dialog/post-delete-dialog.component';
+import { PostDetailDialogComponent } from './components/post-detail-dialog/post-detail-dialog.component';
 import { UploadPostComponent } from './pages/upload-post/upload-post.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -24,6 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     FooterComponent,
     UserListComponent,
+    PostDeleteDialogComponent,
+    PostDetailDialogComponent,
     UploadPostComponent
   ],
   imports: [

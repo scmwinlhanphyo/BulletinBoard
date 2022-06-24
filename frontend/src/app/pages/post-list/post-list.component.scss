@@ -1,5 +1,14 @@
+.post-delete-alert
+  {
+    width: 96.4%;
+    padding: 20px 20px 20px 35px;
+    background-color: #cce5ff;
+    color: #000;
+    margin-bottom: 20px;
+  }
 .user-table {
   margin: 0 10px;
+
   .add-user-btn-container {
     display: block;
     float: right;
@@ -34,5 +43,15 @@
 
   mat-paginator {
     margin: 0 30px;
+  }
+
+  .postTitle{
+    text-decoration: none;
+    color: #000;
+    cursor: pointer;
+  }
+
+  .postTitle:hover {
+    color: #0000ff;
   }
 }

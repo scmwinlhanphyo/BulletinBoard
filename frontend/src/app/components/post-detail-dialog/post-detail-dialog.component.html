@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>Post Details</h2>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="mat-dialog">
+  <mat-list role="list">
+
+    <!-- Title -->
+    <mat-list-item role="listitem">
+      <span>Title </span>
+      <div class="dialog-data">
+        {{data.title}}
+      </div>
+    </mat-list-item>
+
+    <!-- Description -->
+    <mat-list-item role="listitem">
+      <span>Description </span>
+      <div class="dialog-data">
+        {{data.description}}
+      </div>
+    </mat-list-item>
+
+    <!-- Status -->
+    <mat-list-item role="listitem">
+      <span>Status </span>
+      <div class="dialog-data">
+        {{data.status}}
+      </div>
+    </mat-list-item>
+
+    <!-- Created Date -->
+    <mat-list-item role="listitem">
+      <span>Created Date</span>
+      <div class="dialog-data">
+        {{data.created_at | date: 'shortDate'}}
+      </div>
+    </mat-list-item>
+
+    <!-- Created User -->
+    <mat-list-item role="listitem">
+      <span>Created User </span>
+      <div class="dialog-data">
+        {{data.created_user}}
+      </div>
+    </mat-list-item>
+
+    <!-- Updated Date -->
+    <mat-list-item role="listitem">
+      <span>Updated Date</span>
+      <div class="dialog-data">
+        {{data.updated_at | date: 'shortDate'}}
+      </div>
+    </mat-list-item>
+
+    <!-- Updated User -->
+    <mat-list-item role="listitem">
+      <span>Updated User</span>
+      <div class="dialog-data">
+        {{data.updated_user}}
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end">
+  <button mat-flat-button (click)="cancel()">Close</button>
+</div>

@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 export class PostCreateComponent implements OnInit {
   postCreateForm!: FormGroup;
   confirmView : Boolean =false;
- // public postCreateFormValue!:any;
 
   constructor(private location: Location,private router: Router) { }
   ngOnInit() {
@@ -20,7 +19,6 @@ export class PostCreateComponent implements OnInit {
       title: new FormControl('', [Validators.required, Validators.maxLength(255)]),
       description: new FormControl('', [Validators.required])
     });
-    sessionStorage.setItem("message", "");
   }
   
   public hasError = (controlName: string, errorName: string) =>{
@@ -38,8 +36,7 @@ export class PostCreateComponent implements OnInit {
   }
   public createPost = () => {
     if(this.confirmView==true) {
-        sessionStorage.setItem("message", "Post successfully created.");
-        this.router.navigate(["post-list"]);
+        this.router.navigate(["post-list", { msg: "success"}]);
     }
     if (this.postCreateForm.valid) {
         this.postCreateForm.controls['title'].disable();

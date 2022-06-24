@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Delete Confirm</h2>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="mat-dialog">
+  <mat-list role="list">
+    <h1 mat-dialog-title>Are you sure to delete post?</h1>
+    <!-- Id -->
+    <mat-list-item role="listitem">
+      <span>ID </span>
+      <div class="dialog-data">
+        {{data?.id}}
+      </div>
+    </mat-list-item>
+
+    <!-- Title -->
+    <mat-list-item role="listitem">
+      <span>Title </span>
+      <div class="dialog-data">
+        {{data?.title}}
+      </div>
+    </mat-list-item>
+
+    <!-- Description -->
+    <mat-list-item role="listitem">
+      <span>Description </span>
+      <div class="dialog-data">
+        {{data?.description}}
+      </div>
+    </mat-list-item>
+
+    <!-- Status -->
+    <mat-list-item role="listitem">
+      <span>Status </span>
+      <div class="dialog-data">
+        {{data?.status}}
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end">
+  <button mat-flat-button (click)="cancel()">Close</button>
+  <button mat-flat-button (click)="remove()" color="warn">Delete</button>
+</div>
