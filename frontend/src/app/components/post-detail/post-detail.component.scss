@@ -4,9 +4,6 @@
   mat-list {
     width: 100%;
 
-    h1 {
-      font-weight: bold;
-    }
     mat-list-item {
       margin: 2% 0;
 
@@ -18,7 +15,6 @@
         float: right;
         clear: both;
         width: 72%;
-        color: red;
       }
     }
   }

@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { PostDetailComponent } from 'src/app/pages/post-detail/post-detail.component';
-import { PostDeleteComponent } from 'src/app/pages/post-delete/post-delete.component';
+import { PostDeleteComponent } from 'src/app/components/post-delete/post-delete.component';
+import { PostDetailComponent } from 'src/app/components/post-detail/post-detail.component';
 
 export interface PostDataModel {
   title: string,
