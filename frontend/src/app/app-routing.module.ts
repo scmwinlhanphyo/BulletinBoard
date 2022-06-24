@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { PostListComponent } from './pages/post-list/post-list.component';
 import { UploadPostComponent } from './pages/upload-post/upload-post.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { PostCreateComponent } from './pages/post-create/post-create.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'post-list', component: PostListComponent },
   { path: 'user-list', component: UserListComponent },
   { path: 'upload-csv-post', component: UploadPostComponent },
+  { path: 'post-create', component: PostCreateComponent },
 ];
 
 @NgModule({
