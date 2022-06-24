@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +11,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AngularMaterialImportsModule } from './angular-material-imports.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { UploadPostComponent } from './pages/upload-post/upload-post.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,13 +21,17 @@ import { UserListComponent } from './pages/user-list/user-list.component';
     PostListComponent,
     HeaderComponent,
     FooterComponent,
-    UserListComponent
+    UserListComponent,
+    UploadPostComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularMaterialImportsModule
+    AngularMaterialImportsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

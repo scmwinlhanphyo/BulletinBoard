@@ -1,7 +1,7 @@
 <div class="login-container">
   <h2>Bulletin Board</h2>
   <div class="form-container">
-    <div class="alert-login" *ngIf="loginErrMsg">{{loginErrMsg}}</div>
+    <div class="error-alert" *ngIf="loginErrMsg">{{loginErrMsg}}</div>
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
 
 
