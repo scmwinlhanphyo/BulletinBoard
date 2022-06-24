@@ -32,16 +32,7 @@
     color: #000;
   }
 
-  .mat-header-cell {
-    background: #3f51b5;
-    color: #fff;
-    border-bottom: 1px solid #ccc;
-    font-size: 14px;
-  }
-
-  .mat-cell,
-  .mat-footer-cell {
-    color: #000;
-    border-bottom: 1px solid #ccc;
+  mat-paginator {
+    margin: 0 30px;
   }
 }
