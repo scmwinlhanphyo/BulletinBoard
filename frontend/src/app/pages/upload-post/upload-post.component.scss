@@ -1,0 +1,49 @@
+.upload-post-container {
+
+  label {
+    margin-right: 15px;
+  }
+
+  .post-upload-form {
+    margin: 5% 40%;
+    width: 400px;
+  }
+
+  .btn-upload {
+    margin-right: 10px;
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  .file-input-txt {
+    height: 30px;
+    cursor: pointer;
+  }
+
+  .mat-toolbar-single-row {
+    height: auto !important;
+    background: transparent;
+
+    button {
+      width: 30%;
+      margin-left: -2px;
+    }
+  }
+
+  .upload-post-btn {
+    margin: 10px 26%;
+  }
+
+  #fileUpload {
+    position: absolute;
+    z-index: 9;
+    opacity: 0;
+    cursor: pointer;
+    width: 277px;
+    height: 36px;
+    left: 47%;
+    top: 141px;
+  }
+}

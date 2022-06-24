@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { PostDeleteDialogComponent } from 'src/app/components/post-delete-dialog/post-delete-dialog.component';
 import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog/post-detail-dialog.component';
+import { Router } from '@angular/router';
 
 export interface PostDataModel {
   title: string,
@@ -74,8 +75,12 @@ export class PostListComponent implements OnInit {
   currentPage = 0;
   totalSize = 0;
   postDelete = "";
+  keyword = "";
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private router: Router,
+    ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<PostDataModel>(this.tableData);
@@ -91,12 +96,14 @@ export class PostListComponent implements OnInit {
     // });
   }
 
-  public uploadUser() {
+  public uploadPost() {
     // this.dialogRef = this.dialog.open(UserInputDialogComponent, {
     //   panelClass: 'overlay-dialog',
     //   height: '130px',
     //   width: '130px'
     // });
+    this.router.navigate(['/upload-csv-post']);
+    
   }
 
   public downloadUser() {

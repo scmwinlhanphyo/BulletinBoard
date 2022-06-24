@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     } else if (this.loginForm.value.email !== "admin@gmail.com") {
       this.loginErrMsg = "Email does not Exists.";
     } else if (this.loginForm.value.password !== "Admin@123") {
-      this.loginErrMsg = "Incorrect Password!"
+      this.loginErrMsg = "Incorrect Password!";
     }
   }
 }

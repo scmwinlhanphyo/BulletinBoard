@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -12,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { PostDeleteDialogComponent } from './components/post-delete-dialog/post-delete-dialog.component';
 import { PostDetailDialogComponent } from './components/post-detail-dialog/post-detail-dialog.component';
+import { UploadPostComponent } from './pages/upload-post/upload-post.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,12 +26,16 @@ import { PostDetailDialogComponent } from './components/post-detail-dialog/post-
     UserListComponent,
     PostDeleteDialogComponent,
     PostDetailDialogComponent
+    UploadPostComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AngularMaterialImportsModule
+    AngularMaterialImportsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
