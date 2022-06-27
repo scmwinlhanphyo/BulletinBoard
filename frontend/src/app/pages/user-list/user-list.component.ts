@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 export interface UserDataModel {
   name: string,
@@ -116,16 +116,23 @@ export class UserListComponent implements OnInit {
   email = "";
   fromDate = "";
   toDate = "";
+  public message:any ="";
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<UserDataModel>(this.tableData);
     this.currentPage = 0;
     this.totalSize = this.tableData.length;
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('msg') === "success") {
+        this.message = "User successfully created."
+      }
+    })
   }
 
   /**
