@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PostListComponent } from './pages/post-list/post-list.component';
 import { PostCreateComponent } from './pages/post-create/post-create.component';
+import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AngularMaterialImportsModule } from './angular-material-imports.module';
@@ -28,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UserListComponent,
     PostDeleteDialogComponent,
     PostDetailDialogComponent,
-    UploadPostComponent
+    UploadPostComponent,
+    ProfileEditComponent
   ],
   imports: [
     BrowserModule,
