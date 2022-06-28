@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +11,20 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   loginErrMsg = "";
+  public resetMail:any ="";
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('resetEmail') === "success") {
+        this.resetMail = "Email sent with password reset instructions."
+      }
+    })
     this.loginForm = this.fb.group({
       email: new FormControl('', [
         Validators.required,

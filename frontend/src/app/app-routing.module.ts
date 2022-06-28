@@ -6,6 +6,8 @@ import { PostListComponent } from './pages/post-list/post-list.component';
 import { UploadPostComponent } from './pages/upload-post/upload-post.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { PostCreateComponent } from './pages/post-create/post-create.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -14,6 +16,8 @@ const routes: Routes = [
   { path: 'user-list', component: UserListComponent },
   { path: 'upload-csv-post', component: UploadPostComponent },
   { path: 'post-create', component: PostCreateComponent },
+  { path: 'password-change', component: PasswordChangeComponent },
+  { path: 'forget-password', component: ForgetPasswordComponent }
 ];
 
 @NgModule({
