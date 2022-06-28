@@ -16,6 +16,7 @@ import { PostDeleteDialogComponent } from './components/post-delete-dialog/post-
 import { PostDetailDialogComponent } from './components/post-detail-dialog/post-detail-dialog.component';
 import { UploadPostComponent } from './pages/upload-post/upload-post.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserCreateComponent } from './pages/user-create/user-create.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UserListComponent,
     PostDeleteDialogComponent,
     PostDetailDialogComponent,
-    UploadPostComponent
+    UploadPostComponent,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,

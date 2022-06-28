@@ -6,6 +6,7 @@ import { PostListComponent } from './pages/post-list/post-list.component';
 import { UploadPostComponent } from './pages/upload-post/upload-post.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { PostCreateComponent } from './pages/post-create/post-create.component';
+import { UserCreateComponent } from './pages/user-create/user-create.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'user-list', component: UserListComponent },
   { path: 'upload-csv-post', component: UploadPostComponent },
   { path: 'post-create', component: PostCreateComponent },
+  { path: 'user-create', component: UserCreateComponent }
 ];
 
 @NgModule({
