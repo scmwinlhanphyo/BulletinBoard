@@ -60,7 +60,7 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button mat-raised-button color="primary">{{confirmView === true ? 'Confirm' : 'Edit'}}</button>
+        <button mat-raised-button color="primary" [disabled]="profileEditForm.invalid">{{confirmView === true ? 'Confirm' : 'Edit'}}</button>
         <button type="button" mat-raised-button (click)="onClear()">{{confirmView === true ? 'Cancel' :
           'Clear'}}</button>
       </mat-card-actions>
