@@ -1,7 +1,7 @@
-<div class="login-container">
+<div class="user-create-container">
   <h2>Register</h2>
   <mat-card fxFlex="500px" fxFlex.xs="100%">
-    <form [formGroup]="userCreateForm" autocomplete="off" novalidate (ngSubmit)="createUser()" fxLayout="column wrap"
+    <form [formGroup]="userCreateForm" class="user-create-form" autocomplete="off" novalidate (ngSubmit)="createUser()" fxLayout="column wrap"
       fxLayoutAlign="center center" fxLayoutGap="10px">
       <mat-card-content>
         <label>Name</label>
@@ -16,18 +16,6 @@
           <mat-error *ngIf="myForm['email'].hasError('required')">Email can't be blank.</mat-error>
           <mat-error *ngIf="myForm['email'].hasError('pattern')">Email format is invalid.</mat-error>
         </mat-form-field>
-
-        <!-- <label>Password</label>
-        <mat-form-field appearance="outline">
-          <input matInput type="text" name="password" [(ngModel)]="passwordMatching.password" #Password="ngModel">
-          <span class="err-msg" *ngIf="(Password.touched || passwordValidation.submitted) && Password.errors?.['required']">password required</span>
-        </mat-form-field> -->
-        <!-- <label>Password Confirmation</label>
-        <mat-form-field appearance="outline">
-          <input matInput type="text" name="password" [(ngModel)]="passwordMatching.confirmpassword" #confirmPassword="ngModel" required>
-          <span class="err-msg" *ngIf="(confirmPassword.touched || passwordValidation.submitted) && confirmPassword.errors?.['required']">password required</span>
-          <span class="err-msg" *ngIf="(confirmPassword.touched || passwordValidation.submitted) && registerArray.password !== registerArray.confirmpassword">password should be same</span>
-        </mat-form-field> -->
 
         <label>Password</label>
         <mat-form-field appearance="outline">
@@ -83,7 +71,7 @@
       </mat-card-content>
 
       <mat-card-actions>
-        <button mat-raised-button color="primary">{{confirmView === true ? 'Confirm' : 'Register'}}</button>
+        <button mat-raised-button color="primary" [disabled]="userCreateForm.invalid">{{confirmView === true ? 'Confirm' : 'Register'}}</button>
         <button type="button" mat-raised-button (click)="onClear()">{{confirmView === true ? 'Cancel' :
           'Clear'}}</button>
       </mat-card-actions>

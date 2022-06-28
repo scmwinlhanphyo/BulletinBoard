@@ -4,6 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
+import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
+
 export interface UserDataModel {
   name: string,
   email: string,
@@ -14,6 +16,7 @@ export interface UserDataModel {
   address: string,
   created_at: string,
   updated_at: string,
+  updated_user: string
 }
 
 @Component({
@@ -33,7 +36,8 @@ export class UserListComponent implements OnInit {
       dob: "2022/06/21",
       address: "Insein",
       created_at: "2022/06/21",
-      updated_at: "2022/06/21"
+      updated_at: "2022/06/21",
+      updated_user: "Admin"
     },
     {
       name: "Mg Mg",
@@ -44,7 +48,8 @@ export class UserListComponent implements OnInit {
       dob: "2022/06/21",
       address: "Yangon",
       created_at: "2022/06/21",
-      updated_at: "2022/06/21"
+      updated_at: "2022/06/21",
+      updated_user: "Admin"
     },
     {
       name: "Zaw Zaw",
@@ -55,7 +60,8 @@ export class UserListComponent implements OnInit {
       dob: "2022/06/21",
       address: "Loi Kaw",
       created_at: "2022/06/21",
-      updated_at: "2022/06/21"
+      updated_at: "2022/06/21",
+      updated_user: "Admin"
     },
     {
       name: "Aung Aung",
@@ -66,7 +72,8 @@ export class UserListComponent implements OnInit {
       dob: "2022/06/21",
       address: "Insein",
       created_at: "2022/06/21",
-      updated_at: "2022/06/21"
+      updated_at: "2022/06/21",
+      updated_user: "Admin"
     },
     {
       name: "Aung Aung",
@@ -77,7 +84,8 @@ export class UserListComponent implements OnInit {
       dob: "2022/06/21",
       address: "Insein",
       created_at: "2022/06/21",
-      updated_at: "2022/06/21"
+      updated_at: "2022/06/21",
+      updated_user: "Admin"
     },
     {
       name: "Aung Aung",
@@ -88,7 +96,8 @@ export class UserListComponent implements OnInit {
       dob: "2022/06/21",
       address: "Insein",
       created_at: "2022/06/21",
-      updated_at: "2022/06/21"
+      updated_at: "2022/06/21",
+      updated_user: "Admin"
     },
   ];
   public dataSource = new MatTableDataSource<UserDataModel>();
@@ -148,6 +157,18 @@ export class UserListComponent implements OnInit {
    */
   public searchUser() {
 
+  }
+
+  /**
+   * open user detail dialog.
+   * @param data
+   */
+  public userDetail(data: any) {
+    console.log("data", data);
+    this.dialog.open(UserDetailDialogComponent, {
+      width: '40%',
+      data: data
+    });
   }
 
 }

@@ -1,12 +1,16 @@
 mat-form-field{
   width: 400px;
 }
-.login-container {
+.user-create-container {
   background-color: #fff;
   border-radius: 5px;
   width: 60%;
   margin: 30px auto;
   padding: 0px 0px 20px 0px;
+
+  .user-create-form {
+    margin-bottom: 50px;
+  }
 
   h2 {
     font-weight: normal;

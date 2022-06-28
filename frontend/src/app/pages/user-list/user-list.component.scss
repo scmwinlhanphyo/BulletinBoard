@@ -43,4 +43,14 @@
     mat-paginator {
       margin: 0 30px;
     }
+
+    .username{
+      text-decoration: none;
+      color: #000;
+      cursor: pointer;
+    }
+  
+    .username:hover {
+      color: #0000ff;
+    }
   }

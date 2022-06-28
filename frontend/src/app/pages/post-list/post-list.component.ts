@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PostDeleteDialogComponent } from 'src/app/components/post-delete-dialog/post-delete-dialog.component';
 import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog/post-detail-dialog.component';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { postList } from 'src/app/constant/constant';
 
 export interface PostDataModel {
   title: string,
@@ -21,44 +22,7 @@ export interface PostDataModel {
 
 export class PostListComponent implements OnInit {
 
-  public tableData = [
-    {
-      title: "Title01",
-      description: "Description01",
-      created_user: "admin",
-      created_at: "2022/06/21"
-    },
-    {
-      title: "Title02",
-      description: "Description01",
-      created_user: "admin",
-      created_at: "2022/06/21"
-    },
-    {
-      title: "Title03",
-      description: "Description01",
-      created_user: "admin",
-      created_at: "2022/06/21"
-    },
-    {
-      title: "Title04",
-      description: "Description01",
-      created_user: "admin",
-      created_at: "2022/06/21"
-    },
-    {
-      title: "Title05",
-      description: "Description01",
-      created_user: "admin",
-      created_at: "2022/06/21"
-    },
-    {
-      title: "Title06",
-      description: "Description01",
-      created_user: "admin",
-      created_at: "2022/06/21"
-    },
-  ];
+  public tableData = postList;
   public dataSource = new MatTableDataSource<PostDataModel>();
   public employees: any[] = [];
   public selectedEmployeeName = '';
@@ -88,8 +52,10 @@ export class PostListComponent implements OnInit {
     this.currentPage = 0;
     this.totalSize = this.tableData.length;
     this.route.paramMap.subscribe((params: ParamMap) => {
-      if (params.get('msg') === "success") {
+      if (params.get('msg') === "create success") {
         this.message = "Post successfully created."
+      } else if (params.get('msg') === "update success") {
+        this.message = "Post successfully updated."
       }
     })
   }
