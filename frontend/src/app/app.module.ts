@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserDetailDialogComponent } from './components/user-detail-dialog/user-detail-dialog.component';
 import { PostFormComponent } from './pages/post-form/post-form.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
+import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/forget-password-update.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CreateAccountComponent } from './pages/create-account/create-account.co
     UploadPostComponent,
     UserDetailDialogComponent,
     PostFormComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    ForgetPasswordUpdateComponent
   ],
   imports: [
     BrowserModule,

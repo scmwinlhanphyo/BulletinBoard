@@ -15,11 +15,12 @@ export class PostFormComponent implements OnInit {
   buttonName: string = 'Create';
 
   constructor(
-    private router: Router,
+    public router: Router,
     private activatedRoute:ActivatedRoute) {
       this.postForm = new FormGroup({
         title: new FormControl('', [Validators.required, Validators.maxLength(255)]),
-        description: new FormControl('', [Validators.required])
+        description: new FormControl('', [Validators.required]),
+        status: new FormControl(true)
       });
     }
 
@@ -53,6 +54,7 @@ export class PostFormComponent implements OnInit {
     if (this.confirmView == true) {
       this.postForm.controls['title'].enable();
       this.postForm.controls['description'].enable();
+      this.postForm.controls['status'].enable();
       this.confirmView = false;
     } else {
       this.postForm.reset();
@@ -71,6 +73,7 @@ export class PostFormComponent implements OnInit {
     if (this.postForm.valid) {
       this.postForm.controls['title'].disable();
       this.postForm.controls['description'].disable();
+      this.postForm.controls['status'].disable();
       this.confirmView = true;
     }
   }

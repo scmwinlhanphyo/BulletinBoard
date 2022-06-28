@@ -1,4 +1,4 @@
-<div class="login-container">
+<div class="create-account-container">
   <mat-card fxFlex="500px" fxFlex.xs="100%">
     <mat-card-title>Sign Up</mat-card-title>
     <form [formGroup]="createAccountForm" autocomplete="off" novalidate (ngSubmit)="createAccount()" fxLayout="column wrap"
@@ -24,13 +24,13 @@
 
         <label>Password_confirmation*:</label>
         <mat-form-field appearance="outline">
-          <input matInput type="password" placeholder="Password_confirmation" (input)="changePassword()" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword">
+          <input matInput type="password" placeholder="Password_confirmation" (input)="changePassword()" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword" required>
           <mat-error *ngIf="createAccountForm.controls.confirmPassword.hasError('required')">Password confirmation can't be blank.</mat-error>
           <mat-error *ngIf="createAccountForm.controls.confirmPassword.hasError('notMatched')">Password and Password confirmation is not match.</mat-error>
         </mat-form-field>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" >Create</button>
+        <button mat-raised-button color="primary" [disabled]="createAccountForm.invalid">Create</button>
         <button type="button" mat-raised-button (click)="onClear()">Clear</button>
       </mat-card-actions>
 

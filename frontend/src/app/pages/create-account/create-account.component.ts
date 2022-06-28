@@ -29,7 +29,7 @@ export class CreateAccountComponent implements OnInit {
    * clear button.
    */
   public onClear = () => {
-
+    this.createAccountForm.reset();
   }
 
   /**

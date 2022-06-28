@@ -7,6 +7,7 @@ import { UploadPostComponent } from './pages/upload-post/upload-post.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { PostFormComponent } from './pages/post-form/post-form.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
+import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/forget-password-update.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'post-create', component: PostFormComponent },
   { path: 'update-post/:id', component: PostFormComponent },
   { path: 'create-account', component: CreateAccountComponent },
+  { path: 'forget-password-update', component: ForgetPasswordUpdateComponent },
 ];
 
 @NgModule({
