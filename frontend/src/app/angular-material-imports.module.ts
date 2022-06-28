@@ -17,8 +17,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
 @NgModule({
@@ -43,9 +44,10 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
     MatListModule,
     MatSortModule,
     MatMenuModule,
-    MatDatepickerModule,
     MatNativeDateModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDatepickerModule,
+    MatSlideToggleModule
   ]
 })
 export class AngularMaterialImportsModule { }

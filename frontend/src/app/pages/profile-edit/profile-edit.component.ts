@@ -88,7 +88,7 @@ export class ProfileEditComponent implements OnInit {
   }
   public updateProfile = () => {
     if(this.confirmView==true) {
-        this.router.navigate(["user-list", { msg: "success"}]);
+        this.router.navigate(["user-list", { editprofile: "success"}]);
     }
     if (this.profileEditForm.valid) {
         this.profileEditForm.controls['name'].disable();

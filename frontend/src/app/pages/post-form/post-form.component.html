@@ -1,0 +1,30 @@
+<div class="post-container">
+  <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <mat-card-title>{{pageTitle}}</mat-card-title>
+    <form [formGroup]="postForm" autocomplete="off" novalidate (ngSubmit)="createPost()" fxLayout="column wrap"
+      fxLayoutAlign="center center" fxLayoutGap="10px">
+      <mat-card-content>
+        <label>Title:</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" placeholder="Title" formControlName="title" id="title" name="title">
+          <mat-error *ngIf="hasError('title', 'required')">Title can't be blank.</mat-error>
+          <mat-error *ngIf="hasError('title', 'maxlength')">255 characters is the maximum allowed.</mat-error>
+        </mat-form-field>
+        <label>Description:</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" placeholder="Description" formControlName="description">
+          <mat-error *ngIf="hasError('description', 'required')">Description can't be blank.</mat-error>
+        </mat-form-field>
+        <ng-container *ngIf="router.url.indexOf('/update-post') !== -1">
+          <label>Status:</label>
+            <mat-slide-toggle color="primary" formControlName="status"></mat-slide-toggle>
+        </ng-container>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="postForm.invalid">{{confirmView === true ? 'Confirm' : buttonName}}</button>
+        <button type="button" mat-raised-button (click)="onClear()">{{confirmView === true ? 'Cancel' :
+          'Clear'}}</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

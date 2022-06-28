@@ -1,0 +1,40 @@
+.mat-dialog {
+  width: 100%;
+
+  mat-list {
+    width: 100%;
+
+    mat-list-item {
+      margin: 2% 0;
+
+      span {
+        width: 38%;
+      }
+
+      .dialog-data {
+        float: right;
+        clear: both;
+        width: 72%;
+      }
+    }
+  }
+}
+
+button {
+  background-color: gray;
+  color: #ffffff;
+}
+
+.user-detail-content {
+  display: flex;
+  .user-detail-img-container {
+    width: 30%;
+    img {
+      width: 150px;
+      margin-top: 15px;
+    }
+  }
+  .user-detail-list-container {
+    width: 70%;
+  }
+}

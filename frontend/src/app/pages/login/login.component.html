@@ -2,6 +2,7 @@
   <h2>Bulletin Board</h2>
   <div class="form-container">
     <div class="error-alert" *ngIf="loginErrMsg">{{loginErrMsg}}</div>
+    <div class="alert-success" *ngIf="resetMail">{{ resetMail }}</div>
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login()">
 
 
@@ -21,14 +22,14 @@
       </mat-form-field>
       <div class="checkforget">
         <mat-checkbox class="remember" color="primary" formControlName="rememberme">Remember Me</mat-checkbox>
-        <a class="forgetpw">forgotten password?</a>
+        <a class="forgetpw" [routerLink]="['/forget-password']">forgotten password?</a>
       </div>
       <div class="login-btn">
         <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
           Log in
         </button>
       </div>
-      <a class="register">Create Account? <mat-icon>person_add</mat-icon></a>
+      <a class="register" [routerLink]="['/signup']">Create Account? <mat-icon>person_add</mat-icon></a>
     </form>
   </div>
 </div>

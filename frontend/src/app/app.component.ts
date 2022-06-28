@@ -13,7 +13,8 @@ export class AppComponent {
   constructor(private router: Router) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-        if (this.router.url === '/' || this.router.url === '/login') {
+        if (this.router.url === '/' || this.router.url === '/login' || this.router.url === '/signup' ||
+        this.router.url === '/forget-password' || this.router.url === '/forget-password-update' || this.router.url === '/forget-password') {
           this.showHeaderFooter = false;
         } else {
           this.showHeaderFooter = true;

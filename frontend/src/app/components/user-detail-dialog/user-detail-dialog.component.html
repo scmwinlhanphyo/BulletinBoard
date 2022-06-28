@@ -1,0 +1,96 @@
+<h2 mat-dialog-title>User Detail</h2>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="mat-dialog">
+  <div class="user-detail-content">
+    <div class="user-detail-img-container">
+      <img src="../../../assets/img/profile-img.jpg" alt="placeholder" class="img-responsive" />
+    </div>
+    <div class="user-detail-list-container">
+      <mat-list role="list">
+        <!-- Name -->
+        <mat-list-item role="listitem">
+          <span>Name</span>
+          <div class="dialog-data">
+            {{data.name}}
+          </div>
+        </mat-list-item>
+
+        <!-- Type -->
+        <mat-list-item role="listitem">
+          <span>Type</span>
+          <div class="dialog-data">
+            {{data.type}}
+          </div>
+        </mat-list-item>
+
+        <!-- Email -->
+        <mat-list-item role="listitem">
+          <span>Email</span>
+          <div class="dialog-data">
+            {{data.email}}
+          </div>
+        </mat-list-item>
+
+        <!-- Phone -->
+        <mat-list-item role="listitem">
+          <span>Phone</span>
+          <div class="dialog-data">
+            {{data.phone}}
+          </div>
+        </mat-list-item>
+
+        <!-- Dob -->
+        <mat-list-item role="listitem">
+          <span>Date of Birth</span>
+          <div class="dialog-data">
+            {{data.dob}}
+          </div>
+        </mat-list-item>
+
+        <!-- Address -->
+        <mat-list-item role="listitem">
+          <span>Address</span>
+          <div class="dialog-data">
+            {{data.address}}
+          </div>
+        </mat-list-item>
+
+        <!-- Created Date -->
+        <mat-list-item role="listitem">
+          <span>Created Date</span>
+          <div class="dialog-data">
+            {{data.created_at | date: 'shortDate'}}
+          </div>
+        </mat-list-item>
+
+        <!-- Created User -->
+        <mat-list-item role="listitem">
+          <span>Created User</span>
+          <div class="dialog-data">
+            {{data.created_user}}
+          </div>
+        </mat-list-item>
+
+        <!-- Updated Date -->
+        <mat-list-item role="listitem">
+          <span>Updated Date</span>
+          <div class="dialog-data">
+            {{data.updated_at | date: 'shortDate'}}
+          </div>
+        </mat-list-item>
+
+        <!-- Updated User -->
+        <mat-list-item role="listitem">
+          <span>Updated User</span>
+          <div class="dialog-data">
+            {{data.updated_user}}
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions align="end">
+  <button mat-flat-button (click)="cancel()">Close</button>
+</div>

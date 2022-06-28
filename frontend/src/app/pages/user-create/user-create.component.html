@@ -1,0 +1,81 @@
+<div class="user-create-container">
+  <h2>Register</h2>
+  <mat-card fxFlex="500px" fxFlex.xs="100%">
+    <form [formGroup]="userCreateForm" class="user-create-form" autocomplete="off" novalidate (ngSubmit)="createUser()" fxLayout="column wrap"
+      fxLayoutAlign="center center" fxLayoutGap="10px">
+      <mat-card-content>
+        <label>Name</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" formControlName="name">
+          <mat-error *ngIf="myForm['name'].hasError('required')">Name can't be blank.</mat-error>
+        </mat-form-field>
+
+        <label>E-Mail Address</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" formControlName="email">
+          <mat-error *ngIf="myForm['email'].hasError('required')">Email can't be blank.</mat-error>
+          <mat-error *ngIf="myForm['email'].hasError('pattern')">Email format is invalid.</mat-error>
+        </mat-form-field>
+
+        <label>Password</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="password" formControlName="password">
+          <mat-error *ngIf="myForm['password'].hasError('required')">Password can't be blank.</mat-error>
+        </mat-form-field>
+
+        <label>Confirm Password</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="password" formControlName="confirmPwd">
+          <mat-error *ngIf="myForm['confirmPwd'].hasError('required')">Password can't be blank.</mat-error>
+          <mat-error *ngIf="myForm['confirmPwd'].hasError('mustMatch')">Password must be match</mat-error>
+        </mat-form-field>
+
+        <label>Type</label>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="type">
+            <mat-option value="admin" selected>Admin</mat-option>
+            <mat-option value="user">User</mat-option>
+          </mat-select>
+          <mat-error *ngIf="myForm['type'].hasError('required')">Type can't be blank.</mat-error>
+        </mat-form-field>
+
+        <label>Phone</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" formControlName="phone">
+        </mat-form-field>
+
+        <label>Date of birth</label>
+        <mat-form-field appearance="outline">
+          <input matInput [matDatepicker]="picker" formControlName="dob">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <label>Address</label>
+        <mat-form-field appearance="outline">
+          <input matInput type="text" formControlName="address">
+          <mat-error *ngIf="myForm['address'].hasError('required')">Address can't be blank.</mat-error>
+        </mat-form-field>
+
+        <label>Profile</label>
+        <div *ngIf="confirmView==false" class="profileinput">
+          <input type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*" maxFileSize = 2000000>
+        </div>
+        <div *ngIf="myForm['profile'].invalid  && (myForm['profile'].dirty || myForm['profile'].touched)">
+          <mat-error *ngIf="myForm['profile'].hasError('required')" class="profileerror">Profile can't be blank.</mat-error>
+        </div>
+        <div *ngIf="profileImage">
+          <img [src]="profileImage" (load)="handleImageLoad()" class="profileimg">
+        </div>
+
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="userCreateForm.invalid">{{confirmView === true ? 'Confirm' : 'Register'}}</button>
+        <button type="button" mat-raised-button (click)="onClear()">{{confirmView === true ? 'Cancel' :
+          'Clear'}}</button>
+      </mat-card-actions>
+
+    </form>
+  </mat-card>
+</div>
