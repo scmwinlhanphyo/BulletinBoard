@@ -1,8 +1,7 @@
-<div class="alert-success" *ngIf="updatemsg">{{ updatemsg }}</div>
+<div class="alert-success" *ngIf="message">{{ message }}</div>
 <div class="user-table">
   <div class="user-search-btn-container">
     <form #csvForm="ngForm" class="user-list-search-form" (ngSubmit)="searchUser()">
-
       <label class="search-form-label">Name:</label>
       <mat-form-field appearance="outline" class="search-form-field">
         <input matInput type="text" [(ngModel)]="username" name="username">
@@ -15,12 +14,16 @@
 
       <label class="search-form-label">From:</label>
       <mat-form-field appearance="outline" class="search-form-field">
-        <input matInput type="text" [(ngModel)]="fromDate" name="fromDate">
+        <input matInput [matDatepicker]="picker" [(ngModel)]="fromDate" name="fromDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <label class="search-form-label">To:</label>
       <mat-form-field appearance="outline" class="search-form-field">
-        <input matInput type="text" [(ngModel)]="toDate" name="toDate">
+        <input matInput [matDatepicker]="picker" [(ngModel)]="toDate" name="toDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <div class="login-btn">
@@ -28,7 +31,6 @@
           Search
         </button>
       </div>
-
     </form>
   </div>
 
@@ -40,7 +42,10 @@
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Name</th>
-      <td mat-cell *matCellDef="let element">{{element.name}}
+      <td mat-cell *matCellDef="let element">
+        <a class="username" (click)="userDetail(element)">
+          {{element.name}}
+        </a>
       </td>
     </ng-container>
 
