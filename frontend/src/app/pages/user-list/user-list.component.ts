@@ -142,6 +142,8 @@ export class UserListComponent implements OnInit {
         this.message = "User successfully created.";
       } else if (params.get('updatepw') === "success") {
         this.message = "Password is successfully updated.";
+      } else if (params.get('editprofile') === "success") {
+        this.message = "User profile successfully updated."
       }
     })
   }

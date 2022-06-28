@@ -11,6 +11,7 @@ import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/fo
 import { UserCreateComponent } from './pages/user-create/user-create.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
+import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -24,7 +25,8 @@ const routes: Routes = [
   { path: 'forget-password-update', component: ForgetPasswordUpdateComponent },
   { path: 'user-create', component: UserCreateComponent },
   { path: 'password-change', component: PasswordChangeComponent },
-  { path: 'forget-password', component: ForgetPasswordComponent }
+  { path: 'forget-password', component: ForgetPasswordComponent },
+  { path: 'profile-edit', component: ProfileEditComponent }
 ];
 
 @NgModule({
