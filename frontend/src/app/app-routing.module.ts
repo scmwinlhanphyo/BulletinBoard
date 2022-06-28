@@ -26,7 +26,7 @@ const routes: Routes = [
   { path: 'user-create', component: UserCreateComponent },
   { path: 'password-change', component: PasswordChangeComponent },
   { path: 'forget-password', component: ForgetPasswordComponent },
-  { path: 'profile-edit', component: ProfileEditComponent }
+  { path: 'profile-edit/:id', component: ProfileEditComponent }
 ];
 
 @NgModule({
