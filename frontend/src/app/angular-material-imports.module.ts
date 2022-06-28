@@ -18,8 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
-
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 @NgModule({
   declarations: [],
   imports: [
@@ -42,6 +41,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatListModule,
     MatSortModule,
     MatMenuModule,
+    MatNativeDateModule,
+    MatRippleModule,
+    MatDatepickerModule,
     MatSlideToggleModule
   ]
 })

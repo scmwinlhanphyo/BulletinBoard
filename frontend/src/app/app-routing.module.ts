@@ -8,6 +8,7 @@ import { UserListComponent } from './pages/user-list/user-list.component';
 import { PostFormComponent } from './pages/post-form/post-form.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/forget-password-update.component';
+import { UserCreateComponent } from './pages/user-create/user-create.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'update-post/:id', component: PostFormComponent },
   { path: 'create-account', component: CreateAccountComponent },
   { path: 'forget-password-update', component: ForgetPasswordUpdateComponent },
+  { path: 'user-create', component: UserCreateComponent }
 ];
 
 @NgModule({

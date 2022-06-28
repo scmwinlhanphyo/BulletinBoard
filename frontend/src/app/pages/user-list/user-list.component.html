@@ -1,3 +1,4 @@
+<div class="alert-success" *ngIf="message">{{ message }}</div>
 <div class="user-table">
   <div class="user-search-btn-container">
     <form #csvForm="ngForm" class="user-list-search-form" (ngSubmit)="searchUser()">
