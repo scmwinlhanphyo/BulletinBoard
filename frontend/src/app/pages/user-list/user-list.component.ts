@@ -139,7 +139,9 @@ export class UserListComponent implements OnInit {
     this.totalSize = this.tableData.length;
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('msg') === "success") {
-        this.message = "User successfully created."
+        this.message = "User successfully created.";
+      } else if (params.get('updatepw') === "success") {
+        this.message = "Password is successfully updated.";
       }
     })
   }

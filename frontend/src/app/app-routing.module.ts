@@ -9,6 +9,8 @@ import { PostFormComponent } from './pages/post-form/post-form.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/forget-password-update.component';
 import { UserCreateComponent } from './pages/user-create/user-create.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -18,9 +20,11 @@ const routes: Routes = [
   { path: 'upload-csv-post', component: UploadPostComponent },
   { path: 'post-create', component: PostFormComponent },
   { path: 'update-post/:id', component: PostFormComponent },
-  { path: 'create-account', component: CreateAccountComponent },
+  { path: 'signup', component: CreateAccountComponent },
   { path: 'forget-password-update', component: ForgetPasswordUpdateComponent },
-  { path: 'user-create', component: UserCreateComponent }
+  { path: 'user-create', component: UserCreateComponent },
+  { path: 'password-change', component: PasswordChangeComponent },
+  { path: 'forget-password', component: ForgetPasswordComponent }
 ];
 
 @NgModule({

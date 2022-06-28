@@ -19,7 +19,9 @@ import { UserDetailDialogComponent } from './components/user-detail-dialog/user-
 import { PostFormComponent } from './pages/post-form/post-form.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
 import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/forget-password-update.component';
-import { UserCreateComponent } from './pages/user-create/user-create.component'
+import { UserCreateComponent } from './pages/user-create/user-create.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { UserCreateComponent } from './pages/user-create/user-create.component'
     PostFormComponent,
     CreateAccountComponent,
     ForgetPasswordUpdateComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    PasswordChangeComponent,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,
