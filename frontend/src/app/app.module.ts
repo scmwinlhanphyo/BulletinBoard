@@ -23,6 +23,8 @@ import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/fo
 import { UserCreateComponent } from './pages/user-create/user-create.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
+import { UserDeleteDialogComponent } from './components/user-delete-dialog/user-delete-dialog.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { ForgetPasswordComponent } from './pages/forget-password/forget-password
     UserCreateComponent,
     PasswordChangeComponent,
     ForgetPasswordComponent,
-    ProfileEditComponent
+    ProfileEditComponent,
+    UserDeleteDialogComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
