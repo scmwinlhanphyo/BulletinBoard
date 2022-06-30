@@ -1,8 +1,9 @@
-import { Schema, model } from 'mongoose';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
 // const Schema = mongoose.Schema;
 // const ObjectId = Schema.ObjectId;
-const postSchema = new Schema({
+const postSchema = new mongoose_1.Schema({
     title: {
         type: String,
         required: true
@@ -15,10 +16,8 @@ const postSchema = new Schema({
     //     type: Schema.Types.ObjectId,
     //     ref: "user"
     // },
-},
-    {
-        timestamps: true
-    }
-);
-
-export default model("post", postSchema)
+}, {
+    timestamps: true
+});
+exports.default = (0, mongoose_1.model)("post", postSchema);
+//# sourceMappingURL=Post.js.map
