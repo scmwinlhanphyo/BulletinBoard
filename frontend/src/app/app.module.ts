@@ -23,6 +23,7 @@ import { ForgetPasswordUpdateComponent } from './pages/forget-password-update/fo
 import { UserCreateComponent } from './pages/user-create/user-create.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ForgetPasswordComponent } from './pages/forget-password/forget-password
     AngularMaterialImportsModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
