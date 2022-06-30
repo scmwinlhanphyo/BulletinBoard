@@ -50,39 +50,20 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.controls['email'].value,
       password: this.loginForm.controls['password'].value
     }
-    this.userService.login(payload)
-    .subscribe((dist) => {
-      // this.utilSvc.homePageData = [];
-      // this.utilSvc.filterSetting = {};
-      // this.utilSvc.allBoxDetail = {};
-      // this.storageSvc.setData('user', dist);
-      // this.getUserRefInterval(dist);
-      // this.getCategory1CD(dist.corporationId);
-      // this.loaderService.dismiss();
-      // if (dist.userDivision !== CommonConstants.UserRole.admin) {
-      //   this.router.navigateByUrl('/home');
-      // } else {
-      //   this.router.navigateByUrl('/user-management');
-      // }
-    }, loginError => {
-      // this.loaderService.dismiss();
-      // this.rescueSvc.handleErrorMessage(loginError);
-      this.loginForm.patchValue({
-        loginId: '',
-        password: ''
-      });
+    this.userService.login(payload).then((dist) => {
+      console.log(dist);
     });
 
 
-    if (this.loginForm.value.email === "admin@gmail.com" && this.loginForm.value.password === "Admin@123") {
-      sessionStorage.setItem("Userinfo", "Admin");
-      this.router.navigate(["/post-list"]);
-    } else if (this.loginForm.value.email !== "admin@gmail.com" && this.loginForm.value.password !== "Admin@123") {
-      this.loginErrMsg = "Incorrect Email & Password!"
-    } else if (this.loginForm.value.email !== "admin@gmail.com") {
-      this.loginErrMsg = "Email does not Exists.";
-    } else if (this.loginForm.value.password !== "Admin@123") {
-      this.loginErrMsg = "Incorrect Password!";
-    }
+    // if (this.loginForm.value.email === "admin@gmail.com" && this.loginForm.value.password === "Admin@123") {
+    //   sessionStorage.setItem("Userinfo", "Admin");
+    //   this.router.navigate(["/post-list"]);
+    // } else if (this.loginForm.value.email !== "admin@gmail.com" && this.loginForm.value.password !== "Admin@123") {
+    //   this.loginErrMsg = "Incorrect Email & Password!"
+    // } else if (this.loginForm.value.email !== "admin@gmail.com") {
+    //   this.loginErrMsg = "Email does not Exists.";
+    // } else if (this.loginForm.value.password !== "Admin@123") {
+    //   this.loginErrMsg = "Incorrect Password!";
+    // }
   }
 }

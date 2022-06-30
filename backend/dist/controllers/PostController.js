@@ -21,6 +21,7 @@ const getPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, function
         res.json({ data: posts, status: 1 });
     }
     catch (err) {
+        console.log(err);
         next(err);
     }
 });
