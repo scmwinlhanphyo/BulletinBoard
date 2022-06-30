@@ -9,10 +9,8 @@ dotenv.config();
 
 const PORT = process.env.port;
 const app = express();
-// app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use(express.urlencoded({ extended: true }));
 
 
 app.get("/", (_req, res) => {
@@ -26,5 +24,5 @@ mongoose
         app.use("/api/posts/", post_route);
         app.use(error);
     })
-    .catch((err) => console.log(err));
+    .catch((err: any) => console.log(err));
 

@@ -12,10 +12,8 @@ const bodyParser = require('body-parser');
 dotenv_1.default.config();
 const PORT = process.env.port;
 const app = (0, express_1.default)();
-// app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use(express.urlencoded({ extended: true }));
 app.get("/", (_req, res) => {
     res.json({ country: 'USA' });
 });

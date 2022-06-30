@@ -9,7 +9,7 @@ const express_validator_1 = require("express-validator");
 const router = express_1.default.Router();
 router
     .route("/")
-    .get(PostController_1.findPosts)
+    .get(PostController_1.getPosts)
     .post([
     (0, express_validator_1.body)("title").notEmpty().withMessage("Tilte must note be empty"),
     (0, express_validator_1.body)("description").notEmpty().withMessage("Description must note be empty")
@@ -19,7 +19,8 @@ router
     .get(PostController_1.findPost)
     .put([
     (0, express_validator_1.body)("title").notEmpty().withMessage("Tilte must note be empty"),
-    (0, express_validator_1.body)("description").notEmpty().withMessage("Description must note be empty")
+    (0, express_validator_1.body)("description").notEmpty().withMessage("Description must note be empty"),
+    (0, express_validator_1.body)("status")
 ], PostController_1.updatePost)
     .delete(PostController_1.deletePost);
 exports.default = router;

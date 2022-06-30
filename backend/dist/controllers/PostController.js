@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.updatePost = exports.findPost = exports.createPost = exports.findPosts = void 0;
+exports.deletePost = exports.updatePost = exports.findPost = exports.createPost = exports.getPosts = void 0;
 const Post_1 = __importDefault(require("../models/Post"));
 const express_validator_1 = require("express-validator");
-const findPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const posts = yield Post_1.default.find();
         res.json({ data: posts, status: 1 });
@@ -24,7 +24,7 @@ const findPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, functio
         next(err);
     }
 });
-exports.findPosts = findPosts;
+exports.getPosts = getPosts;
 const createPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const errors = (0, express_validator_1.validationResult)(req.body);

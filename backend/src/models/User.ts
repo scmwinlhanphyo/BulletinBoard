@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const userSchema = new Schema({
     name: {
         type: String,
-        default: ""
+        required: true
     },
     email: {
         type: String,
@@ -14,16 +14,38 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String,
+        enum: ['Admin', 'User']
+    },
+    phone: {
+        type: String
+    },
+    dob: {
+        type: Date
+    },
+    address: {
+        type: String
+    },
     profile: {
         type: String,
         default: ""
     },
-    posts: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "post"
-        }
-    ]
+    created_user_id: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    },
+    updated_user_id: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    },
+    deleted_user_id: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    },
+    deleted_at: {
+        type: Date
+    },
 },
     {
         timestamps: true

@@ -1,7 +1,5 @@
 import { Schema, model } from 'mongoose';
 
-// const Schema = mongoose.Schema;
-// const ObjectId = Schema.ObjectId;
 const postSchema = new Schema({
     title: {
         type: String,
@@ -11,10 +9,21 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
-    // user: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: "user"
-    // },
+    created_user_id: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    },
+    updated_user_id: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    },
+    deleted_user_id: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    },
+    deleted_at: {
+        type: Date
+    },
 },
     {
         timestamps: true

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import Post from '../models/Post';
 import { validationResult } from 'express-validator';
-import { IPostCreate } from '../interfaces/IPost';
+import { PostCreate } from '../interfaces/Post';
 
-export const findPosts = async (
+export const getPosts = async (
     _req: Request,
     res: Response,
     next: NextFunction
@@ -33,7 +33,7 @@ export const createPost = async (
         }
         // const body = JSON.parse(req.body);
         // console.log('body', req.body);
-        const postTdo: IPostCreate = {
+        const postTdo: PostCreate = {
             title: req.body.title,
             description: req.body.description,
 

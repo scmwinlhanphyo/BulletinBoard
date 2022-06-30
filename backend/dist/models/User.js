@@ -4,7 +4,7 @@ const mongoose_1 = require("mongoose");
 const userSchema = new mongoose_1.Schema({
     name: {
         type: String,
-        default: ""
+        required: true
     },
     email: {
         type: String,
@@ -15,16 +15,38 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    type: {
+        type: String,
+        enum: ['Admin', 'User']
+    },
+    phone: {
+        type: String
+    },
+    dob: {
+        type: Date
+    },
+    address: {
+        type: String
+    },
     profile: {
         type: String,
         default: ""
     },
-    posts: [
-        {
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: "post"
-        }
-    ]
+    created_user_id: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "user"
+    },
+    updated_user_id: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "user"
+    },
+    deleted_user_id: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: "user"
+    },
+    deleted_at: {
+        type: Date
+    },
 }, {
     timestamps: true
 });
