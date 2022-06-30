@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
@@ -18,7 +18,9 @@ export class CreateAccountComponent implements OnInit {
   });
 
   constructor(
-    private router: Router) {
+    private router: Router,
+    private userService: UserService
+  ) {
   }
 
   ngOnInit() {
@@ -35,23 +37,24 @@ export class CreateAccountComponent implements OnInit {
   /**
    * create a new post
    */
-  public createAccount () {
+  public createAccount() {
+    const payload = {
+      name: this.createAccountForm.controls['username'].value,
+      email: this.createAccountForm.controls['email'].value,
+      password: this.createAccountForm.controls['password'].value
+    }
+    this.userService.createUser(payload).then((dist) => {
+      console.log(dist);
+    })
     this.router.navigate(['/login']);
   }
 
   changePassword() {
-    if (!this.createAccountForm.controls.confirmPassword.value) {
-      this.createAccountForm.controls.confirmPassword.setErrors(null);
-    } else {
-      if (this.createAccountForm.controls.password.value && this.createAccountForm.controls.confirmPassword.value && this.createAccountForm.controls.password.value === this.createAccountForm.controls.confirmPassword.value) {
-        this.passwordMatch = true;
-        this.createAccountForm.controls.confirmPassword.setErrors(null);
-      } else {
-        this.passwordMatch = false;
-        this.createAccountForm.controls.confirmPassword.setErrors({
-          notMatched: true
-       });
-      }
+    if (this.createAccountForm.controls['password'].value !== this.createAccountForm.controls['confirmPassword'].value) {
+      ''
+      this.createAccountForm.controls['confirmPassword'].setErrors({
+        notMatched: true
+      })
     }
   }
 }

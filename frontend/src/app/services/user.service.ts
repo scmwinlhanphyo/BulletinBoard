@@ -19,4 +19,12 @@ export class UserService {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/login`, payload, options));
   }
 
+  public createUser(payload: any): Promise<any> {
+    // const headerOptions = new HttpHeaders()
+    //   .set('Content-Type', 'application/json;charset=utf-8;')
+    //   .set('Cache-Control', 'no-cache')
+    //   .set('Pragma', 'no-cache');
+    // const options = { headers: headerOptions };
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+  }
 }
