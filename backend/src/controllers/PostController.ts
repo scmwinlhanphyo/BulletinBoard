@@ -12,6 +12,7 @@ export const getPosts = async (
         const posts = await Post.find()
         res.json({ data: posts, status: 1 });
     } catch (err) {
+        console.log(err);
         next(err);
     }
 };
