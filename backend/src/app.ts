@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import post_route from './routes/post_route';
+import user_route from './routes/user_route';
 import error from './middlewares/error';
 const bodyParser = require('body-parser');
 
@@ -22,6 +23,7 @@ mongoose
     .then(() => {
         app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
         app.use("/api/posts/", post_route);
+        app.use("/api/users", user_route);
         app.use(error);
     })
     .catch((err: any) => console.log(err));

@@ -9,8 +9,9 @@ router
     .get(getPosts)
     .post(
         [
-            body("title").notEmpty().withMessage("Tilte must note be empty"),
-            body("description").notEmpty().withMessage("Description must note be empty")
+            body("name").notEmpty().withMessage("Name must note be empty"),
+            body("email").notEmpty().withMessage("Email must note be empty"),
+            body("password").notEmpty().withMessage("Password must note be empty")
         ],
         createPost);
 

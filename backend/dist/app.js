@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const post_route_1 = __importDefault(require("./routes/post_route"));
+const user_route_1 = __importDefault(require("./routes/user_route"));
 const error_1 = __importDefault(require("./middlewares/error"));
 const bodyParser = require('body-parser');
 dotenv_1.default.config();
@@ -22,6 +23,7 @@ mongoose_1.default
     .then(() => {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     app.use("/api/posts/", post_route_1.default);
+    app.use("/api/users", user_route_1.default);
     app.use(error_1.default);
 })
     .catch((err) => console.log(err));
