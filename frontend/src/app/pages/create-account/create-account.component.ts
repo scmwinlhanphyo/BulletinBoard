@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CreateAccountComponent implements OnInit {
   public passwordMatch: boolean = true;
+  public userInfo: any;
 
   public createAccountForm = new FormGroup({
     username: new FormControl('', Validators.required),
@@ -24,7 +25,9 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+    console.log(this.userInfo);
   }
 
   /**
@@ -41,7 +44,8 @@ export class CreateAccountComponent implements OnInit {
     const payload = {
       name: this.createAccountForm.controls['username'].value,
       email: this.createAccountForm.controls['email'].value,
-      password: this.createAccountForm.controls['password'].value
+      password: this.createAccountForm.controls['password'].value,
+      created_user_id: this.userInfo,
     }
     this.userService.createUser(payload).then((dist) => {
       console.log(dist);

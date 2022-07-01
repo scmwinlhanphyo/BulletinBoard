@@ -7,8 +7,5 @@ export interface UserCreate {
     dob: Date;
     address: string;
     profile: string;
-    // created_user_id: any;
-    // updated_user_id: any;
-    // deleted_user_id: any;
-    // deleted_at: Date;
+    created_user_id: any;
 }

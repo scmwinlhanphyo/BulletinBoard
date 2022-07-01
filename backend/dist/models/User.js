@@ -17,7 +17,8 @@ const userSchema = new mongoose_1.Schema({
     },
     type: {
         type: String,
-        enum: ['Admin', 'User']
+        enum: ['Admin', 'User'],
+        default: 'User'
     },
     phone: {
         type: String

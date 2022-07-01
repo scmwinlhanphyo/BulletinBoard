@@ -18,6 +18,13 @@ export class UserCreateComponent implements OnInit {
   passwordMatching: any = {};
   profileImage: any;
   Imageloaded: boolean = false;
+  typeOption = [
+    { enum: 'Admin' },
+    { enum: 'User' }
+  ];
+  pickDate: any;
+  today = new Date();
+  public userInfo: any;
 
   constructor(
     private location: Location,
@@ -28,6 +35,10 @@ export class UserCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+
+    console.log(this.userInfo);
     this.userCreateForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
@@ -77,14 +88,15 @@ export class UserCreateComponent implements OnInit {
         password: this.userCreateForm.controls['password'].value,
         type: this.userCreateForm.controls['type'].value,
         phone: this.userCreateForm.controls['phone'].value,
-        dob: this.userCreateForm.controls['dob'].value,
+        dob: this.pickDate,
         address: this.userCreateForm.controls['address'].value,
         profile: this.profileImage,
+        created_user_id: this.userInfo
       }
       this.userService.createUser(payload).then((dist) => {
         console.log(dist);
       })
-      // this.router.navigate(["user-list", { msg: "success" }]);
+      this.router.navigate(["user-list", { msg: "success" }]);
     }
     if (this.userCreateForm.valid) {
       this.userCreateForm.controls['name'].disable();
@@ -115,5 +127,15 @@ export class UserCreateComponent implements OnInit {
   handleImageLoad() {
     this.Imageloaded = true;
   }
+
+  OnDateChange(event: any) {
+    this.pickDate = event;
+    console.log(this.pickDate);
+  }
+  // public onDate(event: any): void {
+  //   this.roomsFilter.date = event;
+  //   this.getData(this.roomsFilter.date);
+  //   console.log(this.getData(this.roomsFilter.date));
+  // }
 
 }

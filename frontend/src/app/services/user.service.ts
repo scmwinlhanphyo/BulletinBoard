@@ -20,11 +20,22 @@ export class UserService {
   }
 
   public createUser(payload: any): Promise<any> {
-    // const headerOptions = new HttpHeaders()
-    //   .set('Content-Type', 'application/json;charset=utf-8;')
-    //   .set('Cache-Control', 'no-cache')
-    //   .set('Pragma', 'no-cache');
-    // const options = { headers: headerOptions };
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+  }
+
+  public getUsers(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+  }
+
+  public findUser(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+  }
+
+  public updateUser(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+  }
+
+  public deleteUser(payload: any): Promise<any> {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
   }
 }

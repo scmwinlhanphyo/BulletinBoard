@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
+import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
 
 export interface UserDataModel {
@@ -125,16 +125,26 @@ export class UserListComponent implements OnInit {
   email = "";
   fromDate = "";
   toDate = "";
-  public message:any ="";
+  today = new Date();
+  public message: any = "";
+  userLists: any;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<UserDataModel>(this.tableData);
+    // const payload = {}
+    // this.userLists = this.userService.getUsers(payload)
+    //   .then((dist) => {
+    //     console.log(dist);
+    //   });
+    this.userLists = this.userService.getUsers;
+    console.log(this.userLists);
+    this.dataSource = new MatTableDataSource<UserDataModel>(this.userLists);
     this.currentPage = 0;
     this.totalSize = this.tableData.length;
     this.route.paramMap.subscribe((params: ParamMap) => {
