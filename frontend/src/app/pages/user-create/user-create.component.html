@@ -2,7 +2,7 @@
   <h2>Register</h2>
   <mat-card fxFlex="500px" fxFlex.xs="100%">
     <form [formGroup]="userCreateForm" class="user-create-form" autocomplete="on" novalidate (ngSubmit)="createUser()"
-      fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
+      fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px" enctype="multipart/form-data">
       <mat-card-content>
         <label>Name</label>
         <mat-form-field appearance="outline">
@@ -62,15 +62,15 @@
 
         <label>Profile</label>
         <div *ngIf="confirmView==false" class="profileinput">
-          <input type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*"
+          <input #file type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*"
             maxFileSize=2000000>
         </div>
-        <div *ngIf="myForm['profile'].invalid  && (myForm['profile'].dirty || myForm['profile'].touched)">
+        <div *ngIf="myForm['profile'].invalid  && (myForm['profile'].dirty || myForm['profile'].touched || submitted)">
           <mat-error *ngIf="myForm['profile'].hasError('required')" class="profileerror">Profile can't be blank.
           </mat-error>
         </div>
         <div *ngIf="profileImage">
-          <img [src]="profileImage" (load)="handleImageLoad()" class="profileimg">
+          <img [src]="profileImage" class="profileimg">
         </div>
 
       </mat-card-content>

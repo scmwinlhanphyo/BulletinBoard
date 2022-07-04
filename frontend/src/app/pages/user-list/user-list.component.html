@@ -57,7 +57,7 @@
 
     <ng-container matColumnDef="created_user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Created User</th>
-      <td mat-cell *matCellDef="let element">{{element.created_user }}
+      <td mat-cell *matCellDef="let element">{{element.created_user_id }}
       </td>
     </ng-container>
 
@@ -75,7 +75,7 @@
 
     <ng-container matColumnDef="dob">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Dob</th>
-      <td mat-cell *matCellDef="let element">{{element.dob}}
+      <td mat-cell *matCellDef="let element">{{element.dob | date:"yyyy/MM/dd"}}
       </td>
     </ng-container>
 
@@ -86,12 +86,12 @@
 
     <ng-container matColumnDef="created_at">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Created Date</th>
-      <td mat-cell *matCellDef="let element">{{element.created_at}}</td>
+      <td mat-cell *matCellDef="let element">{{element.createdAt | date:"yyyy/MM/dd"}}</td>
     </ng-container>
 
     <ng-container matColumnDef="updated_at">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Updated Date</th>
-      <td mat-cell *matCellDef="let element">{{element.updated_at}}</td>
+      <td mat-cell *matCellDef="let element">{{element.updatedAt | date:"yyyy/MM/dd"}}</td>
     </ng-container>
 
 

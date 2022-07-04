@@ -25,6 +25,8 @@ export class UserCreateComponent implements OnInit {
   pickDate: any;
   today = new Date();
   public userInfo: any;
+  submitted: boolean = false;
+  imgFile: any;
 
   constructor(
     private location: Location,
@@ -90,7 +92,7 @@ export class UserCreateComponent implements OnInit {
         phone: this.userCreateForm.controls['phone'].value,
         dob: this.pickDate,
         address: this.userCreateForm.controls['address'].value,
-        profile: this.profileImage,
+        profile: this.imgFile,
         created_user_id: this.userInfo
       }
       this.userService.createUser(payload).then((dist) => {
@@ -113,20 +115,31 @@ export class UserCreateComponent implements OnInit {
   }
 
   imageUpload(event: any) {
-    var file = event.target.files.length;
-    for (let i = 0; i < file; i++) {
-      var reader = new FileReader();
-      reader.onload = (event: any) => {
-        this.profileImage = event.target.result;
-        console.log(this.profileImage);
-        this.changeDetector.detectChanges();
-      }
-      reader.readAsDataURL(event.target.files[i]);
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+
+      this.imgFile = "apiuploads/" + file.name;
+      console.log(this.imgFile);
+      const reader = new FileReader();
+      reader.onload = e => this.profileImage = reader.result;
+      reader.readAsDataURL(file);
+
+      // console.log(reader.readAsDataURL(file))
     }
+    // var file = event.target.files.length;
+    // for (let i = 0; i < file; i++) {
+    //   var reader = new FileReader();
+    //   reader.onload = (event: any) => {
+    //     this.profileImage = event.target.result;
+    //     console.log(this.profileImage);
+    //     this.changeDetector.detectChanges();
+    //   }
+    //   reader.readAsDataURL(event.target.files[i]);
+    // }
   }
-  handleImageLoad() {
-    this.Imageloaded = true;
-  }
+  // handleImageLoad() {
+  //   this.Imageloaded = true;
+  // }
 
   OnDateChange(event: any) {
     this.pickDate = event;

@@ -20,13 +20,16 @@ const userSchema = new Schema({
         default: 'User'
     },
     phone: {
-        type: String
+        type: String,
+        default: ""
     },
     dob: {
-        type: Date
+        type: Date,
+        default: ""
     },
     address: {
-        type: String
+        type: String,
+        default: ""
     },
     profile: {
         type: String,

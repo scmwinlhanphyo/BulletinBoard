@@ -3,25 +3,38 @@ import User from '../models/User';
 import { validationResult } from 'express-validator';
 import { UserCreate } from '../interfaces/User';
 import bcrypt from 'bcrypt';
+import { deleteFile } from "../utils";
 
 export const getUsers = async (
-    _req: Request,
+    req: Request,
     res: Response,
     next: NextFunction
 ) => {
     try {
-        // const searchText = req.query.pagination as string
-        // const searchPage = req.query.page as string
-        // const pagination = parseInt(searchText) : 2;
-        // const page = parseInt(searchPage) : 1;
-        // const users = await User.find({})
-        //     .skip((page - 1) * pagination)
-        //     .limit(pagination);
-        // res.json({ data: users, status: 1 });
+        const options = req.query;
+        const ostring = options.page as string
+        const filter = options.filter as any
 
-        // const users = await User.find().skip(0).limit(2).sort({ _id: -1 });
-        const users = await User.find();
-        res.json({ data: users, status: 1 });
+        // validate options, send 400 on error
+        // const sort = options.sort || {};
+        const limit = 2;
+        const page = parseInt(ostring) || 1;
+        const skip = (page - 1) * limit;
+
+        const users = await User.find(filter)
+            .skip(skip)
+            .limit(limit);
+        res.json({
+            data: users,
+            status: 1,
+            limit,
+            page,
+            filter,
+            total: users.length,
+            links: {
+                self: req.originalUrl,
+            }
+        });
     } catch (err) {
         next(err);
     }
@@ -42,9 +55,15 @@ export const createUser = async (
             error.statusCode = 422;
             throw error;
         }
-        // const body = JSON.parse(req.body);
-        // console.log('body', req.body);
-        // const hashedPassword = await bcrypt.hash(req.body.password, 12);
+        let profile: string = req.body.profile;
+        if (req.file) {
+            profile = req.file.path.replace("\\", "/");
+        }
+        if (!profile) {
+            const error: any = new Error("No file picked.");
+            error.statusCode = 422;
+            throw error;
+        }
         const userTdo: UserCreate = {
             name: req.body.name,
             email: req.body.email,
@@ -53,7 +72,7 @@ export const createUser = async (
             phone: req.body.phone,
             dob: req.body.dob,
             address: req.body.address,
-            profile: req.body.profile,
+            profile: profile,
             created_user_id: req.body.created_user_id,
         }
         // console.log('post data', postTdo);
@@ -107,6 +126,18 @@ export const updateUser = async (
             error.statusCode = 404;
             throw error;
         }
+        let profile: string = req.body.profile;
+        if (req.file) {
+            profile = req.file.path.replace("\\", "/");
+        }
+        if (!profile) {
+            const error: any = new Error("No file picked.");
+            error.statusCode = 422;
+            throw error;
+        }
+        if (user.profile && user.profile != profile) {
+            deleteFile(user.profile);
+        }
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
         user.name = req.body.name;
         user.email = req.body.email;
@@ -115,7 +146,7 @@ export const updateUser = async (
         user.phone = req.body.phone;
         user.dob = req.body.dob;
         user.address = req.body.address;
-        user.profile = req.body.profile;
+        user.profile = profile;
         user.created_user_id = req.body.created_user_id;
         user.updated_user_id = req.body.updated_user_id;
         const result = await user.save();

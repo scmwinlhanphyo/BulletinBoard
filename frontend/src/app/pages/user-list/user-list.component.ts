@@ -26,80 +26,69 @@ export interface UserDataModel {
 })
 export class UserListComponent implements OnInit {
 
-  public tableData = [
-    {
-      name: "Aung Aung",
-      email: "aungaung@gmail.com",
-      created_user: "Aung Aung",
-      type: "Admin",
-      phone: "0912345",
-      dob: "2022/06/21",
-      address: "Insein",
-      created_at: "2022/06/21",
-      updated_at: "2022/06/21",
-      updated_user: "Admin"
-    },
-    {
-      name: "Mg Mg",
-      email: "mgmg@gmail.com",
-      created_user: "Mg Mg",
-      type: "Admin",
-      phone: "0912345",
-      dob: "2022/06/21",
-      address: "Yangon",
-      created_at: "2022/06/21",
-      updated_at: "2022/06/21",
-      updated_user: "Admin"
-    },
-    {
-      name: "Zaw Zaw",
-      email: "zawzaw@gmail.com",
-      created_user: "Zaw Zaw",
-      type: "User",
-      phone: "0912345",
-      dob: "2022/06/21",
-      address: "Loi Kaw",
-      created_at: "2022/06/21",
-      updated_at: "2022/06/21",
-      updated_user: "Admin"
-    },
-    {
-      name: "Aung Aung",
-      email: "aungaung@gmail.com",
-      created_user: "Aung Aung",
-      type: "Admin",
-      phone: "0912345",
-      dob: "2022/06/21",
-      address: "Insein",
-      created_at: "2022/06/21",
-      updated_at: "2022/06/21",
-      updated_user: "Admin"
-    },
-    {
-      name: "Aung Aung",
-      email: "aungaung@gmail.com",
-      created_user: "Aung Aung",
-      type: "Admin",
-      phone: "0912345",
-      dob: "2022/06/21",
-      address: "Insein",
-      created_at: "2022/06/21",
-      updated_at: "2022/06/21",
-      updated_user: "Admin"
-    },
-    {
-      name: "Aung Aung",
-      email: "aungaung@gmail.com",
-      created_user: "Aung Aung",
-      type: "Admin",
-      phone: "0912345",
-      dob: "2022/06/21",
-      address: "Insein",
-      created_at: "2022/06/21",
-      updated_at: "2022/06/21",
-      updated_user: "Admin"
-    },
-  ];
+  public tableData =
+    [
+      {
+        name: "Aung Aung",
+        email: "aungaung@gmail.com",
+        created_user: "Aung Aung",
+        type: "Admin",
+        phone: "0912345",
+        dob: "2022/06/21",
+        address: "Insein",
+        created_at: "2022/06/21",
+        updated_at: "2022/06/21",
+        updated_user: "Admin",
+      },
+      {
+        name: "Mg Mg",
+        email: "mgmg@gmail.com",
+        created_user: "Mg Mg",
+        type: "Admin",
+        phone: "0912345",
+        dob: "2022/06/21",
+        address: "Yangon",
+        created_at: "2022/06/21",
+        updated_at: "2022/06/21",
+        updated_user: "Admin"
+      },
+      {
+        name: "Zaw Zaw",
+        email: "zawzaw@gmail.com",
+        created_user: "Zaw Zaw",
+        type: "User",
+        phone: "0912345",
+        dob: "2022/06/21",
+        address: "Loi Kaw",
+        created_at: "2022/06/21",
+        updated_at: "2022/06/21",
+        updated_user: "Admin"
+      },
+      {
+        name: "Aung Aung",
+        email: "aungaung@gmail.com",
+        created_user: "Aung Aung",
+        type: "Admin",
+        phone: "0912345",
+        dob: "2022/06/21",
+        address: "Insein",
+        created_at: "2022/06/21",
+        updated_at: "2022/06/21",
+        updated_user: "Admin"
+      },
+      {
+        name: "Aung Aung",
+        email: "aungaung@gmail.com",
+        created_user: "Aung Aung",
+        type: "Admin",
+        phone: "0912345",
+        dob: "2022/06/21",
+        address: "Insein",
+        created_at: "2022/06/21",
+        updated_at: "2022/06/21",
+        updated_user: "Admin"
+      },
+    ];
   public dataSource = new MatTableDataSource<UserDataModel>();
   public employees: any[] = [];
   public selectedEmployeeName = '';
@@ -137,16 +126,32 @@ export class UserListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // const payload = {}
-    // this.userLists = this.userService.getUsers(payload)
-    //   .then((dist) => {
-    //     console.log(dist);
-    //   });
-    this.userLists = this.userService.getUsers;
-    console.log(this.userLists);
-    this.dataSource = new MatTableDataSource<UserDataModel>(this.userLists);
-    this.currentPage = 0;
-    this.totalSize = this.tableData.length;
+    const payload = {}
+    this.userService.getUsers(payload).then((dist) => {
+      console.log(dist);
+      this.userLists = dist.data;
+      const result = []
+      // for (let [key, value] of this.userLists.entries()) {
+      // console.log(value);
+      // this.tableData.unshift({
+      //   name: value.name,
+      //   email: value.email,
+      //   created_user: value.created_user_id,
+      //   dob: value.dob,
+      //   phone: value.phone,
+      //   type: value.type,
+      //   created_at: value.createdAt,
+      //   updated_at: value.updatedAt,
+      //   updated_user: value.updated_user,
+      //   address: value.address
+      // })
+      // }
+      // console.log(this.tableData)
+      this.dataSource = new MatTableDataSource<any>(dist.data);
+      this.currentPage = 0;
+      this.totalSize = this.userLists.length;
+    })
+    // this.dataSource.data = this.userLists;
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('msg') === "success") {
         this.message = "User successfully created.";

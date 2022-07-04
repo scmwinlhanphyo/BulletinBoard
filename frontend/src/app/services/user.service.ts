@@ -24,18 +24,18 @@ export class UserService {
   }
 
   public getUsers(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, payload));
   }
 
   public findUser(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, payload));
   }
 
   public updateUser(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+    return lastValueFrom(this.http.put(`${environment.apiUrl}/users`, payload));
   }
 
   public deleteUser(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+    return lastValueFrom(this.http.delete(`${environment.apiUrl}/users`, payload));
   }
 }
