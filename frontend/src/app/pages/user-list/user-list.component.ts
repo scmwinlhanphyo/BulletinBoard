@@ -214,11 +214,11 @@ export class UserListComponent implements OnInit {
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
         const deleted_user_id = JSON.parse(localStorage.getItem('userInfo') || "[]");
-        const payload = {
-          deleted_user_id: deleted_user_id
-        }
-        console.log(payload)
-        this.userService.deleteUser(payload, userId).then((dist) => {
+        // const payload = {
+        //   deleted_user_id: deleted_user_id
+        // }
+        // console.log(payload)
+        this.userService.deleteUser(userId).then((dist) => {
           console.log(dist);
         })
         this.message = 'User Delete Successfully.';

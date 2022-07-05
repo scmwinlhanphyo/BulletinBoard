@@ -35,7 +35,7 @@ export class UserService {
     return lastValueFrom(this.http.put(`${environment.apiUrl}/users`, payload));
   }
 
-  public deleteUser(payload: any, userId: any): Promise<any> {
-    return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId, payload));
+  public deleteUser(userId: any): Promise<any> {
+    return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId));
   }
 }

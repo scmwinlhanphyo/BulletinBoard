@@ -84,18 +84,18 @@ export class UserCreateComponent implements OnInit {
   }
   public createUser = () => {
     if (this.confirmView == true) {
-      const payload = {
-        name: this.userCreateForm.controls['name'].value,
-        email: this.userCreateForm.controls['email'].value,
-        password: this.userCreateForm.controls['password'].value,
-        type: this.userCreateForm.controls['type'].value,
-        phone: this.userCreateForm.controls['phone'].value,
-        dob: this.pickDate,
-        address: this.userCreateForm.controls['address'].value,
-        profile: this.imgFile,
-        created_user_id: this.userInfo
-      }
-      this.userService.createUser(payload).then((dist) => {
+      const formData = new FormData();
+      formData.append('name', this.userCreateForm.controls['name'].value);
+      formData.append('email', this.userCreateForm.controls['email'].value);
+      formData.append('password', this.userCreateForm.controls['password'].value);
+      formData.append('type', this.userCreateForm.controls['type'].value);
+      formData.append('phone', this.userCreateForm.controls['phone'].value);
+      formData.append('dob', this.userCreateForm.controls['dob'].value);
+      formData.append('address', this.userCreateForm.controls['address'].value);
+      formData.append('profile', this.imgFile);
+      formData.append('created_user_id', this.userInfo);
+
+      this.userService.createUser(formData).then((dist) => {
         console.log(dist);
       })
       this.router.navigate(["user-list", { msg: "success" }]);
@@ -118,24 +118,11 @@ export class UserCreateComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
 
-      this.imgFile = "apiuploads/" + file.name;
-      console.log(this.imgFile);
+      this.imgFile = file;
       const reader = new FileReader();
       reader.onload = e => this.profileImage = reader.result;
       reader.readAsDataURL(file);
-
-      // console.log(reader.readAsDataURL(file))
     }
-    // var file = event.target.files.length;
-    // for (let i = 0; i < file; i++) {
-    //   var reader = new FileReader();
-    //   reader.onload = (event: any) => {
-    //     this.profileImage = event.target.result;
-    //     console.log(this.profileImage);
-    //     this.changeDetector.detectChanges();
-    //   }
-    //   reader.readAsDataURL(event.target.files[i]);
-    // }
   }
   // handleImageLoad() {
   //   this.Imageloaded = true;
