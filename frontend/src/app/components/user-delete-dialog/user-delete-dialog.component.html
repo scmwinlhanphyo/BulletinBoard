@@ -7,7 +7,7 @@
     <mat-list-item role="listitem">
       <span>ID </span>
       <div class="dialog-data">
-        {{data?.id}}
+        {{data?._id}}
       </div>
     </mat-list-item>
 
@@ -34,24 +34,24 @@
         {{data?.email}}
       </div>
     </mat-list-item>
- 
 
-   <!-- Phone -->
-   <mat-list-item role="listitem">
-    <span>Phone</span>
-    <div class="dialog-data">
-      {{data?.phone}}
-    </div>
-  </mat-list-item>
 
-  <!-- Address -->
-  <mat-list-item role="listitem">
-    <span>Address</span>
-    <div class="dialog-data">
-      {{data?.address}}
-    </div>
-  </mat-list-item>
-</mat-list>
+    <!-- Phone -->
+    <mat-list-item role="listitem">
+      <span>Phone</span>
+      <div class="dialog-data">
+        {{data?.phone}}
+      </div>
+    </mat-list-item>
+
+    <!-- Address -->
+    <mat-list-item role="listitem">
+      <span>Address</span>
+      <div class="dialog-data">
+        {{data?.address}}
+      </div>
+    </mat-list-item>
+  </mat-list>
 </div>
 <mat-divider></mat-divider>
 <div mat-dialog-actions align="end">

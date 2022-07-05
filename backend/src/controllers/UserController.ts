@@ -15,20 +15,20 @@ export const getUsers = async (
         const ostring = options.page as string
         const filter = options.filter as any
 
-        // validate options, send 400 on error
+
         // const sort = options.sort || {};
-        const limit = 5;
-        const page = parseInt(ostring) || 1;
-        const skip = (page - 1) * limit;
+        // const limit = 5;
+        // const page = parseInt(ostring) || 1;
+        // const skip = (page - 1) * limit;
 
         const users = await User.find(filter)
-            .skip(skip)
-            .limit(limit);
+        // .skip(skip)
+        // .limit(limit);
         res.json({
             data: users,
             status: 1,
-            limit,
-            page,
+            // limit,
+            // page,
             filter,
             total: users.length,
             links: {

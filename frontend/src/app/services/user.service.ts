@@ -27,15 +27,15 @@ export class UserService {
     return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, payload));
   }
 
-  public findUser(payload: any): Promise<any> {
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, payload));
+  public findUser(payload: any, userId: any): Promise<any> {
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users/` + userId, payload));
   }
 
   public updateUser(payload: any): Promise<any> {
     return lastValueFrom(this.http.put(`${environment.apiUrl}/users`, payload));
   }
 
-  public deleteUser(payload: any): Promise<any> {
-    return lastValueFrom(this.http.delete(`${environment.apiUrl}/users`, payload));
+  public deleteUser(payload: any, userId: any): Promise<any> {
+    return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId, payload));
   }
 }

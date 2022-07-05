@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ViewChild, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -126,10 +126,11 @@ export class UserListComponent implements OnInit {
     private userService: UserService
   ) { }
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
-      console.log(dist);
+      // console.log(dist);
       this.userLists = dist.data;
       const result = []
       // for (let [key, value] of this.userLists.entries()) {
@@ -149,6 +150,7 @@ export class UserListComponent implements OnInit {
       // }
       // console.log(this.tableData)
       this.dataSource = new MatTableDataSource<any>(dist.data);
+      this.dataSource.paginator = this.paginator;
       this.currentPage = 0;
       this.totalSize = this.userLists.length;
     })
@@ -187,23 +189,38 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  public deleteUser() {
+  updateUser(userId: any) {
+    const userID = userId._id;
+    // console.log(userID)
+    this.router.navigate(['profile-edit/' + userID]);
+  }
+
+  public deleteUser(data: any) {
+    // console.log('data', data);
+    const userId = data._id;
+    // console.log(userId);
+    // console.log('userID', userId);
+    // const payload = {}
+    // this.userService.findUser(payload).then((dist) => {
+    //   // console.log(dist);
+    //   this.userLists = dist.data;
+    //   console.log(this.userLists);
+    // })
     let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
-      data: {
-        width: '40%',
-        id: 7,
-        name: 'Admin001',
-        type: 'admin',
-        email: 'admin@gmail.com',
-        dob: '2022/06/22',
-        phone: '09123456789',
-        address: 'Yangon',
-        image:
-          'https://www.freeiconspng.com/thumbs/profile-icon-png/account-profile-user-icon--icon-search-engine-10.png',
-      },
+      width: '40%',
+      data: data,
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
+        localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+        const deleted_user_id = JSON.parse(localStorage.getItem('userInfo') || "[]");
+        const payload = {
+          deleted_user_id: deleted_user_id
+        }
+        console.log(payload)
+        this.userService.deleteUser(payload, userId).then((dist) => {
+          console.log(dist);
+        })
         this.message = 'User Delete Successfully.';
         // console.log('delete success');
       }
