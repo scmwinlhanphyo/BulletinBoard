@@ -15,13 +15,17 @@ export const getUsers = async (
     // const ostring = options.page as string
     const filter = options.filter as any
 
+    // let condition : any = {};
+    // condition['deleted_at'] = null;
+    // data?.name ? condition['name'] = data.name : '';
+
 
     // const sort = options.sort || {};
     // const limit = 5;
     // const page = parseInt(ostring) || 1;
     // const skip = (page - 1) * limit;
 
-    const users = await User.find(filter)
+    const users = await User.find({ deleted_at: null})
     // .skip(skip)
     // .limit(limit);
     res.json({
@@ -60,11 +64,7 @@ export const createUser = async (
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
-    if (!profile) {
-      const error: any = new Error("No file picked.");
-      error.statusCode = 422;
-      throw error;
-    }
+
     const userTdo: UserCreate = {
       name: req.body.name,
       email: req.body.email,
@@ -139,10 +139,10 @@ export const updateUser = async (
     if (user.profile && user.profile != profile) {
       deleteFile(user.profile);
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    // const hashedPassword = await bcrypt.hash(req.body.password, 12);
     user.name = req.body.name;
     user.email = req.body.email;
-    user.password = hashedPassword;
+    // user.password = hashedPassword;
     user.type = req.body.type;
     user.phone = req.body.phone;
     user.dob = req.body.dob;
@@ -177,3 +177,18 @@ export const deleteUser = async (
     next(err);
   }
 };
+
+export const findByName = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const username = req.body.username;
+
+    const users = await User.find({ name: username});
+    res.json({ data: users, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+}

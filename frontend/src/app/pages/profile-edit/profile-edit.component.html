@@ -34,7 +34,8 @@
 
         <label>Date of birth</label>
         <mat-form-field appearance="outline">
-          <input matInput [matDatepicker]="picker" formControlName="dob" [formControl]="dob">
+          <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]=" picker" formControlName="dob"
+            [formControl]="dob" [max]="today">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -54,11 +55,11 @@
         </mat-form-field>
 
         <label>Old Profile</label>
-        <!-- <img src="../../../../../backend/apiuploads/profileImage" alt=""> -->
         <div *ngIf="profileImage">
-          <img [src]="profileImage" (load)="handleImageLoad()" class="profileimg">
+          <img [src]="profileImage" class="profileimg">
         </div>
         <br>
+
         <label>New Profile</label>
         <div *ngIf="confirmView==false" class="profileinput">
           <input type="file" (change)="imageUpload($event)" formControlName="profile" accept="image/*"

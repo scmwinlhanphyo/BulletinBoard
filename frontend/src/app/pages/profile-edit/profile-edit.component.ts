@@ -42,6 +42,8 @@ export class ProfileEditComponent implements OnInit {
   public phone!: string;
   public profile!: FormControl;
   userData: any;
+  imgFile: any;
+  public userInfo: any;
 
   constructor(
     private location: Location,
@@ -70,22 +72,21 @@ export class ProfileEditComponent implements OnInit {
         this.profileImage = 'http://localhost:5000/' + this.userData.profile;
         this.profile = new FormControl(this.profileImage);
       }
-      // console.log(this.tableData)
-      // this.dataSource = new MatTableDataSource<any>(dist.data);
-      // this.currentPage = 0;
-      // this.totalSize = this.userLists.length;
     })
     // this.name = this.profileData.name;
     // this.email = this.profileData.email;
     // this.phone = this.profileData.phone;
     // this.address = this.profileData.address;
     // this.type = this.profileData.type;
-    this.dob = new FormControl(new Date("2022/06/22"));
+    // this.dob = new FormControl(new Date("2022/06/22"));
     this.profileImage = this.profileData.image;
     this.profile = new FormControl(this.profileImage);
   }
 
   ngOnInit(): void {
+    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+
     this.profileEditForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
@@ -121,7 +122,21 @@ export class ProfileEditComponent implements OnInit {
     //this.location.back();
   }
   public updateProfile = () => {
+    const id: string = this.activatedRoute.snapshot.params['id'];
     if (this.confirmView == true) {
+      const formData = new FormData();
+      formData.append('name', this.profileEditForm.controls['name'].value);
+      formData.append('email', this.profileEditForm.controls['email'].value);
+      formData.append('type', this.profileEditForm.controls['type'].value);
+      formData.append('phone', this.profileEditForm.controls['phone'].value);
+      formData.append('dob', this.profileEditForm.controls['dob'].value);
+      formData.append('address', this.profileEditForm.controls['address'].value);
+      formData.append('profile', this.imgFile);
+      formData.append('updated_user_id', this.userInfo);
+
+      this.userService.updateUser(formData, id).then((dist) => {
+        console.log(dist);
+      })
       this.router.navigate(["user-list", { editprofile: "success" }]);
     }
     if (this.profileEditForm.valid) {
@@ -137,18 +152,15 @@ export class ProfileEditComponent implements OnInit {
   }
 
   imageUpload(event: any) {
-    var file = event.target.files.length;
-    for (let i = 0; i < file; i++) {
-      var reader = new FileReader();
-      reader.onload = (event: any) => {
-        this.profileImage = event.target.result;
-        this.changeDetector.detectChanges();
-      }
-      reader.readAsDataURL(event.target.files[i]);
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+
+      this.imgFile = file;
+      const reader = new FileReader();
+      reader.onload = e => this.profileImage = reader.result;
+      reader.readAsDataURL(file);
+
     }
-  }
-  handleImageLoad() {
-    this.Imageloaded = true;
   }
 
   OnDateChange(event: any) {

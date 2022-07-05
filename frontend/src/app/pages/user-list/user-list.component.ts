@@ -128,44 +128,35 @@ export class UserListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
+    this.getUsers();
+    // this.dataSource.data = this.userLists;
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('msg') === 'success') {
+        this.message = 'User successfully created.';
+        this.getUsers();
+      } else if (params.get('updatepw') === 'success') {
+        this.message = 'Password is successfully updated.';
+        this.getUsers();
+      } else if (params.get('editprofile') === 'success') {
+        this.message = 'User profile successfully updated.';
+        this.getUsers();
+      }
+    });
+  }
+
+  public getUsers() {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
       // console.log(dist);
+      console.log(dist.data);
       this.userLists = dist.data;
-      const result = []
-      // for (let [key, value] of this.userLists.entries()) {
-      // console.log(value);
-      // this.tableData.unshift({
-      //   name: value.name,
-      //   email: value.email,
-      //   created_user: value.created_user_id,
-      //   dob: value.dob,
-      //   phone: value.phone,
-      //   type: value.type,
-      //   created_at: value.createdAt,
-      //   updated_at: value.updatedAt,
-      //   updated_user: value.updated_user,
-      //   address: value.address
-      // })
-      // }
-      // console.log(this.tableData)
+      // const result = []
       this.dataSource = new MatTableDataSource<any>(dist.data);
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;
       this.totalSize = this.userLists.length;
     })
-    // this.dataSource.data = this.userLists;
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      if (params.get('msg') === 'success') {
-        this.message = 'User successfully created.';
-      } else if (params.get('updatepw') === 'success') {
-        this.message = 'Password is successfully updated.';
-      } else if (params.get('editprofile') === 'success') {
-        this.message = 'User profile successfully updated.';
-      }
-    });
   }
-
   /**
    * when pagination buttons click.
    * @param (e)
@@ -175,7 +166,12 @@ export class UserListComponent implements OnInit {
   /**
    * search user button click.
    */
-  public searchUser() { }
+  public searchUser() {
+    const payload = {};
+    this.userService.findByName(payload).then((dist) => {
+      console.log(dist);
+    })
+  }
 
   /**
    * open user detail dialog.
@@ -198,14 +194,6 @@ export class UserListComponent implements OnInit {
   public deleteUser(data: any) {
     // console.log('data', data);
     const userId = data._id;
-    // console.log(userId);
-    // console.log('userID', userId);
-    // const payload = {}
-    // this.userService.findUser(payload).then((dist) => {
-    //   // console.log(dist);
-    //   this.userLists = dist.data;
-    //   console.log(this.userLists);
-    // })
     let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
       width: '40%',
       data: data,
@@ -222,6 +210,7 @@ export class UserListComponent implements OnInit {
           console.log(dist);
         })
         this.message = 'User Delete Successfully.';
+        this.getUsers();
         // console.log('delete success');
       }
     });

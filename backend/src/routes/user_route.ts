@@ -1,5 +1,5 @@
 import express from 'express';
-import { getUsers, createUser, findUser, updateUser, deleteUser } from '../controllers/UserController';
+import { getUsers, createUser, findUser, updateUser, deleteUser, findByName } from '../controllers/UserController';
 import { body } from 'express-validator';
 
 const router = express.Router();
@@ -9,10 +9,14 @@ router
     .get(getUsers)
     .post(
         [
-            body("name").notEmpty().withMessage("Tilte must note be empty"),
-            body("description").notEmpty().withMessage("Description must note be empty")
+            body("name").notEmpty().withMessage("Email must note be empty"),
+            body("email").notEmpty().withMessage("Email must note be empty")
         ],
         createUser)
+
+router.
+    route("/keyword")
+    .post(findByName)
 
 router
     .route("/:id")
