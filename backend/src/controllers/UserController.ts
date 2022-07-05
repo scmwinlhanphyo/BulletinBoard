@@ -17,7 +17,7 @@ export const getUsers = async (
 
         // validate options, send 400 on error
         // const sort = options.sort || {};
-        const limit = 2;
+        const limit = 5;
         const page = parseInt(ostring) || 1;
         const skip = (page - 1) * limit;
 

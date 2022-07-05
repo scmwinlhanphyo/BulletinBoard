@@ -12,6 +12,7 @@ import { UserCreateComponent } from './pages/user-create/user-create.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'user-create', component: UserCreateComponent },
   { path: 'password-change', component: PasswordChangeComponent },
   { path: 'forget-password', component: ForgetPasswordComponent },
-  { path: 'profile-edit/:id', component: ProfileEditComponent }
+  { path: 'profile-edit/:id', component: ProfileEditComponent },
+  { path: 'profile', component: ProfileComponent }
 ];
 
 @NgModule({

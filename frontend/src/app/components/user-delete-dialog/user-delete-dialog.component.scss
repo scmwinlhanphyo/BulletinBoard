@@ -1,0 +1,29 @@
+.mat-dialog {
+  width: 100%;
+
+  mat-list {
+    width: 100%;
+
+    h1 {
+      font-weight: bold;
+    }
+    mat-list-item {
+      margin: 2% 0;
+
+      span {
+        width: 38%;
+      }
+
+      .dialog-data {
+        float: right;
+        clear: both;
+        width: 72%;
+      }
+    }
+  }
+}
+
+button {
+  background-color: gray;
+  color: #ffffff;
+}

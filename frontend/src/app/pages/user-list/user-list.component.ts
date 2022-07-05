@@ -5,24 +5,25 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
+import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
 
 export interface UserDataModel {
-  name: string,
-  email: string,
-  created_user: string,
-  type: string,
-  phone: string,
-  dob: string,
-  address: string,
-  created_at: string,
-  updated_at: string,
-  updated_user: string
+  name: string;
+  email: string;
+  created_user: string;
+  type: string;
+  phone: string;
+  dob: string;
+  address: string;
+  created_at: string;
+  updated_at: string;
+  updated_user: string;
 }
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+  styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent implements OnInit {
 
@@ -153,41 +154,59 @@ export class UserListComponent implements OnInit {
     })
     // this.dataSource.data = this.userLists;
     this.route.paramMap.subscribe((params: ParamMap) => {
-      if (params.get('msg') === "success") {
-        this.message = "User successfully created.";
-      } else if (params.get('updatepw') === "success") {
-        this.message = "Password is successfully updated.";
-      } else if (params.get('editprofile') === "success") {
-        this.message = "User profile successfully updated."
+      if (params.get('msg') === 'success') {
+        this.message = 'User successfully created.';
+      } else if (params.get('updatepw') === 'success') {
+        this.message = 'Password is successfully updated.';
+      } else if (params.get('editprofile') === 'success') {
+        this.message = 'User profile successfully updated.';
       }
-    })
+    });
   }
 
   /**
    * when pagination buttons click.
    * @param (e)
    */
-  public handlePage(e: any) {
-
-  }
+  public handlePage(e: any) { }
 
   /**
    * search user button click.
    */
-  public searchUser() {
-
-  }
+  public searchUser() { }
 
   /**
    * open user detail dialog.
    * @param data
    */
   public userDetail(data: any) {
-    console.log("data", data);
+    console.log('data', data);
     this.dialog.open(UserDetailDialogComponent, {
       width: '40%',
-      data: data
+      data: data,
     });
   }
 
+  public deleteUser() {
+    let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
+      data: {
+        width: '40%',
+        id: 7,
+        name: 'Admin001',
+        type: 'admin',
+        email: 'admin@gmail.com',
+        dob: '2022/06/22',
+        phone: '09123456789',
+        address: 'Yangon',
+        image:
+          'https://www.freeiconspng.com/thumbs/profile-icon-png/account-profile-user-icon--icon-search-engine-10.png',
+      },
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.message = 'User Delete Successfully.';
+        // console.log('delete success');
+      }
+    });
+  }
 }
