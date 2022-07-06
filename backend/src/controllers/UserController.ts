@@ -60,11 +60,6 @@ export const createUser = async (
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
-    if (!profile) {
-      const error: any = new Error("No file picked.");
-      error.statusCode = 422;
-      throw error;
-    }
     const userTdo: UserCreate = {
       name: req.body.name,
       email: req.body.email,
