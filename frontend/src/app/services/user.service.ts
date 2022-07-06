@@ -11,12 +11,48 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   public login(payload: any): Promise<any> {
-    const headerOptions = new HttpHeaders()
-      .set('Content-Type', 'application/json;charset=utf-8;')
-      .set('Cache-Control', 'no-cache')
-      .set('Pragma', 'no-cache');
-    const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/login`, payload, options));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/login`, payload));
   }
 
+  public logout(): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+    .set('Content-Type', 'application/json;charset=utf-8;')
+    .set('Cache-Control', 'no-cache')
+    .set('Pragma', 'no-cache')
+    .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/logout`, {}, options));
+  }
+
+  public createUser(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
+  }
+
+  public getUsers(payload: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+    .set('Content-Type', 'application/json;charset=utf-8;')
+    .set('Cache-Control', 'no-cache')
+    .set('Pragma', 'no-cache')
+    .set('Authorization', `Bearer ${token}`);
+  const options = { headers: headerOptions };
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, options));
+  }
+
+  public findUser(payload: any, userId: any): Promise<any> {
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users/` + userId, payload));
+  }
+
+  public updateUser(payload: any): Promise<any> {
+    return lastValueFrom(this.http.put(`${environment.apiUrl}/users`, payload));
+  }
+
+  public deleteUser(userId: any): Promise<any> {
+    return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId));
+  }
+
+  public createAccount(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/signup`, payload));
+  }
 }

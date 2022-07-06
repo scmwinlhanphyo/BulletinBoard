@@ -14,16 +14,16 @@
 
       <label class="search-form-label">From:</label>
       <mat-form-field appearance="outline" class="search-form-field">
-        <input matInput [matDatepicker]="picker" [(ngModel)]="fromDate" name="fromDate">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" name="fromDate" [max]="today">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
       </mat-form-field>
 
       <label class="search-form-label">To:</label>
       <mat-form-field appearance="outline" class="search-form-field">
-        <input matInput [matDatepicker]="picker" [(ngModel)]="toDate" name="toDate">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" name="toDate" [max]="today">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
       </mat-form-field>
 
       <div class="login-btn">
@@ -42,66 +42,66 @@
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Name</th>
-      <td mat-cell *matCellDef="let element">
-        <a class="username" (click)="userDetail(element)">
-          {{element.name}}
+      <td mat-cell *matCellDef="let user">
+        <a class=" username" (click)="userDetail(user)">
+          {{user.name}}
         </a>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Email</th>
-      <td mat-cell *matCellDef="let element">{{element.email}}
+      <td mat-cell *matCellDef="let user">{{user.email}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="created_user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Created User</th>
-      <td mat-cell *matCellDef="let element">{{element.created_user }}
+      <td mat-cell *matCellDef="let user">{{user.created_user_id }}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="type">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Type</th>
-      <td mat-cell *matCellDef="let element">{{element.type}}
+      <td mat-cell *matCellDef="let user">{{user.type}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="phone">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Phone</th>
-      <td mat-cell *matCellDef="let element">{{element.phone}}
+      <td mat-cell *matCellDef="let user">{{user.phone}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="dob">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Dob</th>
-      <td mat-cell *matCellDef="let element">{{element.dob}}
+      <td mat-cell *matCellDef="let user">{{user.dob | date:"yyyy/MM/dd"}}
       </td>
     </ng-container>
 
     <ng-container matColumnDef="address">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Address</th>
-      <td mat-cell *matCellDef="let element">{{element.address}}</td>
+      <td mat-cell *matCellDef="let user">{{user.address}}</td>
     </ng-container>
 
     <ng-container matColumnDef="created_at">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Created Date</th>
-      <td mat-cell *matCellDef="let element">{{element.created_at}}</td>
+      <td mat-cell *matCellDef="let user">{{user.createdAt | date:"yyyy/MM/dd"}}</td>
     </ng-container>
 
     <ng-container matColumnDef="updated_at">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Updated Date</th>
-      <td mat-cell *matCellDef="let element">{{element.updated_at}}</td>
+      <td mat-cell *matCellDef="let user">{{user.updatedAt | date:"yyyy/MM/dd"}}</td>
     </ng-container>
 
 
     <ng-container matColumnDef="operation">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Operation</th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-raised-button color="primary">
+      <td mat-cell *matCellDef="let user">
+        <button mat-raised-button (click)="updateUser(user)" color="primary">
           Edit
         </button>
-        <button mat-raised-button (click)="deleteUser()"  class="delete-btn">
+        <button mat-raised-button (click)="deleteUser(user)" class="delete-btn">
           Delete
         </button>
       </td>
@@ -111,7 +111,8 @@
     <tr mat-row *matRowDef="let row; columns: columnToDisplay;"></tr>
   </table>
 
-  <mat-paginator #paginator [pageSizeOptions]="pageSizes" pageSize=2 showFirstLastButtons [length]="totalSize"
+  <!-- <mat-paginator #paginator [pageSizeOptions]="pageSizes" pageSize=2 showFirstLastButtons [length]="totalSize"
     [pageIndex]="currentPage" (page)="handlePage($event)">
-  </mat-paginator>
+  </mat-paginator> -->
+  <mat-paginator [pageSizeOptions]="[2, 4, 6]" showFirstLastButtons></mat-paginator>
 </div>

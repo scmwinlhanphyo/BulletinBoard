@@ -1,8 +1,8 @@
 <div class="create-account-container">
   <mat-card fxFlex="500px" fxFlex.xs="100%">
     <mat-card-title>Sign Up</mat-card-title>
-    <form [formGroup]="createAccountForm" autocomplete="off" novalidate (ngSubmit)="createAccount()" fxLayout="column wrap"
-      fxLayoutAlign="center center" fxLayoutGap="10px">
+    <form [formGroup]="createAccountForm" autocomplete="on" novalidate (ngSubmit)="createAccount()"
+      fxLayout="column wrap" fxLayoutAlign="center center" fxLayoutGap="10px">
       <mat-card-content>
         <label>Name*:</label>
         <mat-form-field appearance="outline">
@@ -11,22 +11,28 @@
         </mat-form-field>
         <label>E-Mail Address*:</label>
         <mat-form-field appearance="outline">
-          <input matInput type="email" placeholder="E-Mail Address" name="email" id="email" formControlName="email" email>
+          <input matInput type="email" placeholder="E-Mail Address" name="email" id="email" formControlName="email"
+            email>
           <mat-error *ngIf="createAccountForm.controls.email.hasError('required')">Email can't be blank.</mat-error>
           <mat-error *ngIf="createAccountForm.controls.email.hasError('email')">Email format is invalid.</mat-error>
         </mat-form-field>
 
         <label>Password*:</label>
         <mat-form-field appearance="outline">
-          <input matInput type="password" placeholder="Password" (input)="changePassword()" name="password" id="password" formControlName="password" required>
-          <mat-error *ngIf="createAccountForm.controls.password.hasError('required')">Password can't be blank.</mat-error>
+          <input matInput type="password" placeholder="Password" (input)="changePassword()" name="password"
+            id="password" formControlName="password" required>
+          <mat-error *ngIf="createAccountForm.controls.password.hasError('required')">Password can't be blank.
+          </mat-error>
         </mat-form-field>
 
         <label>Password_confirmation*:</label>
         <mat-form-field appearance="outline">
-          <input matInput type="password" placeholder="Password_confirmation" (input)="changePassword()" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword" required>
-          <mat-error *ngIf="createAccountForm.controls.confirmPassword.hasError('required')">Password confirmation can't be blank.</mat-error>
-          <mat-error *ngIf="createAccountForm.controls.confirmPassword.hasError('notMatched')">Password and Password confirmation is not match.</mat-error>
+          <input matInput type="password" placeholder="Password_confirmation" (input)="changePassword()"
+            name="confirmPassword" id="confirmPassword" formControlName="confirmPassword" required>
+          <mat-error *ngIf="createAccountForm.controls.confirmPassword.hasError('required')">Password confirmation can't
+            be blank.</mat-error>
+          <mat-error *ngIf="createAccountForm.controls.confirmPassword.hasError('notMatched')">Password and Password
+            confirmation is not match.</mat-error>
         </mat-form-field>
       </mat-card-content>
       <mat-card-actions>

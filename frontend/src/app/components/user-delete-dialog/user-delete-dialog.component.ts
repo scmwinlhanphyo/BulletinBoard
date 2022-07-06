@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class UserDeleteDialogComponent implements OnInit {
 
-  id?: number;
+  _id?: string;
   name?: string;
   type?: string;
   email?: string;
@@ -24,11 +24,11 @@ export class UserDeleteDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  cancel(){
+  cancel() {
     this.dialogRef.close(null);
   }
 
-  remove(){
+  remove() {
     this.dialogRef.close('delete');
   }
 

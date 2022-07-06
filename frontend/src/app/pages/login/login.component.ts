@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{6,20}')
+        Validators.maxLength(50)
       ]),
       rememberme: ['']
     })
@@ -52,18 +52,11 @@ export class LoginComponent implements OnInit {
     }
     this.userService.login(payload).then((dist) => {
       console.log(dist);
+      localStorage.setItem('token', dist.token);
+      localStorage.setItem('userId', dist.user._id);
+      this.router.navigate(["/post-list"]);
+    }).catch((err) => {
+      this.loginErrMsg = err;
     });
-
-
-    // if (this.loginForm.value.email === "admin@gmail.com" && this.loginForm.value.password === "Admin@123") {
-    //   sessionStorage.setItem("Userinfo", "Admin");
-    //   this.router.navigate(["/post-list"]);
-    // } else if (this.loginForm.value.email !== "admin@gmail.com" && this.loginForm.value.password !== "Admin@123") {
-    //   this.loginErrMsg = "Incorrect Email & Password!"
-    // } else if (this.loginForm.value.email !== "admin@gmail.com") {
-    //   this.loginErrMsg = "Email does not Exists.";
-    // } else if (this.loginForm.value.password !== "Admin@123") {
-    //   this.loginErrMsg = "Incorrect Password!";
-    // }
   }
 }
