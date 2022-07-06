@@ -9,7 +9,7 @@ export const getPosts = async (
     next: NextFunction
 ) => {
     try {
-        const posts = await Post.find()
+        const posts = await Post.find({ deleted_at: null })
         res.json({ data: posts, status: 1 });
     } catch (err) {
         console.log(err);
@@ -32,23 +32,17 @@ export const createPost = async (
             error.statusCode = 422;
             throw error;
         }
-        // const body = JSON.parse(req.body);
-        // console.log('body', req.body);
         const postTdo: PostCreate = {
             title: req.body.title,
             description: req.body.description,
-
+            created_user_id: req.body.created_user_id,
         }
-        // console.log('post data', postTdo);
         const post = new Post(postTdo);
         const result = await post.save();
         res
             .status(201)
             .json({ message: "Created Successfully!", data: result, status: 1 });
     } catch (err) {
-        // if (!err.statusCode) {
-        //     err.statusCode = 500;
-        // }
         next(err);
     }
 }
@@ -92,6 +86,9 @@ export const updatePost = async (
         }
         post.title = req.body.title;
         post.description = req.body.description;
+        post.status = req.body.status;
+        post.created_user_id = req.body.created_user_id;
+        post.updated_user_id = req.body.updated_user_id;
         const result = await post.save();
         res.json({ message: "Updated Successfully!", data: result, status: 1 });
     } catch (err) {
@@ -105,22 +102,30 @@ export const deletePost = async (
     next: NextFunction
 ) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            const error: any = new Error("Validation failed!");
-            error.data = errors.array();
-            error.statusCode = 422;
-            throw error;
-        }
         const post: any = await Post.findById(req.params.id);
         if (!post) {
             const error: any = new Error("Not Found!");
             error.statusCode = 404;
             throw error;
         }
-        await Post.findByIdAndRemove(req.params.id);
-        res.sendStatus(204);
+        // user.deleted_user_id = req.body.deleted_user_id;
+        post.deleted_at = new Date();
+        await post.save();
+        res.sendStatus(204)
     } catch (err) {
         next(err);
     }
 };
+
+export const findByName = async (
+    req: any,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const posts = await Post.find({ title: { '$regex': req.body.title, '$options': 'i' }, deleted_at: null });
+        res.json({ data: posts, status: 1 });
+    } catch (err) {
+        next(err);
+    }
+}

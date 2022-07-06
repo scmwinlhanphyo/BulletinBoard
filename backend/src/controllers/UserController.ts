@@ -4,6 +4,7 @@ import { validationResult } from 'express-validator';
 import { UserCreate } from '../interfaces/User';
 import bcrypt from 'bcrypt';
 import { deleteFile } from "../utils";
+import moment from 'moment';
 
 export const getUsers = async (
   req: Request,
@@ -25,7 +26,7 @@ export const getUsers = async (
     // const page = parseInt(ostring) || 1;
     // const skip = (page - 1) * limit;
 
-    const users = await User.find({ deleted_at: null})
+    const users = await User.find({ deleted_at: null })
     // .skip(skip)
     // .limit(limit);
     res.json({
@@ -184,9 +185,19 @@ export const findByName = async (
   next: NextFunction
 ) => {
   try {
-    const username = req.body.username;
+    let startDate = new Date(req.body.startDate);
+    let endDate = new Date(req.body.endDate);
+    let condition: any = {
+      deleted_at: null
+    };
+    req.body?.name ? condition.name = { '$regex': req.body.name, '$options': 'i' } : '';
+    req.body?.email ? condition.email = { '$regex': req.body.email, '$options': 'i' } : '';
+    req.body?.startDate && req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: endDate } : '';
+    req.body?.startDate && !req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: new Date() } : '';
+    req.body?.endDate && !req.body?.startDate ? condition.createdAt = { $lte: endDate } : '';
+    req.body?.startDate === req.body?.endDate ? condition.createdAt = { $gte: moment(startDate), $lte: moment(endDate).add(1, 'days') } : '';
 
-    const users = await User.find({ name: username});
+    const users = await User.find(condition);
     res.json({ data: users, status: 1 });
   } catch (err) {
     next(err);

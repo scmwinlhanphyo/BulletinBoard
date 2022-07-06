@@ -15,6 +15,9 @@ router
     (0, express_validator_1.body)("description").notEmpty().withMessage("Description must note be empty")
 ], PostController_1.createPost);
 router
+    .route("/search")
+    .post(PostController_1.findByName);
+router
     .route("/:id")
     .get(PostController_1.findPost)
     .put([

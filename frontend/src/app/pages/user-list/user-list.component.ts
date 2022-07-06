@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
 import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
+import * as moment from 'moment';
 
 export interface UserDataModel {
   name: string;
@@ -147,8 +148,6 @@ export class UserListComponent implements OnInit {
   public getUsers() {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
-      // console.log(dist);
-      console.log(dist.data);
       this.userLists = dist.data;
       // const result = []
       this.dataSource = new MatTableDataSource<any>(dist.data);
@@ -167,9 +166,19 @@ export class UserListComponent implements OnInit {
    * search user button click.
    */
   public searchUser() {
-    const payload = {};
+    const payload = {
+      name: this.username,
+      email: this.email,
+      startDate: moment(this.fromDate).format('YYYY/MM/DD'),
+      endDate: moment(this.toDate).format('YYYY/MM/DD')
+    }
+    console.log(payload)
     this.userService.findByName(payload).then((dist) => {
-      console.log(dist);
+      this.userLists = dist.data;
+      this.dataSource = new MatTableDataSource<any>(this.userLists);
+      this.dataSource.paginator = this.paginator;
+      this.currentPage = 0;
+      this.totalSize = this.userLists.length;
     })
   }
 

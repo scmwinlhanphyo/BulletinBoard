@@ -60,7 +60,7 @@ export class ProfileEditComponent implements OnInit {
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
-      // console.log(dist);
+      console.log(dist.data);
       if (this.userData) {
         this.name = this.userData.name;
         this.name = this.userData.name;
@@ -84,6 +84,13 @@ export class ProfileEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const id: string = this.activatedRoute.snapshot.params['id'];
+    const payload = {};
+    this.userService.findUser(payload, id).then((dist) => {
+      this.userData = dist.data;
+      console.log(dist.data);
+    })
+
     localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
 

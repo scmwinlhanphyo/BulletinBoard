@@ -15,7 +15,7 @@ router
         createUser)
 
 router.
-    route("/keyword")
+    route("/search")
     .post(findByName)
 
 router

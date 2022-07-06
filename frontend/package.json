@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "mat-table-exporter": "^10.2.4",
+    "moment": "^2.29.3",
     "ng2-file-upload": "^1.4.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

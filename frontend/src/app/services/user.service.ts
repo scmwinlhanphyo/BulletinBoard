@@ -40,6 +40,6 @@ export class UserService {
   }
 
   public findByName(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/`, payload));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/search`, payload));
   }
 }

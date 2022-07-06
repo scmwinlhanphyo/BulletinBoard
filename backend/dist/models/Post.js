@@ -10,6 +10,10 @@ const postSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    status: {
+        type: Boolean,
+        default: true
+    },
     created_user_id: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: "user"
