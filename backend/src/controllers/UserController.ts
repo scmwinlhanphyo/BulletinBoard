@@ -65,7 +65,6 @@ export const createUser = async (
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
-
     const userTdo: UserCreate = {
       name: req.body.name,
       email: req.body.email,

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,19 +12,19 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   loginErrMsg = "";
-  public resetMail:any ="";
+  public resetMail: any = "";
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserService
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('resetEmail') === "success") {
-        this.resetMail = "Email sent with password reset instructions."
+        this.resetMail = "Password has been reset";
       }
     })
     this.loginForm = this.fb.group({
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
-        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{6,20}')
+        Validators.maxLength(50)
       ]),
       rememberme: ['']
     })
@@ -50,20 +50,13 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.controls['email'].value,
       password: this.loginForm.controls['password'].value
     }
-    this.userService.login(payload).then((dist) => {
+    this.authService.login(payload).then((dist) => {
       console.log(dist);
+      localStorage.setItem('token', dist.token);
+      localStorage.setItem('userId', dist.user._id);
+      this.router.navigate(["/post-list"]);
+    }).catch((err) => {
+      this.loginErrMsg = err;
     });
-
-
-    // if (this.loginForm.value.email === "admin@gmail.com" && this.loginForm.value.password === "Admin@123") {
-    //   sessionStorage.setItem("Userinfo", "Admin");
-    //   this.router.navigate(["/post-list"]);
-    // } else if (this.loginForm.value.email !== "admin@gmail.com" && this.loginForm.value.password !== "Admin@123") {
-    //   this.loginErrMsg = "Incorrect Email & Password!"
-    // } else if (this.loginForm.value.email !== "admin@gmail.com") {
-    //   this.loginErrMsg = "Email does not Exists.";
-    // } else if (this.loginForm.value.password !== "Admin@123") {
-    //   this.loginErrMsg = "Incorrect Password!";
-    // }
   }
 }

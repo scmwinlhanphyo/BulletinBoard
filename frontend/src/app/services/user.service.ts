@@ -10,21 +10,19 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  public login(payload: any): Promise<any> {
-    const headerOptions = new HttpHeaders()
-      .set('Content-Type', 'application/json;charset=utf-8;')
-      .set('Cache-Control', 'no-cache')
-      .set('Pragma', 'no-cache');
-    const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/login`, payload, options));
-  }
-
   public createUser(payload: any): Promise<any> {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload));
   }
 
   public getUsers(payload: any): Promise<any> {
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, payload));
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+    .set('Content-Type', 'application/json;charset=utf-8;')
+    .set('Cache-Control', 'no-cache')
+    .set('Pragma', 'no-cache')
+    .set('Authorization', `Bearer ${token}`);
+  const options = { headers: headerOptions };
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, options));
   }
 
   public findUser(payload: any, userId: any): Promise<any> {
@@ -37,6 +35,10 @@ export class UserService {
 
   public deleteUser(userId: any): Promise<any> {
     return lastValueFrom(this.http.delete(`${environment.apiUrl}/users/` + userId));
+  }
+
+  public createAccount(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/signup`, payload));
   }
 
   public findByName(payload: any): Promise<any> {

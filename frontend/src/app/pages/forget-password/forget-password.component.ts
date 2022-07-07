@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-forget-password',
@@ -10,12 +11,13 @@ import { Router } from '@angular/router';
 export class ForgetPasswordComponent implements OnInit {
 
   forgetPwForm!: FormGroup;
-  forgetEmail: string = "admin@gmail.com";
   emailErr= "";
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -24,6 +26,11 @@ export class ForgetPasswordComponent implements OnInit {
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])
+    });
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      if (params.get('forgetPassword') === "failed") {
+        this.emailErr = "Your token has expired. Please try again";
+      }
     })
   }
 
@@ -32,11 +39,16 @@ export class ForgetPasswordComponent implements OnInit {
   }
 
   public forgetPW() {
-    if (this.forgetEmail === this.forgetPwForm.value.email) {
-      this.router.navigate(["login", { resetEmail: "success"}]);
-    } else {
-      this.emailErr = "Email does not Exists.";
-    }
+    let payload = {
+      email: this.forgetPwForm.controls['email'].value
+    };
+    this.authService.forgetPassword(payload).then((dist: any) => {
+      console.log(dist);
+      this.emailErr = "Email sent with password reset instructions.";
+    }).catch((err: any) => {
+      console.log(err);
+      this.emailErr = "Email does not exist.";
+    });
   }
 
 }

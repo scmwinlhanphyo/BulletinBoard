@@ -44,10 +44,9 @@ export class CreateAccountComponent implements OnInit {
     const payload = {
       name: this.createAccountForm.controls['username'].value,
       email: this.createAccountForm.controls['email'].value,
-      password: this.createAccountForm.controls['password'].value,
-      created_user_id: this.userInfo,
+      password: this.createAccountForm.controls['password'].value
     }
-    this.userService.createUser(payload).then((dist) => {
+    this.userService.createAccount(payload).then((dist) => {
       console.log(dist);
     })
     this.router.navigate(['/login']);

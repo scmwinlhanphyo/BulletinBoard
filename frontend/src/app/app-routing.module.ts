@@ -13,22 +13,23 @@ import { PasswordChangeComponent } from './pages/password-change/password-change
 import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'post-list', component: PostListComponent },
-  { path: 'user-list', component: UserListComponent },
-  { path: 'upload-csv-post', component: UploadPostComponent },
-  { path: 'post-create', component: PostFormComponent },
-  { path: 'update-post/:id', component: PostFormComponent },
+  { path: 'post-list', component: PostListComponent, canActivate: [AuthGuard]  },
+  { path: 'user-list', component: UserListComponent, canActivate: [AuthGuard] },
+  { path: 'upload-csv-post', component: UploadPostComponent, canActivate: [AuthGuard] },
+  { path: 'post-create', component: PostFormComponent, canActivate: [AuthGuard] },
+  { path: 'update-post/:id', component: PostFormComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: CreateAccountComponent },
-  { path: 'forget-password-update', component: ForgetPasswordUpdateComponent },
-  { path: 'user-create', component: UserCreateComponent },
-  { path: 'password-change', component: PasswordChangeComponent },
+  { path: 'forget-password-update/:userId/:token', component: ForgetPasswordUpdateComponent },
+  { path: 'user-create', component: UserCreateComponent, canActivate: [AuthGuard] },
+  { path: 'password-change', component: PasswordChangeComponent, canActivate: [AuthGuard] },
   { path: 'forget-password', component: ForgetPasswordComponent },
-  { path: 'profile-edit/:id', component: ProfileEditComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile-edit/:id', component: ProfileEditComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

@@ -12,7 +12,7 @@ router
             body("name").notEmpty().withMessage("Email must note be empty"),
             body("email").notEmpty().withMessage("Email must note be empty")
         ],
-        createUser)
+        createUser);
 
 router.
     route("/search")

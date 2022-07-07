@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-forget-password-update',
@@ -11,16 +12,28 @@ export class ForgetPasswordUpdateComponent implements OnInit {
   forgetPasswordUpdateForm!: FormGroup;
   public passwordMatch: boolean = true;
   public errorMsg: string = '';
+  public userId: string = '';
+  public token: string = '';
 
 
   constructor(
-    private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
+  ) {
   }
 
   ngOnInit() {
-    this.forgetPasswordUpdateForm = new FormGroup({
-      password: new FormControl('', Validators.required),
-      confirmPassword: new FormControl('', Validators.required),
+    this.userId = this.activatedRoute.snapshot.params['userId'];
+    this.token = this.activatedRoute.snapshot.params['token'];
+
+    this.authService.resetPassword(this.userId, this.token).then((data: any) => {
+      this.forgetPasswordUpdateForm = new FormGroup({
+        password: new FormControl('', Validators.required),
+        confirmPassword: new FormControl('', Validators.required),
+      });
+    }).catch((err: any) => {
+      this.router.navigate(['/forget-password', {forgetPassword: "failed"}]);
     });
   }
 
@@ -47,9 +60,13 @@ export class ForgetPasswordUpdateComponent implements OnInit {
   public resetPassword() {
     if (this.forgetPasswordUpdateForm.controls['password'].value && this.forgetPasswordUpdateForm.controls['confirmPassword'].value &&
       this.forgetPasswordUpdateForm.controls['password'].value !== this.forgetPasswordUpdateForm.controls['confirmPassword'].value) {
-      this.errorMsg = "Passwor and Password confirmation are not matched";
+      this.errorMsg = "Password and Password confirmation are not matched";
     } else {
-      this.router.navigate(['/login']);
+      const payload = {
+        password: this.forgetPasswordUpdateForm.controls['password'].value
+      }
+      this.authService.resetPasswordUpdate(this.userId, this.token, payload)
+      this.router.navigate(['/login', {resetEmail: 'success'}]);
     }
   }
 }
