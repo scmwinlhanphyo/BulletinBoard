@@ -3,21 +3,23 @@
   <div class="add-user-btn-container">
     <mat-label class="search-form-label">Keyword:</mat-label>
     <mat-form-field appearance="outline" class="search-input">
-      <input type="text" matInput [(ngModel)]="keyword" name="username">
+      <input type="text" matInput [(ngModel)]="keyword" name="username" #input>
     </mat-form-field>
 
+    <!-- <button mat-raised-button color="primary" class="user-btn" (click)="searchUser(input.value)">Search</button> -->
     <button mat-raised-button color="primary" class="user-btn" (click)="searchUser()">Search</button>
     <button mat-raised-button color="primary" class="user-btn" (click)="createUser()" [routerLink]="['/post-create']">Create</button>
     <button mat-raised-button color="primary" class="user-btn" (click)="uploadPost()">Upload</button>
-    <button mat-raised-button color="primary" class="download-user-btn" (click)="downloadUser()">Download</button>
+    <button mat-raised-button color="primary" class="download-user-btn"
+    (click)="exporter.exportTable('csv',{fileName:'post-data',sheet: 'post_list', columnWidths: [20, 20, 20, 20, 20]});">Download</button>
   </div>
 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table matTableExporter [dataSource]="dataSource" matSort class="mat-elevation-z8" #exporter="matTableExporter" [hiddenColumns]="[4]">
     <!-- ID Column -->
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Post title</th>
       <td mat-cell *matCellDef="let element">
-        <a class="postTitle" (click)="postDetail()">
+        <a class="postTitle" (click)="postDetail(element)">
           {{element.title}}
         </a>
       </td>
@@ -26,21 +28,22 @@
     <!-- Name Column -->
     <ng-container matColumnDef="description">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Post Description</th>
-      <td mat-cell *matCellDef="let element">{{element.description}}
+      <td mat-cell *matCellDef="let element">
+        {{element.description}}
       </td>
     </ng-container>
 
     <!-- Branch Column -->
     <ng-container matColumnDef="created_user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Posted User</th>
-      <td mat-cell *matCellDef="let element">{{element.created_user}}
+      <td mat-cell *matCellDef="let element">{{element.created_user_id}}
       </td>
     </ng-container>
 
     <!-- created At Column -->
     <ng-container matColumnDef="created_at">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Posted Date</th>
-      <td mat-cell *matCellDef="let element">{{element.created_at | date: 'yyyy/MM/dd a' }}
+      <td mat-cell *matCellDef="let element">{{element.createdAt | date: 'yyyy/MM/dd a' }}
       </td>
     </ng-container>
 
@@ -48,10 +51,10 @@
     <ng-container matColumnDef="operation">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Operation</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-raised-button color="primary" [routerLink]="['/update-post', element.id]">
+        <button mat-raised-button color="primary" [routerLink]="['/update-post', element._id]">
           Edit
         </button>
-        <button mat-raised-button (click)="deletePost()" class="delete-btn">
+        <button mat-raised-button (click)="deletePost(element)" class="delete-btn">
           Delete
         </button>
 
@@ -62,7 +65,8 @@
     <tr mat-row *matRowDef="let row; columns: columnToDisplay;"></tr>
   </table>
 
-  <mat-paginator #paginator [pageSizeOptions]="pageSizes" pageSize=2 showFirstLastButtons
+  <!-- <mat-paginator #paginator [pageSizeOptions]="pageSizes" pageSize=2 showFirstLastButtons
   [length]="totalSize" [pageIndex]="currentPage" (page)="handlePage($event)">
-  </mat-paginator>
+  </mat-paginator> -->
+  <mat-paginator [pageSizeOptions]="[2, 4, 6]" showFirstLastButtons></mat-paginator>
 </div>

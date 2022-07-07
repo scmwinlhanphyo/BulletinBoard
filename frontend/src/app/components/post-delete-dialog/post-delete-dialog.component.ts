@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class PostDeleteDialogComponent implements OnInit {
 
-  id?: number;
+  _id?: string;
   title?: string;
   description?: string;
   status?: string;

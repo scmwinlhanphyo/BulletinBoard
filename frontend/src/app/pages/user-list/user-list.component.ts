@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
 import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
+import * as moment from 'moment';
 
 export interface UserDataModel {
   name: string;
@@ -27,69 +28,6 @@ export interface UserDataModel {
 })
 export class UserListComponent implements OnInit {
 
-  public tableData =
-    [
-      {
-        name: "Aung Aung",
-        email: "aungaung@gmail.com",
-        created_user: "Aung Aung",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Insein",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin",
-      },
-      {
-        name: "Mg Mg",
-        email: "mgmg@gmail.com",
-        created_user: "Mg Mg",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Yangon",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-      {
-        name: "Zaw Zaw",
-        email: "zawzaw@gmail.com",
-        created_user: "Zaw Zaw",
-        type: "User",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Loi Kaw",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-      {
-        name: "Aung Aung",
-        email: "aungaung@gmail.com",
-        created_user: "Aung Aung",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Insein",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-      {
-        name: "Aung Aung",
-        email: "aungaung@gmail.com",
-        created_user: "Aung Aung",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Insein",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-    ];
   public dataSource = new MatTableDataSource<UserDataModel>();
   public employees: any[] = [];
   public selectedEmployeeName = '';
@@ -128,44 +66,34 @@ export class UserListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
-    const payload = {}
-    this.userService.getUsers(payload).then((dist) => {
-      // console.log(dist);
-      this.userLists = dist.data;
-      const result = []
-      // for (let [key, value] of this.userLists.entries()) {
-      // console.log(value);
-      // this.tableData.unshift({
-      //   name: value.name,
-      //   email: value.email,
-      //   created_user: value.created_user_id,
-      //   dob: value.dob,
-      //   phone: value.phone,
-      //   type: value.type,
-      //   created_at: value.createdAt,
-      //   updated_at: value.updatedAt,
-      //   updated_user: value.updated_user,
-      //   address: value.address
-      // })
-      // }
-      // console.log(this.tableData)
-      this.dataSource = new MatTableDataSource<any>(dist.data);
-      this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
-      this.totalSize = this.userLists.length;
-    })
+    this.getUsers();
     // this.dataSource.data = this.userLists;
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('msg') === 'success') {
         this.message = 'User successfully created.';
+        this.getUsers();
       } else if (params.get('updatepw') === 'success') {
         this.message = 'Password is successfully updated.';
+        this.getUsers();
       } else if (params.get('editprofile') === 'success') {
         this.message = 'User profile successfully updated.';
+        this.getUsers();
       }
     });
   }
 
+  public getUsers() {
+    const payload = {}
+    this.userService.getUsers(payload).then((dist) => {
+      console.log(dist);
+      this.userLists = dist.data;
+      // const result = []
+      this.dataSource.data = dist.data;
+      this.dataSource.paginator = this.paginator;
+      this.currentPage = 0;
+      this.totalSize = this.userLists.length;
+    })
+  }
   /**
    * when pagination buttons click.
    * @param (e)
@@ -175,7 +103,22 @@ export class UserListComponent implements OnInit {
   /**
    * search user button click.
    */
-  public searchUser() { }
+  public searchUser() {
+    const payload = {
+      name: this.username,
+      email: this.email,
+      startDate: moment(this.fromDate).format('YYYY/MM/DD'),
+      endDate: moment(this.toDate).format('YYYY/MM/DD')
+    }
+    console.log(payload)
+    this.userService.findByName(payload).then((dist) => {
+      this.userLists = dist.data;
+      this.dataSource.data = this.userLists;
+      this.dataSource.paginator = this.paginator;
+      this.currentPage = 0;
+      this.totalSize = this.userLists.length;
+    })
+  }
 
   /**
    * open user detail dialog.
@@ -198,14 +141,6 @@ export class UserListComponent implements OnInit {
   public deleteUser(data: any) {
     // console.log('data', data);
     const userId = data._id;
-    // console.log(userId);
-    // console.log('userID', userId);
-    // const payload = {}
-    // this.userService.findUser(payload).then((dist) => {
-    //   // console.log(dist);
-    //   this.userLists = dist.data;
-    //   console.log(this.userLists);
-    // })
     let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
       width: '40%',
       data: data,
@@ -220,8 +155,9 @@ export class UserListComponent implements OnInit {
         // console.log(payload)
         this.userService.deleteUser(userId).then((dist) => {
           console.log(dist);
+          this.message = 'User Delete Successfully.';
+          this.getUsers();
         })
-        this.message = 'User Delete Successfully.';
         // console.log('delete success');
       }
     });

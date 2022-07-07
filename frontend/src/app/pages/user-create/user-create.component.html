@@ -33,8 +33,6 @@
         <label>Type</label>
         <mat-form-field appearance="outline">
           <mat-select formControlName="type" placeholder="Choose Type">
-            <!-- <mat-option value=" admin">Admin</mat-option>
-            <mat-option value="user">User</mat-option> -->
             <mat-option *ngFor="let selectOption of typeOption" [value]="selectOption.enum"> {{selectOption.enum}}
             </mat-option>
           </mat-select>

@@ -20,8 +20,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatGridListModule } from '@angular/material/grid-list'; 
-
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTableExporterModule } from 'mat-table-exporter';
 @NgModule({
   declarations: [],
   imports: [
@@ -48,7 +48,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatRippleModule,
     MatDatepickerModule,
     MatSlideToggleModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTableExporterModule
   ]
 })
 export class AngularMaterialImportsModule { }

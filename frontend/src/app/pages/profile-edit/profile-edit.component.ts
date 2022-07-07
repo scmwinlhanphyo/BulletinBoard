@@ -24,24 +24,9 @@ export class ProfileEditComponent implements OnInit {
   pickDate: any;
   today = new Date();
 
-  private profileData = {
-    name: "Admin001",
-    type: "admin",
-    email: "admin@gmail.com",
-    dob: "2022/06/22",
-    phone: "09123456789",
-    address: 'Yangon',
-    image: 'https://www.freeiconspng.com/thumbs/profile-icon-png/account-profile-user-icon--icon-search-engine-10.png'
-  };
-
-  public name!: string;
-  public email!: string;
-  public type!: string;
-  public dob!: FormControl;
-  public address!: string;
-  public phone!: string;
-  public profile!: FormControl;
   userData: any;
+  imgFile: any;
+  public userInfo: any;
 
   constructor(
     private location: Location,
@@ -52,50 +37,46 @@ export class ProfileEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
   ) {
     const id: string = activatedRoute.snapshot.params['id'];
-    // const url: string = activatedRoute.snapshot.url.join('');
-    // const user = activatedRoute.snapshot.data['user'];
 
-    const payload = {};
-    this.userService.findUser(payload, id).then((dist) => {
-      this.userData = dist.data;
-      // console.log(dist);
-      if (this.userData) {
-        this.name = this.userData.name;
-        this.name = this.userData.name;
-        this.email = this.userData.email;
-        this.phone = this.userData.phone;
-        this.address = this.userData.address;
-        this.type = this.userData.type;
-        this.dob = new FormControl(new Date(this.userData.dob));
-        this.profileImage = 'http://localhost:5000/' + this.userData.profile;
-        this.profile = new FormControl(this.profileImage);
-      }
-      // console.log(this.tableData)
-      // this.dataSource = new MatTableDataSource<any>(dist.data);
-      // this.currentPage = 0;
-      // this.totalSize = this.userLists.length;
-    })
-    // this.name = this.profileData.name;
-    // this.email = this.profileData.email;
-    // this.phone = this.profileData.phone;
-    // this.address = this.profileData.address;
-    // this.type = this.profileData.type;
-    this.dob = new FormControl(new Date("2022/06/22"));
-    this.profileImage = this.profileData.image;
-    this.profile = new FormControl(this.profileImage);
-  }
-
-  ngOnInit(): void {
     this.profileEditForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
       type: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      profile: ['', this.profileImage.length == 0 ? [Validators.required] : ''],
+      profile: ['', this.profileImage?.length == 0 ? [Validators.required] : ''],
       dob: [''],
       phone: [''],
     }
     );
+
+    const payload = {};
+    this.userService.findUser(payload, id).then((dist) => {
+      this.userData = dist.data;
+      console.log(dist.data);
+      if (this.userData) {
+        this.profileEditForm.controls['name'].setValue(this.userData.name);
+        this.profileEditForm.controls['email'].setValue(this.userData.email);
+        this.profileEditForm.controls['phone'].setValue(this.userData.phone);
+        this.profileEditForm.controls['address'].setValue(this.userData.address);
+        this.profileEditForm.controls['type'].setValue(this.userData.type);
+        this.profileEditForm.controls['dob'].setValue(this.userData.dob);
+        this.profileImage = 'http://localhost:5000/' + this.userData.profile;
+        this.profileEditForm.controls['profile'].setValue(this.profileImage);
+
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    const id: string = this.activatedRoute.snapshot.params['id'];
+    const payload = {};
+    this.userService.findUser(payload, id).then((dist) => {
+      this.userData = dist.data;
+      console.log(dist.data);
+    })
+
+    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
   }
 
   get myForm() {
@@ -121,8 +102,22 @@ export class ProfileEditComponent implements OnInit {
     //this.location.back();
   }
   public updateProfile = () => {
+    const id: string = this.activatedRoute.snapshot.params['id'];
     if (this.confirmView == true) {
-      this.router.navigate(["user-list", { editprofile: "success" }]);
+      const formData = new FormData();
+      formData.append('name', this.profileEditForm.controls['name'].value);
+      formData.append('email', this.profileEditForm.controls['email'].value);
+      formData.append('type', this.profileEditForm.controls['type'].value);
+      formData.append('phone', this.profileEditForm.controls['phone'].value);
+      formData.append('dob', this.profileEditForm.controls['dob'].value);
+      formData.append('address', this.profileEditForm.controls['address'].value);
+      formData.append('profile', this.imgFile);
+      formData.append('updated_user_id', this.userInfo);
+
+      this.userService.updateUser(formData, id).then((dist) => {
+        console.log(dist);
+        this.router.navigate(["user-list", { editprofile: "success" }]);
+      })
     }
     if (this.profileEditForm.valid) {
       this.profileEditForm.controls['name'].disable();
@@ -137,18 +132,15 @@ export class ProfileEditComponent implements OnInit {
   }
 
   imageUpload(event: any) {
-    var file = event.target.files.length;
-    for (let i = 0; i < file; i++) {
-      var reader = new FileReader();
-      reader.onload = (event: any) => {
-        this.profileImage = event.target.result;
-        this.changeDetector.detectChanges();
-      }
-      reader.readAsDataURL(event.target.files[i]);
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+
+      this.imgFile = file;
+      const reader = new FileReader();
+      reader.onload = e => this.profileImage = reader.result;
+      reader.readAsDataURL(file);
+
     }
-  }
-  handleImageLoad() {
-    this.Imageloaded = true;
   }
 
   OnDateChange(event: any) {

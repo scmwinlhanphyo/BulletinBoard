@@ -4,6 +4,7 @@ import { validationResult } from 'express-validator';
 import { UserCreate } from '../interfaces/User';
 import bcrypt from 'bcrypt';
 import { deleteFile } from "../utils";
+import moment from 'moment';
 
 export const getUsers = async (
   req: Request,
@@ -15,13 +16,17 @@ export const getUsers = async (
     // const ostring = options.page as string
     const filter = options.filter as any
 
+    // let condition : any = {};
+    // condition['deleted_at'] = null;
+    // data?.name ? condition['name'] = data.name : '';
+
 
     // const sort = options.sort || {};
     // const limit = 5;
     // const page = parseInt(ostring) || 1;
     // const skip = (page - 1) * limit;
 
-    const users = await User.find(filter)
+    const users = await User.find({ deleted_at: null })
     // .skip(skip)
     // .limit(limit);
     res.json({
@@ -47,6 +52,7 @@ export const createUser = async (
 ) => {
   try {
     const errors = validationResult(req.body);
+    console.log('payload', req.body);
     console.log("errors");
     console.log(errors);
     if (!errors.isEmpty()) {
@@ -134,10 +140,10 @@ export const updateUser = async (
     if (user.profile && user.profile != profile) {
       deleteFile(user.profile);
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    // const hashedPassword = await bcrypt.hash(req.body.password, 12);
     user.name = req.body.name;
     user.email = req.body.email;
-    user.password = hashedPassword;
+    // user.password = hashedPassword;
     user.type = req.body.type;
     user.phone = req.body.phone;
     user.dob = req.body.dob;
@@ -172,3 +178,28 @@ export const deleteUser = async (
     next(err);
   }
 };
+
+export const findByName = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    let startDate = new Date(req.body.startDate);
+    let endDate = new Date(req.body.endDate);
+    let condition: any = {
+      deleted_at: null
+    };
+    req.body?.name ? condition.name = { '$regex': req.body.name, '$options': 'i' } : '';
+    req.body?.email ? condition.email = { '$regex': req.body.email, '$options': 'i' } : '';
+    req.body?.startDate && req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: endDate } : '';
+    req.body?.startDate && !req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: new Date() } : '';
+    req.body?.endDate && !req.body?.startDate ? condition.createdAt = { $lte: endDate } : '';
+    req.body?.startDate === req.body?.endDate ? condition.createdAt = { $gte: moment(startDate), $lte: moment(endDate).add(1, 'days') } : '';
+
+    const users = await User.find(condition);
+    res.json({ data: users, status: 1 });
+  } catch (err) {
+    next(err);
+  }
+}

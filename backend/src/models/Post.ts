@@ -9,6 +9,10 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
+    status: {
+        type: Boolean,
+        default: true
+    },
     created_user_id: {
         type: Schema.Types.ObjectId,
         ref: "user"

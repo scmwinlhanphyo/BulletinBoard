@@ -1,9 +1,67 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  public getPosts(): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Content-Type', 'application/json;charset=utf-8;')
+      .set('Cache-Control', 'no-cache')
+      .set('Pragma', 'no-cache')
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/posts`, options));
+  }
+
+  public createPost(payload: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    console.log('token', token, options);
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/posts`, payload, options));
+  }
+
+  public findPost(postId: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/posts/` + postId, options));
+  }
+
+  public updatePost(payload: any, postId: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.put(`${environment.apiUrl}/posts/` + postId, payload, options));
+  }
+
+  public deletePost(postId: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Content-Type', 'application/json;charset=utf-8;')
+      .set('Cache-Control', 'no-cache')
+      .set('Pragma', 'no-cache')
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.delete(`${environment.apiUrl}/posts/` + postId, options));
+  }
+
+  public findByName(payload: any): Promise<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/posts/search`, payload, options));
+  }
 }
