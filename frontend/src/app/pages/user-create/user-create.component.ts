@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MustMatch } from 'src/app/validators/must-match.validator';
@@ -40,7 +40,6 @@ export class UserCreateComponent implements OnInit {
     localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
 
-    console.log(this.userInfo);
     this.userCreateForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
@@ -97,9 +96,8 @@ export class UserCreateComponent implements OnInit {
 
       console.log(formData);
       this.userService.createUser(formData).then((dist) => {
-        console.log(dist);
+        this.router.navigate(["user-list", { msg: "success" }]);
       })
-      this.router.navigate(["user-list", { msg: "success" }]);
     }
     if (this.userCreateForm.valid) {
       this.userCreateForm.controls['name'].disable();
@@ -125,18 +123,10 @@ export class UserCreateComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-  // handleImageLoad() {
-  //   this.Imageloaded = true;
-  // }
 
   OnDateChange(event: any) {
     this.pickDate = event;
     console.log(this.pickDate);
   }
-  // public onDate(event: any): void {
-  //   this.roomsFilter.date = event;
-  //   this.getData(this.roomsFilter.date);
-  //   console.log(this.getData(this.roomsFilter.date));
-  // }
 
 }

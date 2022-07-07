@@ -69,8 +69,7 @@ export class PostListComponent implements OnInit {
   }
 
   public getPosts() {
-    const payload = {}
-    this.postService.getPosts(payload).then((dist) => {
+    this.postService.getPosts().then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;
@@ -145,10 +144,9 @@ export class PostListComponent implements OnInit {
       if (data) {
         this.postService.deletePost(postId).then((dist) => {
           console.log(dist);
-        })
-        // window.location.reload();
-        this.message = "Post Delete Successfully.";
-        this.getPosts();
+          this.message = "Post Delete Successfully.";
+          this.getPosts();
+        });
       }
     });
   }

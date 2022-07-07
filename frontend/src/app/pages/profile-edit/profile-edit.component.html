@@ -6,20 +6,20 @@
       <mat-card-content>
         <label>Name</label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="name" [(ngModel)]="name">
+          <input matInput type="text" formControlName="name">
           <mat-error *ngIf="myForm['name'].hasError('required')">Name can't be blank.</mat-error>
         </mat-form-field>
 
         <label>E-Mail Address</label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="email" [(ngModel)]="email">
+          <input matInput type="text" formControlName="email">
           <mat-error *ngIf="myForm['email'].hasError('required')">Email can't be blank.</mat-error>
           <mat-error *ngIf="myForm['email'].hasError('pattern')">Email format is invalid.</mat-error>
         </mat-form-field>
 
         <label>Type</label>
         <mat-form-field appearance="outline">
-          <mat-select formControlName="type" [(ngModel)]="type">
+          <mat-select formControlName="type">
             <mat-option *ngFor="let selectOption of typeOption" [value]="selectOption.enum">
               {{selectOption.enum}}
             </mat-option>
@@ -29,28 +29,20 @@
 
         <label>Phone</label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="phone" [(ngModel)]="phone">
+          <input matInput type="text" formControlName="phone">
         </mat-form-field>
 
         <label>Date of birth</label>
         <mat-form-field appearance="outline">
           <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]=" picker" formControlName="dob"
-            [formControl]="dob" [max]="today">
+            [max]="today">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <!-- <label>Date of birth</label>
-        <mat-form-field appearance="outline">
-          <input (dateInput)="OnDateChange($event.value)" matInput [matDatepicker]="picker" [max]="today"
-            placeholder="Choose Date" formControlName="dob">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field> -->
-
         <label>Address</label>
         <mat-form-field appearance="outline">
-          <input matInput type="text" formControlName="address" [(ngModel)]="address">
+          <input matInput type="text" formControlName="address">
           <mat-error *ngIf="myForm['address'].hasError('required')">Address can't be blank.</mat-error>
         </mat-form-field>
 

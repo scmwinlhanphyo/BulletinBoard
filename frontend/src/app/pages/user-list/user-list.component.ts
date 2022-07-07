@@ -28,69 +28,6 @@ export interface UserDataModel {
 })
 export class UserListComponent implements OnInit {
 
-  public tableData =
-    [
-      {
-        name: "Aung Aung",
-        email: "aungaung@gmail.com",
-        created_user: "Aung Aung",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Insein",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin",
-      },
-      {
-        name: "Mg Mg",
-        email: "mgmg@gmail.com",
-        created_user: "Mg Mg",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Yangon",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-      {
-        name: "Zaw Zaw",
-        email: "zawzaw@gmail.com",
-        created_user: "Zaw Zaw",
-        type: "User",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Loi Kaw",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-      {
-        name: "Aung Aung",
-        email: "aungaung@gmail.com",
-        created_user: "Aung Aung",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Insein",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-      {
-        name: "Aung Aung",
-        email: "aungaung@gmail.com",
-        created_user: "Aung Aung",
-        type: "Admin",
-        phone: "0912345",
-        dob: "2022/06/21",
-        address: "Insein",
-        created_at: "2022/06/21",
-        updated_at: "2022/06/21",
-        updated_user: "Admin"
-      },
-    ];
   public dataSource = new MatTableDataSource<UserDataModel>();
   public employees: any[] = [];
   public selectedEmployeeName = '';
@@ -148,9 +85,10 @@ export class UserListComponent implements OnInit {
   public getUsers() {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
+      console.log(dist);
       this.userLists = dist.data;
       // const result = []
-      this.dataSource = new MatTableDataSource<any>(dist.data);
+      this.dataSource.data = dist.data;
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;
       this.totalSize = this.userLists.length;
@@ -175,7 +113,7 @@ export class UserListComponent implements OnInit {
     console.log(payload)
     this.userService.findByName(payload).then((dist) => {
       this.userLists = dist.data;
-      this.dataSource = new MatTableDataSource<any>(this.userLists);
+      this.dataSource.data = this.userLists;
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;
       this.totalSize = this.userLists.length;
@@ -217,9 +155,9 @@ export class UserListComponent implements OnInit {
         // console.log(payload)
         this.userService.deleteUser(userId).then((dist) => {
           console.log(dist);
+          this.message = 'User Delete Successfully.';
+          this.getUsers();
         })
-        this.message = 'User Delete Successfully.';
-        this.getUsers();
         // console.log('delete success');
       }
     });
