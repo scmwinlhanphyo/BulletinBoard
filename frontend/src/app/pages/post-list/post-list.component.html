@@ -11,7 +11,7 @@
     <button mat-raised-button color="primary" class="user-btn" (click)="createUser()" [routerLink]="['/post-create']">Create</button>
     <button mat-raised-button color="primary" class="user-btn" (click)="uploadPost()">Upload</button>
     <button mat-raised-button color="primary" class="download-user-btn"
-    (click)="exporter.exportTable('xlsx',{fileName:'post-data',sheet: 'post_list', columnWidths: [20, 20, 20, 20, 20]});">Download</button>
+    (click)="exporter.exportTable('csv',{fileName:'post-data',sheet: 'post_list', columnWidths: [20, 20, 20, 20, 20]});">Download</button>
   </div>
 
   <table mat-table matTableExporter [dataSource]="dataSource" matSort class="mat-elevation-z8" #exporter="matTableExporter" [hiddenColumns]="[4]">
@@ -68,5 +68,5 @@
   <!-- <mat-paginator #paginator [pageSizeOptions]="pageSizes" pageSize=2 showFirstLastButtons
   [length]="totalSize" [pageIndex]="currentPage" (page)="handlePage($event)">
   </mat-paginator> -->
-  <mat-paginator [pageSizeOptions]="[2, 4, 6]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
 </div>

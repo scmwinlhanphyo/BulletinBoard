@@ -39,6 +39,7 @@ export class PostListComponent implements OnInit {
   keyword = "";
   public message:any ="";
   postLists : any;
+  public userInfo: any;
 
   constructor(
     private dialog: MatDialog,
@@ -49,6 +50,9 @@ export class PostListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
+    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+
     this.getPosts();
     this.dataSource = new MatTableDataSource<PostDataModel>(this.postLists);
     this.currentPage = 0;
@@ -142,6 +146,7 @@ export class PostListComponent implements OnInit {
         this.postService.deletePost(postId).then((dist) => {
           console.log(dist);
         })
+        // window.location.reload();
         this.message = "Post Delete Successfully.";
         this.getPosts();
       }

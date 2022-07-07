@@ -95,6 +95,7 @@ export class UserCreateComponent implements OnInit {
       formData.append('profile', this.imgFile);
       formData.append('created_user_id', this.userInfo);
 
+      console.log(formData);
       this.userService.createUser(formData).then((dist) => {
         console.log(dist);
       })

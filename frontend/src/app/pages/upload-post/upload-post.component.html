@@ -1,20 +1,20 @@
 <div class="upload-post-container">
   <div class="error-alert" *ngIf="uplaodPostErrMsg">{{uplaodPostErrMsg}}</div>
-  <form #csvForm="ngForm" class="post-upload-form" (ngSubmit)="uploadCSV()">
+  <form #csvForm="ngForm" class="post-upload-form">
     <mat-toolbar>
       <label>CSV file:</label>
-      <input matInput matInput class="file-input-txt" [(ngModel)]="filename" readonly name="filename" />
+      <input matInput class="file-input-txt" [(ngModel)]="filename" readonly name="filename" />
       <button mat-flat-button color="primary">
         Browse
       </button>
-      <input type="file" #UploadFileInput id="fileUpload" (change)="fileChangeEvent($event)" name="fileUpload"
-      multiple="multiple" accept="image/*" />
+      <input type="file" #csvReader id="fileUpload" (change)="uploadListener($event)" name="Upload CSV"
+      multiple="multiple" />
     </mat-toolbar>
     <div class="upload-post-btn">
-      <button mat-raised-button color="primary"  class="btn-upload">
+      <button mat-raised-button color="primary"  class="btn-upload" (click)="uploadCSV()">
         Upload
       </button>
-      <button mat-raised-button>
+      <button mat-raised-button (click)="onClear()">
         Clear
       </button>
     </div>
