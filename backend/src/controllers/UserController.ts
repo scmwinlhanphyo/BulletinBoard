@@ -52,6 +52,7 @@ export const createUser = async (
 ) => {
   try {
     const errors = validationResult(req.body);
+    console.log('payload', req.body);
     console.log("errors");
     console.log(errors);
     if (!errors.isEmpty()) {
@@ -65,7 +66,6 @@ export const createUser = async (
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
     }
-
     const userTdo: UserCreate = {
       name: req.body.name,
       email: req.body.email,
