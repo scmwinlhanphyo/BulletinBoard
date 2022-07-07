@@ -1,6 +1,7 @@
 import express from 'express';
 import { getUsers, createUser, findUser, updateUser, deleteUser, findByName } from '../controllers/UserController';
 import { body } from 'express-validator';
+import { logout } from '../controllers/AuthController';
 
 const router = express.Router();
 
@@ -13,6 +14,8 @@ router
             body("email").notEmpty().withMessage("Email must note be empty")
         ],
         createUser);
+    
+router.route("/logout").post([], logout);
 
 router.
     route("/search")
@@ -20,7 +23,7 @@ router.
 
 router
     .route("/:id")
-    .get(findUser)
+    .post(findUser)
     .put(updateUser)
     .delete(deleteUser)
 export default router;

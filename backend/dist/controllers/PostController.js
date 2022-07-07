@@ -31,6 +31,7 @@ const createPost = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         const errors = (0, express_validator_1.validationResult)(req.body);
         console.log("errors");
         console.log(errors);
+        console.log(req.body);
         if (!errors.isEmpty()) {
             const error = new Error("Validation failed!");
             error.data = errors.array();

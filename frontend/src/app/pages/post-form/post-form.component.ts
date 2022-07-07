@@ -38,8 +38,7 @@ export class PostFormComponent implements OnInit {
       this.buttonName = 'Update';
 
       const id: string = this.activatedRoute.snapshot.params['id'];
-      const payload = {};
-      this.postService.findPost(payload, id).then((dist) => {
+      this.postService.findPost(id).then((dist) => {
         this.postData = dist.data;
         if (this.postData) {
           this.postForm.controls['title'].setValue(this.postData.title);
@@ -86,8 +85,8 @@ export class PostFormComponent implements OnInit {
       }
       this.postService.createPost(payload).then((dist) => {
         console.log(dist);
-      })
-      this.router.navigate(["post-list", { msg: "create success" }]);
+        this.router.navigate(["post-list", { msg: "create success" }]);
+      });
     }
     else if (this.confirmView == true && this.buttonName == 'Update') {
       const id: string = this.activatedRoute.snapshot.params['id'];
@@ -99,8 +98,8 @@ export class PostFormComponent implements OnInit {
       }
       this.postService.updatePost(payload, id).then((dist) => {
         console.log(dist);
+        this.router.navigate(["post-list", { msg: "update success" }]);
       })
-      this.router.navigate(["post-list", { msg: "update success" }]);
     }
     if (this.postForm.valid) {
       this.postForm.controls['title'].disable();

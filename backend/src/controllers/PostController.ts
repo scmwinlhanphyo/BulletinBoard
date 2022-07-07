@@ -26,6 +26,7 @@ export const createPost = async (
         const errors = validationResult(req.body);
         console.log("errors");
         console.log(errors);
+        console.log(req.body);
         if (!errors.isEmpty()) {
             const error: any = new Error("Validation failed!");
             error.data = errors.array();

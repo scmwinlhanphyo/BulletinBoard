@@ -24,23 +24,6 @@ export class ProfileEditComponent implements OnInit {
   pickDate: any;
   today = new Date();
 
-  private profileData = {
-    name: "Admin001",
-    type: "admin",
-    email: "admin@gmail.com",
-    dob: "2022/06/22",
-    phone: "09123456789",
-    address: 'Yangon',
-    image: 'https://www.freeiconspng.com/thumbs/profile-icon-png/account-profile-user-icon--icon-search-engine-10.png'
-  };
-
-  public name!: string;
-  public email!: string;
-  public type!: string;
-  public dob!: FormControl;
-  public address!: string;
-  public phone!: string;
-  public profile!: FormControl;
   userData: any;
   imgFile: any;
   public userInfo: any;
@@ -54,33 +37,34 @@ export class ProfileEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
   ) {
     const id: string = activatedRoute.snapshot.params['id'];
-    // const url: string = activatedRoute.snapshot.url.join('');
-    // const user = activatedRoute.snapshot.data['user'];
+
+    this.profileEditForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
+      type: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      profile: ['', this.profileImage?.length == 0 ? [Validators.required] : ''],
+      dob: [''],
+      phone: [''],
+    }
+    );
 
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
       console.log(dist.data);
       if (this.userData) {
-        this.name = this.userData.name;
-        this.name = this.userData.name;
-        this.email = this.userData.email;
-        this.phone = this.userData.phone;
-        this.address = this.userData.address;
-        this.type = this.userData.type;
-        this.dob = new FormControl(new Date(this.userData.dob));
+        this.profileEditForm.controls['name'].setValue(this.userData.name);
+        this.profileEditForm.controls['email'].setValue(this.userData.email);
+        this.profileEditForm.controls['phone'].setValue(this.userData.phone);
+        this.profileEditForm.controls['address'].setValue(this.userData.address);
+        this.profileEditForm.controls['type'].setValue(this.userData.type);
+        this.profileEditForm.controls['dob'].setValue(this.userData.dob);
         this.profileImage = 'http://localhost:5000/' + this.userData.profile;
-        this.profile = new FormControl(this.profileImage);
+        this.profileEditForm.controls['profile'].setValue(this.profileImage);
+
       }
     })
-    // this.name = this.profileData.name;
-    // this.email = this.profileData.email;
-    // this.phone = this.profileData.phone;
-    // this.address = this.profileData.address;
-    // this.type = this.profileData.type;
-    // this.dob = new FormControl(new Date("2022/06/22"));
-    this.profileImage = this.profileData.image;
-    this.profile = new FormControl(this.profileImage);
   }
 
   ngOnInit(): void {
@@ -93,17 +77,6 @@ export class ProfileEditComponent implements OnInit {
 
     localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
     this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-
-    this.profileEditForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
-      type: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      profile: ['', this.profileImage.length == 0 ? [Validators.required] : ''],
-      dob: [''],
-      phone: [''],
-    }
-    );
   }
 
   get myForm() {
@@ -143,8 +116,8 @@ export class ProfileEditComponent implements OnInit {
 
       this.userService.updateUser(formData, id).then((dist) => {
         console.log(dist);
+        this.router.navigate(["user-list", { editprofile: "success" }]);
       })
-      this.router.navigate(["user-list", { editprofile: "success" }]);
     }
     if (this.profileEditForm.valid) {
       this.profileEditForm.controls['name'].disable();

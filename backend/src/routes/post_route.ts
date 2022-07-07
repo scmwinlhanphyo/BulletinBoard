@@ -9,7 +9,7 @@ router
   .get(getPosts)
   .post(
     [
-      body("title").notEmpty().withMessage("Tilte must note be empty"),
+      body("title").notEmpty().withMessage("Tilte must not be empty"),
       body("description").notEmpty().withMessage("Description must note be empty")
     ],
     createPost);
@@ -23,7 +23,7 @@ router
   .get(findPost)
   .put(
     [
-      body("title").notEmpty().withMessage("Tilte must note be empty"),
+      body("title").notEmpty().withMessage("Tilte must not be empty"),
       body("description").notEmpty().withMessage("Description must note be empty"),
       body("status")
     ],

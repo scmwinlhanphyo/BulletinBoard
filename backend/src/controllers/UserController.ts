@@ -52,6 +52,7 @@ export const createUser = async (
 ) => {
   try {
     const errors = validationResult(req.body);
+    console.log('payload', req.body);
     console.log("errors");
     console.log(errors);
     if (!errors.isEmpty()) {
