@@ -17,6 +17,15 @@
     width: 100%;
   }
 
+  .csvinput {
+    display: inline-block;
+    cursor: pointer;
+    width: 277px;
+    height: 36px;
+    left: 47%;
+    top: 141px;
+  }
+
   .file-input-txt {
     height: 28px;
     cursor: pointer;
@@ -36,18 +45,19 @@
     }
   }
 
+
   .upload-post-btn {
     margin: 10px 26%;
   }
 
-  #fileUpload {
-    position: absolute;
-    z-index: 9;
-    opacity: 0;
-    cursor: pointer;
-    width: 277px;
-    height: 36px;
-    left: 47%;
-    top: 141px;
-  }
+  // #fileUpload {
+  //   position: absolute;
+  //   z-index: 9;
+  //   opacity: 0;
+  //   cursor: pointer;
+  //   width: 277px;
+  //   height: 36px;
+  //   left: 47%;
+  //   top: 141px;
+  // }
 }

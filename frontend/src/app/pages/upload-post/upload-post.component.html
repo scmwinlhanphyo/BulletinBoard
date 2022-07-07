@@ -3,11 +3,11 @@
   <form #csvForm="ngForm" class="post-upload-form">
     <mat-toolbar>
       <label>CSV file:</label>
-      <input matInput class="file-input-txt" [(ngModel)]="filename" readonly name="filename" />
-      <button mat-flat-button color="primary">
+      <!-- <input matInput class="file-input-txt" [(ngModel)]="filename" readonly name="filename" /> -->
+      <!-- <button mat-flat-button color="primary">
         Browse
-      </button>
-      <input type="file" #csvReader id="fileUpload" (change)="uploadListener($event)" name="Upload CSV"
+      </button> -->
+      <input type="file" #csvReader class="csvinput" color="primary"  id="fileUpload" (change)="uploadListener($event)" name="Upload CSV"
       multiple="multiple" />
     </mat-toolbar>
     <div class="upload-post-btn">

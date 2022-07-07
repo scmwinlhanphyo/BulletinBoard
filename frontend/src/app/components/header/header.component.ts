@@ -20,6 +20,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public profile() {
+    const userID = localStorage.getItem('userId');
+    // const userID = userId._id;
+    console.log(userID);
+    this.router.navigate(['/profile' + userID]);
+  }
+
   public logout() {
     this.authService.logout().then((dist: any) => {
       localStorage.removeItem('userId');

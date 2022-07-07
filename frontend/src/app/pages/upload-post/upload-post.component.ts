@@ -42,7 +42,7 @@ export class UploadPostComponent implements OnInit {
     if (this.isValidCSVFile(files[0])) {
 
       let input = fileInput.target;
-      // console.log(input.files[0].name);
+      console.log(input.files[0].name);
 
       let reader = new FileReader();
       reader.readAsText(input.files[0]);
@@ -69,7 +69,6 @@ export class UploadPostComponent implements OnInit {
           this.uploadData = res;
           })
       };
-
       reader.onerror = function () {
         console.log('Error is occured while reading file!');
       };
@@ -113,7 +112,8 @@ export class UploadPostComponent implements OnInit {
   }
 
   onClear() {
-    window.location.reload();
+    this.csvReader.nativeElement.value = "";
+    this.records = [];
   }
   // uploadListener(fileInput: any) {
 
