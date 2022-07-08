@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  name!: string;
 
   constructor(
     private router: Router,
@@ -18,13 +19,19 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const userID = localStorage.getItem('userId');
+    const payload = {};
+    this.userService.findUser(payload, userID).then((dist) => {
+      // console.log(dist.data.name);
+      this.name = dist.data.name;
+    })
   }
 
   public profile() {
     const userID = localStorage.getItem('userId');
     // const userID = userId._id;
     console.log(userID);
-    this.router.navigate(['/profile' + userID]);
+    this.router.navigate(['/profile/' + userID]);
   }
 
   public logout() {

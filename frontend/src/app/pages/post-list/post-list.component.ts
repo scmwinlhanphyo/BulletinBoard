@@ -37,8 +37,8 @@ export class PostListComponent implements OnInit {
   currentPage = 0;
   totalSize = 0;
   keyword = "";
-  public message:any ="";
-  postLists : any;
+  public message: any = "";
+  postLists: any;
   public userInfo: any;
 
   constructor(
@@ -46,7 +46,7 @@ export class PostListComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private postService: PostService
-    ) { }
+  ) { }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
@@ -71,6 +71,7 @@ export class PostListComponent implements OnInit {
   public getPosts() {
     this.postService.getPosts().then((dist) => {
       this.postLists = dist.data;
+      console.log(this.postLists)
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;

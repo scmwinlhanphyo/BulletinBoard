@@ -1,16 +1,13 @@
 <div class="login-container">
   <h3>Profile</h3>
 
-  <mat-grid-list cols="3" rowHeight="400px">
+  <mat-grid-list cols="3" rowHeight="451px" style="border-radius: 0px 0px 5px 5px;">
     <mat-grid-tile>
       <div *ngIf="profileImage">
-        <img
-          [src]="profileImage"
-          (load)="handleImageLoad()"
-          class="profileimg"
-        /></div
-    ></mat-grid-tile>
-    <mat-grid-tile>
+        <img [src]="profileImage" class="profileimg" />
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
       <mat-list>
         <mat-list-item>
           <div matLine>
@@ -31,7 +28,7 @@
           </div>
           <div matLine>
             <label>DOB</label>
-            <p>{{ dob }}</p>
+            <p>{{ dob | date:"yyyy/MM/dd" }}</p>
           </div>
           <div matLine>
             <label>Address</label>
@@ -39,12 +36,7 @@
           </div>
           <div matLine>
             <label>
-              <button
-                type="button"
-                color="primary"
-                mat-raised-button
-                (click)="editProfile()"
-              >
+              <button type="button" color="primary" mat-raised-button (click)="editProfile()">
                 Edit Profile
               </button>
             </label>

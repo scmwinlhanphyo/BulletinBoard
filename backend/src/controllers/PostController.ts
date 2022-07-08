@@ -9,7 +9,7 @@ export const getPosts = async (
     next: NextFunction
 ) => {
     try {
-        const posts = await Post.find({ deleted_at: null })
+        const posts = await Post.find({ deleted_at: null }).populate("user");
         res.json({ data: posts, status: 1 });
     } catch (err) {
         console.log(err);

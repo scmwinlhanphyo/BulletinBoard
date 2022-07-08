@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
-
 @Component({
   selector: 'app-profile-edit',
   templateUrl: './profile-edit.component.html',
@@ -26,7 +25,7 @@ export class ProfileEditComponent implements OnInit {
 
   userData: any;
   imgFile: any;
-  public userInfo: any;
+  public userID: any;
 
   constructor(
     private location: Location,
@@ -62,7 +61,6 @@ export class ProfileEditComponent implements OnInit {
         this.profileEditForm.controls['dob'].setValue(this.userData.dob);
         this.profileImage = 'http://localhost:5000/' + this.userData.profile;
         this.profileEditForm.controls['profile'].setValue(this.profileImage);
-
       }
     })
   }
@@ -75,8 +73,10 @@ export class ProfileEditComponent implements OnInit {
       console.log(dist.data);
     })
 
-    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+    // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+
+    this.userID = localStorage.getItem('userId');
   }
 
   get myForm() {
@@ -99,11 +99,13 @@ export class ProfileEditComponent implements OnInit {
     } else {
       this.profileEditForm.reset();
     }
-    //this.location.back();
   }
   public updateProfile = () => {
+    // let paramId =this.activatedRoute.snapshot.paramMap.get("id");
+
     const id: string = this.activatedRoute.snapshot.params['id'];
     if (this.confirmView == true) {
+
       const formData = new FormData();
       formData.append('name', this.profileEditForm.controls['name'].value);
       formData.append('email', this.profileEditForm.controls['email'].value);
@@ -112,11 +114,17 @@ export class ProfileEditComponent implements OnInit {
       formData.append('dob', this.profileEditForm.controls['dob'].value);
       formData.append('address', this.profileEditForm.controls['address'].value);
       formData.append('profile', this.imgFile);
-      formData.append('updated_user_id', this.userInfo);
+      formData.append('updated_user_id', this.userID);
 
       this.userService.updateUser(formData, id).then((dist) => {
         console.log(dist);
-        this.router.navigate(["user-list", { editprofile: "success" }]);
+        // if (this.router.url.indexOf('/update-post/' + id) !== -1 && id !== undefined) {
+        //   this.router.navigate(["user-list", { editprofile: "success" }]);
+        // } else {
+        //   this.router.navigate(['profile/'+ id]);
+        // }
+        // this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+        this.location.back();
       })
     }
     if (this.profileEditForm.valid) {

@@ -17,7 +17,7 @@ const Post_1 = __importDefault(require("../models/Post"));
 const express_validator_1 = require("express-validator");
 const getPosts = (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const posts = yield Post_1.default.find({ deleted_at: null });
+        const posts = yield Post_1.default.find({ deleted_at: null }).populate("user");
         res.json({ data: posts, status: 1 });
     }
     catch (err) {

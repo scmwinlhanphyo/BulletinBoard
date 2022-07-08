@@ -1,22 +1,22 @@
-<div class="upload-post-container">
-  <div class="error-alert" *ngIf="uplaodPostErrMsg">{{uplaodPostErrMsg}}</div>
-  <form #csvForm="ngForm" class="post-upload-form">
-    <mat-toolbar>
-      <label>CSV file:</label>
-      <!-- <input matInput class="file-input-txt" [(ngModel)]="filename" readonly name="filename" /> -->
-      <!-- <button mat-flat-button color="primary">
-        Browse
-      </button> -->
-      <input type="file" #csvReader class="csvinput" color="primary"  id="fileUpload" (change)="uploadListener($event)" name="Upload CSV"
-      multiple="multiple" />
-    </mat-toolbar>
-    <div class="upload-post-btn">
-      <button mat-raised-button color="primary"  class="btn-upload" (click)="uploadCSV()">
-        Upload
-      </button>
-      <button mat-raised-button (click)="onClear()">
-        Clear
-      </button>
-    </div>
+<div class="error-alert" *ngIf="uplaodPostErrMsg">{{uplaodPostErrMsg}}</div>
+<div class="error-alert" *ngIf="csvErrMsg">{{csvErrMsg}}</div>
+<div class="error-alert" *ngIf="noFileErrMsg">{{noFileErrMsg}}</div>
+<div class="container">
+  <h3 mat-dialog-title>Upload CSV File</h3>
+  <form #csvForm="ngForm" enctype="multipart/form-data">
+    <mat-dialog-content  class="upload-input">
+      <input type="file" #csvReader class="csvinput" color="primary" id="fileUpload"
+        (change)="uploadListener($event)" multiple="multiple" accept=".csv" [(ngModel)]="csvFile" [ngModelOptions]="{standalone: true}"/>
+    </mat-dialog-content>
+    <mat-dialog-actions class="upload-post-btn">
+      <div class="upload-post-btn">
+        <button mat-raised-button color="primary" class="upload" (click)="uploadCSV()">
+          Upload
+        </button>
+        <button mat-raised-button class="clear-btn" (click)="onClear()">
+          Clear
+        </button>
+      </div>
+    </mat-dialog-actions>
   </form>
 </div>
