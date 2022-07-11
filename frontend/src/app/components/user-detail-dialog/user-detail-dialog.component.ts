@@ -10,14 +10,14 @@ export class UserDetailDialogComponent implements OnInit {
 
   name?: string;
   email?: string;
-  created_user?: string;
+  created_user_id?: string;
   type?: string;
   phone?: string;
   dob?: string;
   address?: string;
-  created_at?: string;
-  updated_at?: string;
-  updated_user?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  updated_user_id?: string;
 
   constructor(
     public dialogRef: MatDialogRef<UserDetailDialogComponent>,

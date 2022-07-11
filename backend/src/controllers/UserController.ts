@@ -12,9 +12,9 @@ export const getUsers = async (
   next: NextFunction
 ) => {
   try {
-    const options = req.query;
+    // const options = req.query;
     // const ostring = options.page as string
-    const filter = options.filter as any
+    // const filter = options.filter as any
 
     // let condition : any = {};
     // condition['deleted_at'] = null;
@@ -26,7 +26,7 @@ export const getUsers = async (
     // const page = parseInt(ostring) || 1;
     // const skip = (page - 1) * limit;
 
-    const users = await User.find({ deleted_at: null })
+    const users = await User.find({ deleted_at: null });
     // .skip(skip)
     // .limit(limit);
     res.json({
@@ -34,7 +34,7 @@ export const getUsers = async (
       status: 1,
       // limit,
       // page,
-      filter,
+      // filter,
       total: users.length,
       links: {
         self: req.originalUrl,

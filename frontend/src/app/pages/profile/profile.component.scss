@@ -1,17 +1,10 @@
-
-mat-card-content, mat-card-title, mat-card-actions,h3 {
-  text-align: center;
-}
-mat-card-content{
-  background-color: red;
-}
 .login-container {
   background-color: #fff;
   border-radius: 5px;
   width: 60%;
   margin: 10px auto;
   padding: 0px 0px 0px 0px;
-  border:1px solid red;
+  border: 1px solid #3f51b5;
   height: 500px;
 
   h3 {
@@ -25,10 +18,6 @@ mat-card-content{
     text-align: left;
   }
 
-  .profileinput {
-    display: inline-block;
-
-  }
   .profileimg {
     object-fit: cover;
     display: inline-block;
@@ -37,48 +26,31 @@ mat-card-content{
     height: 80%;
     width: 50%;
   }
-  .profileerror{
-    margin-left: 25.5%;
-    font-size: 10px;
-  }
-  mat-form-field {
-      width: 60%;
-      display: inline-block;
-    }
-    label {
-      width: 22%;
-      text-align: right;
-      margin-right: 20px;
-      display: inline-block;
-    }
-    mat-card-actions{
-      text-align: center;
-    }
-    .err-msg {
-      display: block;
-      color: red;
-    }
-    .mat-card {
-      margin-bottom:80px;
-    }
 }
-// mat-grid-tile {
-//   background: lightblue;
-// }
-mat-list{
-  width: 90%;
-    padding: 50px 0px;
+
+mat-list {
+  width: 100%;
+  padding: 50px 0px;
 }
-.mat-line{
-  // height: 20px;
-    margin:5px 0px !important;
+
+.mat-line {
+  margin: 5px 0px !important;
 }
-label,p{
-  float:left;
+
+label,
+p {
+  float: left;
 }
-label{
+
+label {
   text-align: left !important;
+  margin-right: 15px;
+  width: 15%;
+  font-size: 16px;
+  font-weight: bold;
 }
-p{
-  padding-left: 50px;
+
+p {
+  width: 75%;
+  font-size: 14px;
 }

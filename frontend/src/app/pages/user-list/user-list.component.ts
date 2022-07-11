@@ -141,14 +141,16 @@ export class UserListComponent implements OnInit {
   public deleteUser(data: any) {
     // console.log('data', data);
     const userId = data._id;
+    console.log(userId)
     let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
       width: '40%',
       data: data,
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-        const deleted_user_id = JSON.parse(localStorage.getItem('userInfo') || "[]");
+        // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+        // const deleted_user_id = JSON.parse(localStorage.getItem('userInfo') || "[]");
+        const deleted_user_id = localStorage.getItem('userId');
         // const payload = {
         //   deleted_user_id: deleted_user_id
         // }

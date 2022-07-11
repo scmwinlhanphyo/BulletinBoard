@@ -11,10 +11,10 @@ export class PostDetailDialogComponent implements OnInit {
   title?: string;
   description?: string;
   status?: string;
-  created_user?: string;
-  created_at?: string;
-  updated_user?: string;
-  updated_at?: string
+  created_user_id?: string;
+  createdAt?: string;
+  updated_user_id?: string;
+  updatedAt?: string
 
   constructor(
     public dialogRef: MatDialogRef<PostDetailDialogComponent>,
