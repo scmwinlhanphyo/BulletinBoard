@@ -41,9 +41,9 @@ export class PasswordChangeComponent implements OnInit {
 
   /**
    * form validation error.
-   * @param controlName 
-   * @param errorName 
-   * @returns 
+   * @param controlName
+   * @param errorName
+   * @returns
    */
   public myError = (controlName: string, errorName: string) => {
     return this.passwordForm.controls[controlName].hasError(errorName);
@@ -51,19 +51,17 @@ export class PasswordChangeComponent implements OnInit {
 
   /**
    * password change submit data.
-   * @param formValue 
+   * @param formValue
    */
   onSubmit(formValue: any) {
     if (this.passwordForm.valid) {
       if (this.password !== formValue.oldPassword) {
-        console.log('Current Password is wrong!.');
         this.errorConfirm = "Current Password is wrong!.";
       }
      else {
         this.passwordForm.controls['oldPassword']
         this.passwordForm.controls['newPassword'];
         this.passwordForm.controls['CurrentPassword']
-        console.log('form submitted');
         this.router.navigate(["user-list", { updatepw: "success"}]);
     }
   } else {
@@ -73,7 +71,6 @@ export class PasswordChangeComponent implements OnInit {
 
   changePasswordText() {
     if (this.passwordForm.controls['newPassword'].value !== this.passwordForm.controls['confirmPassword'].value) {
-      console.log('not match');
       this.passwordForm.controls['confirmPassword'].setErrors({
         misMatch: true
       })

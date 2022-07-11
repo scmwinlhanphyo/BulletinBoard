@@ -28,9 +28,13 @@ export class UploadPostComponent implements OnInit {
 
   @ViewChild('csvReader', { static: false }) csvReader: any;
   ngOnInit(): void {
-    this.userInfo = localStorage.getItem('userId');
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userInfo = JSON.parse(data)._id;
   }
 
+  /**
+   * submit csv file
+   */
   uploadCSV() {
     if (!this.csvFile || this.uploadData === undefined) {
       this.noFileErrMsg = "Please select a file";
@@ -39,7 +43,6 @@ export class UploadPostComponent implements OnInit {
 
     for (let i = 0; i < this.uploadData.length; i++) {
       this.postService.createPost(this.uploadData[i]).then((dist) => {
-        console.log(dist);
         if (i === this.uploadData.length - 1) {
           this.router.navigate(["post-list", { msg: "success" }]);
         }
@@ -47,23 +50,20 @@ export class UploadPostComponent implements OnInit {
     }
   }
 
+  /**
+   * scan csv file
+   */
   uploadListener(fileInput: any): void {
     this.files = fileInput.srcElement.files;
-    console.log(this.files);
     if (this.isValidCSVFile(this.files[0])) {
 
       let input = fileInput.target;
-      // console.log(input.files[0].name);
-
       let reader = new FileReader();
       reader.readAsText(input.files[0]);
       reader.onload = () => {
         let csvData = reader.result;
-        console.log(csvData)
         let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
-
         let headersRow = this.getHeaderArray(csvRecordsArray);
-
         this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
         this.uploadData = [];
 
@@ -72,10 +72,6 @@ export class UploadPostComponent implements OnInit {
             title: result.title,
             description: result.description,
             created_user_id: this.userInfo,
-            updated_user_id: this.userInfo,
-            created_at: new Date(),
-            updated_at: new Date(),
-            deleted_at: "",
           }
           this.uploadData.push(res);
         })
@@ -89,18 +85,18 @@ export class UploadPostComponent implements OnInit {
     }
   }
 
+  /**
+   * check csv format
+   */
   getDataRecordsArrayFromCSVFile(csvRecordsArray: any, headerLength: any) {
     let csvArr = [];
-    console.log(csvRecordsArray)
     for (let i = 1; i < csvRecordsArray.length; i++) {
       let currentRecord = (<string>csvRecordsArray[i]).split(',');
       if (currentRecord.length == headerLength) {
         let csvRecord: CSVRecord = new CSVRecord();
-        // console.log(currentRecord.length)
         csvRecord.title = currentRecord[0];
         csvRecord.description = currentRecord[1];
         if (!currentRecord[0] || !currentRecord[1]) {
-          // console.log("Unformatted CSV File");
           this.csvErrMsg = "Please select a formatted CSV file";
           this.onClear();
         } else {
@@ -111,6 +107,9 @@ export class UploadPostComponent implements OnInit {
     return csvArr;
   }
 
+  /**
+   * check csv file extension
+   */
   isValidCSVFile(file: any) {
     return file.name.endsWith(".csv");
   }
@@ -124,6 +123,9 @@ export class UploadPostComponent implements OnInit {
     return headerArray;
   }
 
+  /**
+   * clear button
+   */
   onClear() {
     this.csvReader.nativeElement.value = "";
     this.uploadData = undefined;

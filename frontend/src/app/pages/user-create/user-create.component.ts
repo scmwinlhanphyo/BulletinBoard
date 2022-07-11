@@ -37,8 +37,10 @@ export class UserCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const data: any = localStorage.getItem('userLoginData') || "";
+    const userLoginData: any = localStorage.getItem('userLoginData') || "";
+    const data = JSON.parse(userLoginData);
     this.userInfo = data._id;
+    console.log(this.userInfo)
 
     this.userCreateForm = this.fb.group({
       name: ['', Validators.required],
@@ -61,9 +63,19 @@ export class UserCreateComponent implements OnInit {
     return this.userCreateForm.controls;
   }
 
+  /**
+   * form validation error.
+   * @param controlName
+   * @param errorName
+   * @returns
+   */
   public hasError = (controlName: string, errorName: string) => {
     return this.userCreateForm.controls[controlName].hasError(errorName);
   }
+
+  /**
+   * clear button
+   */
   public onClear = () => {
     if (this.confirmView == true) {
       this.userCreateForm.controls['name'].enable();
@@ -79,8 +91,11 @@ export class UserCreateComponent implements OnInit {
     } else {
       this.userCreateForm.reset();
     }
-    //this.location.back();
   }
+
+  /**
+   * create user
+   */
   public createUser = () => {
     if (this.confirmView == true) {
       const formData = new FormData();
@@ -94,7 +109,6 @@ export class UserCreateComponent implements OnInit {
       formData.append('profile', this.imgFile);
       formData.append('created_user_id', this.userInfo);
 
-      console.log(formData);
       this.userService.createUser(formData).then((dist) => {
         this.router.navigate(["user-list", { msg: "success" }]);
       })
@@ -113,6 +127,9 @@ export class UserCreateComponent implements OnInit {
     }
   }
 
+  /**
+   * image preview
+   */
   imageUpload(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -126,7 +143,6 @@ export class UserCreateComponent implements OnInit {
 
   OnDateChange(event: any) {
     this.pickDate = event;
-    console.log(this.pickDate);
   }
 
 }

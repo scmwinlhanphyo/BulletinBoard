@@ -46,8 +46,9 @@ export class PostListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
-    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+    const userLoginData: any = localStorage.getItem('userLoginData') || "";
+    const data = JSON.parse(userLoginData);
+    this.userInfo = data._id;
 
     this.getPosts();
     this.dataSource = new MatTableDataSource<PostDataModel>(this.postLists);
@@ -70,7 +71,6 @@ export class PostListComponent implements OnInit {
   public getPosts() {
     this.postService.getPosts().then((dist) => {
       this.postLists = dist.data;
-      console.log(this.postLists)
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;
@@ -103,10 +103,9 @@ export class PostListComponent implements OnInit {
 
   /**
    * post detail data.
-   * @param data 
+   * @param data
    */
   public postDetail(data: any) {
-    console.log('data', data);
     this.dialog.open(PostDetailDialogComponent, {
       width: '40%',
       data: data
@@ -126,7 +125,6 @@ export class PostListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.postService.deletePost(postId).then((dist) => {
-          console.log(dist);
           this.message = "Post Delete Successfully.";
           this.getPosts();
         });

@@ -55,7 +55,6 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.getUsers();
-    // this.dataSource.data = this.userLists;
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('msg') === 'success') {
         this.message = 'User successfully created.';
@@ -77,7 +76,6 @@ export class UserListComponent implements OnInit {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
       this.userLists = dist.data;
-      // const result = []
       this.dataSource.data = dist.data;
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;
@@ -90,13 +88,11 @@ export class UserListComponent implements OnInit {
    */
   public searchUser() {
     let payload: any = {};
-    console.log('from date', this.fromDate);
-    console.log('to date', this.toDate);
     this.username ? payload['username'] = this.username : '';
     this.email ? payload['email'] = this.email : '';
     this.fromDate ? payload['fromDate'] = moment(this.fromDate).format('YYYY/MM/DD') : '';
     this.toDate ? payload['toDate'] = moment(this.toDate).format('YYYY/MM/DD') : '';
-    
+
     this.userService.findByName(payload).then((dist) => {
       this.userLists = dist.data;
       this.dataSource.data = this.userLists;
@@ -119,7 +115,7 @@ export class UserListComponent implements OnInit {
 
   /**
    * update user form.
-   * @param userId 
+   * @param userId
    */
   updateUser(userId: any) {
     const userID = userId._id;
@@ -128,20 +124,16 @@ export class UserListComponent implements OnInit {
 
   /**
    * delete user data.
-   * @param data 
+   * @param data
    */
   public deleteUser(data: any) {
     const userId = data._id;
-    console.log(userId)
     let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
       width: '40%',
       data: data,
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-        // const deleted_user_id = JSON.parse(localStorage.getItem('userInfo') || "[]");
-        const deleted_user_id = localStorage.getItem('userId');
         this.userService.deleteUser(userId).then((dist) => {
           console.log(dist);
           this.message = 'User Delete Successfully.';

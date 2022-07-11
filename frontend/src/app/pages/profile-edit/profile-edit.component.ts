@@ -51,7 +51,7 @@ export class ProfileEditComponent implements OnInit {
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
-      console.log(dist.data);
+      // console.log(dist.data);
       if (this.userData) {
         this.profileEditForm.controls['name'].setValue(this.userData.name);
         this.profileEditForm.controls['email'].setValue(this.userData.email);
@@ -70,11 +70,10 @@ export class ProfileEditComponent implements OnInit {
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
-      console.log(dist.data);
     });
 
     const data: any = localStorage.getItem('userLoginData') || "";
-    this.userID = data._id;
+    this.userID = JSON.parse(data)._id;
   }
 
   /**
@@ -86,9 +85,9 @@ export class ProfileEditComponent implements OnInit {
 
   /**
    * form validation error.
-   * @param controlName 
-   * @param errorName 
-   * @returns 
+   * @param controlName
+   * @param errorName
+   * @returns
    */
   public hasError = (controlName: string, errorName: string) => {
     return this.profileEditForm.controls[controlName].hasError(errorName);
@@ -116,8 +115,6 @@ export class ProfileEditComponent implements OnInit {
    * update profile.
    */
   public updateProfile = () => {
-    // let paramId =this.activatedRoute.snapshot.paramMap.get("id");
-
     const id: string = this.activatedRoute.snapshot.params['id'];
     if (this.confirmView == true) {
 
@@ -132,7 +129,6 @@ export class ProfileEditComponent implements OnInit {
       formData.append('updated_user_id', this.userID);
 
       this.userService.updateUser(formData, id).then((dist) => {
-        console.log(dist);
         this.location.back();
       })
     }
@@ -150,12 +146,11 @@ export class ProfileEditComponent implements OnInit {
 
   /**
    * user profile upload data.
-   * @param event 
+   * @param event
    */
   imageUpload(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-
       this.imgFile = file;
       const reader = new FileReader();
       reader.onload = e => this.profileImage = reader.result;
@@ -166,7 +161,7 @@ export class ProfileEditComponent implements OnInit {
 
   /**
    * on date change.
-   * @param event 
+   * @param event
    */
   OnDateChange(event: any) {
     this.pickDate = event;

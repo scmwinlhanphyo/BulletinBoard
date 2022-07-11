@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.controls['password'].value
     }
     this.authService.login(payload).then((dist) => {
-      console.log(dist);
       localStorage.setItem('token', dist.token);
       localStorage.setItem('userLoginData', JSON.stringify(dist.user));
       this.router.navigate(["/post-list"]);

@@ -13,7 +13,7 @@ export class PostFormComponent implements OnInit {
   confirmView: Boolean = false;
   pageTitle: string = 'Create a new post';
   buttonName: string = 'Create';
-  // public userInfo: any;
+  public userInfo: any;
   postData: any;
 
   constructor(
@@ -29,9 +29,6 @@ export class PostFormComponent implements OnInit {
     }
 
   ngOnInit() {
-    // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-
     let paramId =this.activatedRoute.snapshot.paramMap.get("id");
     if (this.router.url.indexOf('/update-post') !== -1 && paramId !== undefined) {
       this.pageTitle = 'Update a post';
@@ -78,28 +75,29 @@ export class PostFormComponent implements OnInit {
    */
   public createPost = () => {
     if (this.confirmView == true && this.buttonName == 'Create') {
-      const userID = localStorage.getItem('userId');
+      const data: any = localStorage.getItem('userLoginData') || "";
+      this.userInfo = JSON.parse(data)._id;
       const payload = {
         title: this.postForm.controls['title'].value,
         description: this.postForm.controls['description'].value,
-        created_user_id: userID
+        created_user_id: this.userInfo
       }
       this.postService.createPost(payload).then((dist) => {
-        console.log(dist);
         this.router.navigate(["post-list", { msg: "create success" }]);
       });
     }
     else if (this.confirmView == true && this.buttonName == 'Update') {
-      const userID = localStorage.getItem('userId');
+      const data: any = localStorage.getItem('userLoginData') || "";
+      this.userInfo = JSON.parse(data)._id;
+
       const id: string = this.activatedRoute.snapshot.params['id'];
       const payload = {
         title: this.postForm.controls['title'].value,
         description: this.postForm.controls['description'].value,
         status: this.postForm.controls['status'].value,
-        updated_user_id: userID
+        updated_user_id: this.userInfo
       }
       this.postService.updatePost(payload, id).then((dist) => {
-        console.log(dist);
         this.router.navigate(["post-list", { msg: "update success" }]);
       })
     }

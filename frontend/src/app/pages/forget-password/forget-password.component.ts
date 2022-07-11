@@ -43,10 +43,8 @@ export class ForgetPasswordComponent implements OnInit {
       email: this.forgetPwForm.controls['email'].value
     };
     this.authService.forgetPassword(payload).then((dist: any) => {
-      console.log(dist);
       this.emailErr = "Email sent with password reset instructions.";
     }).catch((err: any) => {
-      console.log(err);
       this.emailErr = "Email does not exist.";
     });
   }
