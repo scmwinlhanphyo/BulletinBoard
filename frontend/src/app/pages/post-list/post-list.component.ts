@@ -7,12 +7,9 @@ import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { postList } from 'src/app/constant/constant';
 import { PostService } from 'src/app/services/post.service';
-export interface PostDataModel {
-  title: string,
-  description: string,
-  created_user: string,
-  created_at: string
-}
+import { PostDataModel } from 'src/app/interfaces/interfaces';
+
+
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',

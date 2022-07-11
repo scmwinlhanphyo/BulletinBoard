@@ -3,7 +3,12 @@
 <div mat-dialog-content class="mat-dialog">
   <div class="user-detail-content">
     <div class="user-detail-img-container">
-      <img src="../../../assets/img/profile-img.jpg" alt="placeholder" class="img-responsive" />
+      <ng-container *ngIf="data.profile else defaultProfileImg">
+        <img src="{{'http://localhost:5000/' + data.profile}}" alt="placeholder" class="img-responsive" />
+      </ng-container>
+      <ng-template #defaultProfileImg>
+        <img src="../../../assets/img/profile-img.jpg" alt="placeholder" class="img-responsive" />
+      </ng-template>
     </div>
     <div class="user-detail-list-container">
       <mat-list role="list">

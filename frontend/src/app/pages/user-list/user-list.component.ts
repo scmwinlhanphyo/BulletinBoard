@@ -3,23 +3,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
 import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
-import * as moment from 'moment';
-
-export interface UserDataModel {
-  name: string;
-  email: string;
-  created_user: string;
-  type: string;
-  phone: string;
-  dob: string;
-  address: string;
-  created_at: string;
-  updated_at: string;
-  updated_user: string;
-}
+import { UserDataModel } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-user-list',
@@ -85,7 +73,6 @@ export class UserListComponent implements OnInit {
   public getUsers() {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
-      console.log(dist);
       this.userLists = dist.data;
       // const result = []
       this.dataSource.data = dist.data;
@@ -110,7 +97,6 @@ export class UserListComponent implements OnInit {
       startDate: moment(this.fromDate).format('YYYY/MM/DD'),
       endDate: moment(this.toDate).format('YYYY/MM/DD')
     }
-    console.log(payload)
     this.userService.findByName(payload).then((dist) => {
       this.userLists = dist.data;
       this.dataSource.data = this.userLists;
@@ -125,7 +111,6 @@ export class UserListComponent implements OnInit {
    * @param data
    */
   public userDetail(data: any) {
-    console.log('data', data);
     this.dialog.open(UserDetailDialogComponent, {
       width: '40%',
       data: data,
@@ -134,12 +119,10 @@ export class UserListComponent implements OnInit {
 
   updateUser(userId: any) {
     const userID = userId._id;
-    // console.log(userID)
     this.router.navigate(['profile-edit/' + userID]);
   }
 
   public deleteUser(data: any) {
-    // console.log('data', data);
     const userId = data._id;
     let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
       width: '40%',
@@ -149,16 +132,11 @@ export class UserListComponent implements OnInit {
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
         const deleted_user_id = JSON.parse(localStorage.getItem('userInfo') || "[]");
-        // const payload = {
-        //   deleted_user_id: deleted_user_id
-        // }
-        // console.log(payload)
         this.userService.deleteUser(userId).then((dist) => {
           console.log(dist);
           this.message = 'User Delete Successfully.';
           this.getUsers();
         })
-        // console.log('delete success');
       }
     });
   }

@@ -14,8 +14,8 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   async isLoggedIn() {
-    if (localStorage.getItem('userId')) {
-      await this.authUserSubject.next(localStorage.getItem('userId'));
+    if (localStorage.getItem('userLoginData')) {
+      await this.authUserSubject.next(localStorage.getItem('userLoginData'));
     } else {
       await this.authUserSubject.next(null);
     }

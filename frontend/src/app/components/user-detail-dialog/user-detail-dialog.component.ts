@@ -18,6 +18,7 @@ export class UserDetailDialogComponent implements OnInit {
   created_at?: string;
   updated_at?: string;
   updated_user?: string;
+  profile?: string;
 
   constructor(
     public dialogRef: MatDialogRef<UserDetailDialogComponent>,

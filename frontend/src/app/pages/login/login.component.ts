@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(payload).then((dist) => {
       console.log(dist);
       localStorage.setItem('token', dist.token);
-      localStorage.setItem('userId', dist.user._id);
+      localStorage.setItem('userLoginData', JSON.stringify(dist.user));
       this.router.navigate(["/post-list"]);
     }).catch((err) => {
       this.loginErrMsg = err;

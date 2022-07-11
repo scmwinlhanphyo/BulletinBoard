@@ -1,48 +1,19 @@
-import { Request, Response, NextFunction } from 'express'
-import User from '../models/User';
-import { validationResult } from 'express-validator';
-import { UserCreate } from '../interfaces/User';
-import bcrypt from 'bcrypt';
-import { deleteFile } from "../utils";
-import moment from 'moment';
+import { Request, Response, NextFunction } from 'express';
+import {
+  createUserService,
+  getUserService,
+  findUserService,
+  updateUserService,
+  deleteUserService,
+  findByNameService
+} from '../services/UserService';
 
 export const getUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const options = req.query;
-    // const ostring = options.page as string
-    const filter = options.filter as any
-
-    // let condition : any = {};
-    // condition['deleted_at'] = null;
-    // data?.name ? condition['name'] = data.name : '';
-
-
-    // const sort = options.sort || {};
-    // const limit = 5;
-    // const page = parseInt(ostring) || 1;
-    // const skip = (page - 1) * limit;
-
-    const users = await User.find({ deleted_at: null })
-    // .skip(skip)
-    // .limit(limit);
-    res.json({
-      data: users,
-      status: 1,
-      // limit,
-      // page,
-      filter,
-      total: users.length,
-      links: {
-        self: req.originalUrl,
-      }
-    });
-  } catch (err) {
-    next(err);
-  }
+  getUserService(req, res, next);
 };
 
 export const createUser = async (
@@ -50,45 +21,7 @@ export const createUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const errors = validationResult(req.body);
-    console.log('payload', req.body);
-    console.log("errors");
-    console.log(errors);
-    if (!errors.isEmpty()) {
-      const error: any = new Error("Validation failed!");
-      error.data = errors.array();
-      error.statusCode = 422;
-      throw error;
-    }
-    let profile: string = req.body.profile;
-    console.log('profile', req.file);
-    if (req.file) {
-      profile = req.file.path.replace("\\", "/");
-    }
-    const userTdo: UserCreate = {
-      name: req.body.name,
-      email: req.body.email,
-      password: await bcrypt.hash(req.body.password, 12),
-      type: req.body.type,
-      phone: req.body.phone,
-      dob: req.body.dob,
-      address: req.body.address,
-      profile: profile,
-      created_user_id: req.body.created_user_id,
-    }
-    // console.log('post data', postTdo);
-    const post = new User(userTdo);
-    const result = await post.save();
-    res
-      .status(201)
-      .json({ message: "Created User Successfully!", data: result, status: 1 });
-  } catch (err) {
-    // if (!err.statusCode) {
-    //     err.statusCode = 500;
-    // }
-    next(err);
-  }
+  createUserService(req, res, next);
 };
 
 export const findUser = async (
@@ -96,17 +29,7 @@ export const findUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      const error: any = Error("Not Found!");
-      error.statusCode = 404;
-      throw error;
-    }
-    res.json({ data: user, status: 1 });
-  } catch (err) {
-    next(err);
-  }
+  findUserService(req, res, next);
 }
 
 export const updateUser = async (
@@ -114,48 +37,7 @@ export const updateUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const errors = validationResult(req.body);
-    if (!errors.isEmpty()) {
-      const error: any = new Error("Validation failed!");
-      error.data = errors.array();
-      error.statusCode = 422;
-      throw error;
-    }
-    const user: any = await User.findById(req.params.id);
-    if (!user) {
-      const error: any = new Error("Not Found!");
-      error.statusCode = 404;
-      throw error;
-    }
-    let profile: string = req.body.profile;
-    if (req.file) {
-      profile = req.file.path.replace("\\", "/");
-    }
-    if (!profile) {
-      const error: any = new Error("No file picked.");
-      error.statusCode = 422;
-      throw error;
-    }
-    if (user.profile && user.profile != profile) {
-      deleteFile(user.profile);
-    }
-    // const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    user.name = req.body.name;
-    user.email = req.body.email;
-    // user.password = hashedPassword;
-    user.type = req.body.type;
-    user.phone = req.body.phone;
-    user.dob = req.body.dob;
-    user.address = req.body.address;
-    user.profile = profile;
-    user.created_user_id = req.body.created_user_id;
-    user.updated_user_id = req.body.updated_user_id;
-    const result = await user.save();
-    res.json({ message: "Updated User Successfully!", data: result, status: 1 });
-  } catch (err) {
-    next(err);
-  }
+  updateUserService(req, res, next);
 };
 
 export const deleteUser = async (
@@ -163,20 +45,7 @@ export const deleteUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const user: any = await User.findById(req.params.id);
-    if (!user) {
-      const error: any = new Error("Not Found!");
-      error.statusCode = 404;
-      throw error;
-    }
-    // user.deleted_user_id = req.body.deleted_user_id;
-    user.deleted_at = new Date();
-    const result = await user.save();
-    res.json({ message: "Delete User Successfully!", data: result, status: 1 });
-  } catch (err) {
-    next(err);
-  }
+  deleteUserService(req, res, next);
 };
 
 export const findByName = async (
@@ -184,22 +53,7 @@ export const findByName = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    let startDate = new Date(req.body.startDate);
-    let endDate = new Date(req.body.endDate);
-    let condition: any = {
-      deleted_at: null
-    };
-    req.body?.name ? condition.name = { '$regex': req.body.name, '$options': 'i' } : '';
-    req.body?.email ? condition.email = { '$regex': req.body.email, '$options': 'i' } : '';
-    req.body?.startDate && req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: endDate } : '';
-    req.body?.startDate && !req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: new Date() } : '';
-    req.body?.endDate && !req.body?.startDate ? condition.createdAt = { $lte: endDate } : '';
-    req.body?.startDate === req.body?.endDate ? condition.createdAt = { $gte: moment(startDate), $lte: moment(endDate).add(1, 'days') } : '';
-
-    const users = await User.find(condition);
-    res.json({ data: users, status: 1 });
-  } catch (err) {
-    next(err);
-  }
+  findByNameService(req, res, next);
 }
+
+

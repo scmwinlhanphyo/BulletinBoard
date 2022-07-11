@@ -111,7 +111,7 @@ export class ProfileEditComponent implements OnInit {
       formData.append('phone', this.profileEditForm.controls['phone'].value);
       formData.append('dob', this.profileEditForm.controls['dob'].value);
       formData.append('address', this.profileEditForm.controls['address'].value);
-      formData.append('profile', this.imgFile);
+      this.imgFile ? formData.append('profile', this.imgFile) : "";
       formData.append('updated_user_id', this.userInfo);
 
       this.userService.updateUser(formData, id).then((dist) => {

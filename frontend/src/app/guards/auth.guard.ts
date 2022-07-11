@@ -16,7 +16,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   ) {
     this.authService.authUser$
       .subscribe((data) => {
-        console.log('data', data);
         this.user = data;
       });
   }
