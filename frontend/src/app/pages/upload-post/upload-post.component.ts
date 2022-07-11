@@ -26,23 +26,25 @@ export class UploadPostComponent implements OnInit {
     private postService: PostService
   ) { }
 
-  @ViewChild('csvReader',{static: false}) csvReader: any;
+  @ViewChild('csvReader', { static: false }) csvReader: any;
   ngOnInit(): void {
     this.userInfo = localStorage.getItem('userId');
   }
 
   uploadCSV() {
-    if (!this.csvFile || this.uploadData === undefined ) {
-
-      console.log(this.files)
-      // alert("No file");
+    if (!this.csvFile || this.uploadData === undefined) {
       this.noFileErrMsg = "Please select a file";
       this.onClear();
     }
-    this.postService.createPost(this.uploadData).then((dist) => {
-      console.log(dist);
-      this.router.navigate(["post-list", { msg: "success" }]);
-    });
+
+    for (let i = 0; i < this.uploadData.length; i++) {
+      this.postService.createPost(this.uploadData[i]).then((dist) => {
+        console.log(dist);
+        if (i === this.uploadData.length - 1) {
+          this.router.navigate(["post-list", { msg: "success" }]);
+        }
+      })
+    }
   }
 
   uploadListener(fileInput: any): void {
@@ -63,19 +65,20 @@ export class UploadPostComponent implements OnInit {
         let headersRow = this.getHeaderArray(csvRecordsArray);
 
         this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
+        this.uploadData = [];
 
-          this.records.map((result: any) => {
-            let res = {
-              title: result.title,
-              description: result.description,
-              created_user_id: this.userInfo,
-              updated_user_id: this.userInfo,
-              created_at: new Date(),
-              updated_at: new Date(),
-              deleted_at: "",
-            }
-          this.uploadData = res;
-          })
+        this.records.map((result: any) => {
+          let res = {
+            title: result.title,
+            description: result.description,
+            created_user_id: this.userInfo,
+            updated_user_id: this.userInfo,
+            created_at: new Date(),
+            updated_at: new Date(),
+            deleted_at: "",
+          }
+          this.uploadData.push(res);
+        })
       };
       reader.onerror = function () {
         console.log('Error is occured while reading file!');
@@ -96,12 +99,12 @@ export class UploadPostComponent implements OnInit {
         // console.log(currentRecord.length)
         csvRecord.title = currentRecord[0];
         csvRecord.description = currentRecord[1];
-        if(!currentRecord[0] || !currentRecord[1]) {
+        if (!currentRecord[0] || !currentRecord[1]) {
           // console.log("Unformatted CSV File");
           this.csvErrMsg = "Please select a formatted CSV file";
           this.onClear();
         } else {
-        csvArr.push(csvRecord);
+          csvArr.push(csvRecord);
         }
       }
     }
@@ -113,53 +116,17 @@ export class UploadPostComponent implements OnInit {
   }
 
   getHeaderArray(csvRecordsArr: any) {
-    // console.log(csvRecordsArr[0])
     let headers = (<string>csvRecordsArr[0]).split(',');
     let headerArray = [];
-    // console.log(headers)
     for (let j = 0; j < headers.length; j++) {
       headerArray.push(headers[j]);
     }
     return headerArray;
   }
 
-  // fileReset() {
-  //   this.csvReader.nativeElement.value = "";
-  //   this.records = [];
-  // }
-
   onClear() {
     this.csvReader.nativeElement.value = "";
     this.uploadData = undefined;
-    // console.log(this.files);
-    // console.log(this.uploadData);
-    // this.fileReset();
   }
-  // uploadListener(fileInput: any) {
-
-  //   if (fileInput.target.files && fileInput.target.files[0]) {
-  //     // this.filename = '';
-  //     this.uplaodPostErrMsg = "Please select a correct CSV file";
-  //     fileInput.target.files.map((file: File) => {
-  //       console.log(file);
-  //       this.filename += file.name + ',';
-  //     });
-  //     const reader = new FileReader();
-  //     reader.onload = (e: any) => {
-  //       const image = new Image();
-  //       image.src = e.target.result;
-  //       image.onload = rs => {
-  //         // Return Base64 Data URL
-  //         const imgBase64Path = e.target.result;
-  //       };
-  //     };
-  //     reader.readAsDataURL(fileInput.target.files[0]);
-
-  //     // Reset File Input to Selct Same file again
-  //     this.csvFile.nativeElement.value = "";
-  //   } else {
-  //     this.filename = 'Select File';
-  //   }
-  // }
 
 }

@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import Post from '../models/Post';
 import { validationResult } from 'express-validator';
 import { PostCreate } from '../interfaces/Post';
-// import User from '../models/User';
 
 /**
  * get post service.
@@ -22,9 +21,7 @@ export const getPostService = async (
     if (userType === "User") {
       condition.created_user_id = userId;
     }
-    const posts = await Post.find(condition).populate({
-      path: 'created_user_id'
-    });
+    const posts = await Post.find(condition);
     res.json({ data: posts, status: 1 });
   } catch (err) {
     console.log(err);
@@ -123,7 +120,6 @@ export const deletePostService = async (
       error.statusCode = 404;
       throw error;
     }
-    // user.deleted_user_id = req.body.deleted_user_id;
     post.deleted_at = new Date();
     await post.save();
     res.sendStatus(204)
@@ -144,9 +140,7 @@ export const findByNameService = async (
     if (userType === "User") {
       condition.created_user_id = userId;
     }
-    const posts = await Post.find(condition).populate({
-      path: 'created_user_id'
-    });
+    const posts = await Post.find(condition);
     res.json({ data: posts, status: 1 });
   } catch (err) {
     next(err);

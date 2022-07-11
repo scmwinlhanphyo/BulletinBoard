@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.8",
+    "@types/mongoose-autopopulate": "^0.10.3",
     "@types/passport": "^1.0.9",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
@@ -27,6 +28,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "mongoose": "^6.4.1",
+    "mongoose-autopopulate": "^0.16.1",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.7.7",
     "passport": "^0.6.0",

@@ -16,7 +16,8 @@ const postSchema = new mongoose_1.Schema({
     },
     created_user_id: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "user"
+        ref: "user",
+        autopopulate: true
     },
     updated_user_id: {
         type: mongoose_1.Schema.Types.ObjectId,
@@ -32,5 +33,6 @@ const postSchema = new mongoose_1.Schema({
 }, {
     timestamps: true
 });
+postSchema.plugin(require('mongoose-autopopulate'));
 exports.default = (0, mongoose_1.model)("post", postSchema);
 //# sourceMappingURL=Post.js.map

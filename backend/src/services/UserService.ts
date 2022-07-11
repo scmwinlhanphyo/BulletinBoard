@@ -171,25 +171,24 @@ export const findByNameService = async (
   next: NextFunction
 ) => {
   try {
-    console.log('req', req);
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
     let condition: any = { deleted_at: null };
     if (userType === "User") {
       condition.created_user_id = userId;
     }
-    let startDate = req.body?.startDate ? new Date(req.body.startDate) : null;
-    let endDate = req.body?.startDate ? new Date(req.body.startDate) : null;
+    let fromDate = req.body?.fromDate ? new Date(req.body.fromDate) : null;
+    let toDate = req.body?.toDate ? new Date(req.body.toDate) : null;
     req.body?.username ? condition.name = { '$regex': req.body.username, '$options': 'i' } : '';
     req.body?.email ? condition.email = { '$regex': req.body.email, '$options': 'i' } : '';
-    req.body?.startDate && req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: endDate } : '';
-    req.body?.startDate && !req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: new Date() } : '';
-    req.body?.endDate && !req.body?.startDate ? condition.createdAt = { $lte: endDate } : '';
-    req.body?.startDate && req.body?.endDate && req.body?.startDate === req.body?.endDate ? condition.createdAt = { $gte: moment(startDate), $lte: moment(endDate).add(1, 'days') } : '';
+    req.body?.fromDate && req.body?.toDate ? condition.createdAt = { $gte: fromDate, $lte: toDate } : '';
+    req.body?.fromDate && !req.body?.toDate ? condition.createdAt = { $gte: fromDate, $lte: new Date() } : '';
+    req.body?.toDate && !req.body?.fromDate ? condition.createdAt = { $lte: toDate } : '';
+    req.body?.fromDate && req.body?.toDate && req.body?.fromDate === req.body?.toDate ?
+    condition.createdAt = { $gte: moment(fromDate), $lte: moment(toDate).add(1, 'days') } : '';
 
     const users: any = await User.find(condition);
     const result: any = [];
-    console.log('users', users);
     for (let i = 0; i < users.length; i++) {
       const index = users.findIndex((dist:any) => users[i]._id.equals(dist._id));
       let username = "";
