@@ -37,10 +37,8 @@ export class UserCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-
-    this.userInfo = localStorage.getItem('userId');
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userInfo = data._id;
 
     this.userCreateForm = this.fb.group({
       name: ['', Validators.required],

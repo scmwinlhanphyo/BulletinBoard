@@ -70,6 +70,9 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  /**
+   * get user data.
+   */
   public getUsers() {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
@@ -81,22 +84,19 @@ export class UserListComponent implements OnInit {
       this.totalSize = this.userLists.length;
     })
   }
-  /**
-   * when pagination buttons click.
-   * @param (e)
-   */
-  public handlePage(e: any) { }
 
   /**
    * search user button click.
    */
   public searchUser() {
-    const payload = {
-      name: this.username,
-      email: this.email,
-      startDate: moment(this.fromDate).format('YYYY/MM/DD'),
-      endDate: moment(this.toDate).format('YYYY/MM/DD')
-    }
+    let payload: any = {};
+    console.log('from date', this.fromDate);
+    console.log('to date', this.toDate);
+    this.username ? payload['username'] = this.username : '';
+    this.email ? payload['email'] = this.email : '';
+    this.fromDate ? payload['fromDate'] = moment(this.fromDate).format('YYYY/MM/DD') : '';
+    this.toDate ? payload['toDate'] = moment(this.toDate).format('YYYY/MM/DD') : '';
+    
     this.userService.findByName(payload).then((dist) => {
       this.userLists = dist.data;
       this.dataSource.data = this.userLists;
@@ -117,11 +117,19 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  /**
+   * update user form.
+   * @param userId 
+   */
   updateUser(userId: any) {
     const userID = userId._id;
     this.router.navigate(['profile-edit/' + userID]);
   }
 
+  /**
+   * delete user data.
+   * @param data 
+   */
   public deleteUser(data: any) {
     const userId = data._id;
     console.log(userId)

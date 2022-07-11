@@ -29,7 +29,6 @@ export class PostListComponent implements OnInit {
     'created_at',
     'operation',
   ];
-  pageSizes = [2, 4, 8];
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
@@ -65,6 +64,9 @@ export class PostListComponent implements OnInit {
     })
   }
 
+  /**
+   * get post data.
+   */
   public getPosts() {
     this.postService.getPosts().then((dist) => {
       this.postLists = dist.data;
@@ -76,34 +78,16 @@ export class PostListComponent implements OnInit {
     })
   }
 
-  public createUser() {
-    // this.dialogRef = this.dialog.open(UserInputDialogComponent, {
-    //   panelClass: 'overlay-dialog',
-    //   height: '130px',
-    //   width: '130px'
-    // });
-  }
-
+  /**
+   * upload post csv.
+   */
   public uploadPost() {
-    // this.dialogRef = this.dialog.open(UserInputDialogComponent, {
-    //   panelClass: 'overlay-dialog',
-    //   height: '130px',
-    //   width: '130px'
-    // });
     this.router.navigate(['/upload-csv-post']);
   }
 
-  public downloadUser() {
-
-  }
-
-  // frontend Search
-  // public searchUser(filterValue: string) {
-  //   filterValue = filterValue.trim();
-  //   filterValue = filterValue.toLowerCase();
-  //   this.dataSource.filter = filterValue;
-  // }
-
+  /**
+   * search user.
+   */
   public searchUser() {
     const payload = {
       title: this.keyword,
@@ -116,14 +100,11 @@ export class PostListComponent implements OnInit {
       this.totalSize = this.postLists.length;
     })
   }
+
   /**
-   * when pagination buttons click.
-   * @param (e)
+   * post detail data.
+   * @param data 
    */
-  public handlePage(e: any) {
-
-  }
-
   public postDetail(data: any) {
     console.log('data', data);
     this.dialog.open(PostDetailDialogComponent, {
@@ -132,6 +113,10 @@ export class PostListComponent implements OnInit {
     });
   }
 
+  /**
+   * delete post.
+   * @param data
+   */
   public deletePost(data: any) {
     const postId = data._id;
     let dialogRef = this.dialog.open(PostDeleteDialogComponent, {

@@ -31,17 +31,29 @@ export class PasswordChangeComponent implements OnInit {
         validator: MustMatch('newPassword', 'confirmPassword')
     });
   }
+
+  /**
+   * get form controls.
+   */
   get myForm() {
     return this.passwordForm.controls;
   }
+
+  /**
+   * form validation error.
+   * @param controlName 
+   * @param errorName 
+   * @returns 
+   */
   public myError = (controlName: string, errorName: string) => {
     return this.passwordForm.controls[controlName].hasError(errorName);
   }
 
+  /**
+   * password change submit data.
+   * @param formValue 
+   */
   onSubmit(formValue: any) {
-    // console.log(this.password);
-    // console.log(formValue.oldPassword);
-
     if (this.passwordForm.valid) {
       if (this.password !== formValue.oldPassword) {
         console.log('Current Password is wrong!.');

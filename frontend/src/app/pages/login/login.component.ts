@@ -45,6 +45,9 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+  /**
+   * submit login form.
+   */
   login() {
     const payload = {
       email: this.loginForm.controls['email'].value,

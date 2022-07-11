@@ -8,7 +8,7 @@
 
     <!-- <button mat-raised-button color="primary" class="user-btn" (click)="searchUser(input.value)">Search</button> -->
     <button mat-raised-button color="primary" class="user-btn" (click)="searchUser()">Search</button>
-    <button mat-raised-button color="primary" class="user-btn" (click)="createUser()" [routerLink]="['/post-create']">Create</button>
+    <button mat-raised-button color="primary" class="user-btn" [routerLink]="['/post-create']">Create</button>
     <button mat-raised-button color="primary" class="user-btn" (click)="uploadPost()">Upload</button>
     <button mat-raised-button color="primary" class="download-user-btn"
     (click)="exporter.exportTable('csv',{fileName:'post-data',sheet: 'post_list', columnWidths: [20, 20, 20, 20, 20]});">Download</button>

@@ -71,21 +71,32 @@ export class ProfileEditComponent implements OnInit {
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
       console.log(dist.data);
-    })
+    });
 
-    // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-
-    this.userID = localStorage.getItem('userId');
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userID = data._id;
   }
 
+  /**
+   * form controls.
+   */
   get myForm() {
     return this.profileEditForm.controls;
   }
 
+  /**
+   * form validation error.
+   * @param controlName 
+   * @param errorName 
+   * @returns 
+   */
   public hasError = (controlName: string, errorName: string) => {
     return this.profileEditForm.controls[controlName].hasError(errorName);
   }
+
+  /**
+   * on clear form.
+   */
   public onClear = () => {
     if (this.confirmView == true) {
       this.profileEditForm.controls['name'].enable();
@@ -100,6 +111,10 @@ export class ProfileEditComponent implements OnInit {
       this.profileEditForm.reset();
     }
   }
+
+  /**
+   * update profile.
+   */
   public updateProfile = () => {
     // let paramId =this.activatedRoute.snapshot.paramMap.get("id");
 
@@ -118,12 +133,6 @@ export class ProfileEditComponent implements OnInit {
 
       this.userService.updateUser(formData, id).then((dist) => {
         console.log(dist);
-        // if (this.router.url.indexOf('/update-post/' + id) !== -1 && id !== undefined) {
-        //   this.router.navigate(["user-list", { editprofile: "success" }]);
-        // } else {
-        //   this.router.navigate(['profile/'+ id]);
-        // }
-        // this.router.navigate(['../'], {relativeTo: this.activatedRoute});
         this.location.back();
       })
     }
@@ -139,6 +148,10 @@ export class ProfileEditComponent implements OnInit {
     }
   }
 
+  /**
+   * user profile upload data.
+   * @param event 
+   */
   imageUpload(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -151,6 +164,10 @@ export class ProfileEditComponent implements OnInit {
     }
   }
 
+  /**
+   * on date change.
+   * @param event 
+   */
   OnDateChange(event: any) {
     this.pickDate = event;
     console.log(this.pickDate);

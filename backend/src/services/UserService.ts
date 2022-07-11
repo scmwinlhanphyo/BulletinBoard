@@ -171,23 +171,25 @@ export const findByNameService = async (
   next: NextFunction
 ) => {
   try {
+    console.log('req', req);
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
     let condition: any = { deleted_at: null };
     if (userType === "User") {
       condition.created_user_id = userId;
     }
-    let startDate = new Date(req.body.startDate);
-    let endDate = new Date(req.body.endDate);
-    req.body?.name ? condition.name = { '$regex': req.body.name, '$options': 'i' } : '';
+    let startDate = req.body?.startDate ? new Date(req.body.startDate) : null;
+    let endDate = req.body?.startDate ? new Date(req.body.startDate) : null;
+    req.body?.username ? condition.name = { '$regex': req.body.username, '$options': 'i' } : '';
     req.body?.email ? condition.email = { '$regex': req.body.email, '$options': 'i' } : '';
     req.body?.startDate && req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: endDate } : '';
     req.body?.startDate && !req.body?.endDate ? condition.createdAt = { $gte: startDate, $lte: new Date() } : '';
     req.body?.endDate && !req.body?.startDate ? condition.createdAt = { $lte: endDate } : '';
-    req.body?.startDate === req.body?.endDate ? condition.createdAt = { $gte: moment(startDate), $lte: moment(endDate).add(1, 'days') } : '';
+    req.body?.startDate && req.body?.endDate && req.body?.startDate === req.body?.endDate ? condition.createdAt = { $gte: moment(startDate), $lte: moment(endDate).add(1, 'days') } : '';
 
     const users: any = await User.find(condition);
     const result: any = [];
+    console.log('users', users);
     for (let i = 0; i < users.length; i++) {
       const index = users.findIndex((dist:any) => users[i]._id.equals(dist._id));
       let username = "";
@@ -198,7 +200,7 @@ export const findByNameService = async (
       };
       result.push(obj);
     }
-    res.json({ data: users, status: 1 });
+    res.json({ data: result, status: 1 });
   } catch (err) {
     next(err);
   }

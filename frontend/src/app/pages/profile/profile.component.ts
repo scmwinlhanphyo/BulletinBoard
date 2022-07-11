@@ -43,6 +43,10 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
+
+  /**
+   * edit profile.
+   */
   public editProfile = () => {
     const userID = localStorage.getItem('userId');
     this.router.navigate(["profile-edit/", userID]);
