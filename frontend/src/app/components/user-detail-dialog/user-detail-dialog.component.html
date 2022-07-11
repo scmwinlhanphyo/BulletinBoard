@@ -64,7 +64,7 @@
         <mat-list-item role="listitem">
           <span>Created Date</span>
           <div class="dialog-data">
-            {{data.created_at | date: 'shortDate'}}
+            {{data.createdAt | date: 'shortDate'}}
           </div>
         </mat-list-item>
 
@@ -72,7 +72,7 @@
         <mat-list-item role="listitem">
           <span>Created User</span>
           <div class="dialog-data">
-            {{data.created_user}}
+            {{data.created_user_id}}
           </div>
         </mat-list-item>
 
@@ -80,7 +80,7 @@
         <mat-list-item role="listitem">
           <span>Updated Date</span>
           <div class="dialog-data">
-            {{data.updated_at | date: 'shortDate'}}
+            {{data.updatedAt | date: 'shortDate'}}
           </div>
         </mat-list-item>
 
@@ -88,7 +88,7 @@
         <mat-list-item role="listitem">
           <span>Updated User</span>
           <div class="dialog-data">
-            {{data.updated_user}}
+            {{data.updated_user_id}}
           </div>
         </mat-list-item>
       </mat-list>

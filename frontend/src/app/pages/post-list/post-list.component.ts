@@ -34,18 +34,22 @@ export class PostListComponent implements OnInit {
   currentPage = 0;
   totalSize = 0;
   keyword = "";
-  public message:any ="";
-  postLists : any;
+  public message: any = "";
+  postLists: any;
+  public userInfo: any;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private postService: PostService
-    ) { }
+  ) { }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
+    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+
     this.getPosts();
     this.dataSource = new MatTableDataSource<PostDataModel>(this.postLists);
     this.currentPage = 0;
@@ -64,6 +68,7 @@ export class PostListComponent implements OnInit {
   public getPosts() {
     this.postService.getPosts().then((dist) => {
       this.postLists = dist.data;
+      console.log(this.postLists)
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;

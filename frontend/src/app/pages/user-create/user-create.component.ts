@@ -37,8 +37,10 @@ export class UserCreateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+    // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
+    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
+
+    this.userInfo = localStorage.getItem('userId');
 
     this.userCreateForm = this.fb.group({
       name: ['', Validators.required],
@@ -94,6 +96,7 @@ export class UserCreateComponent implements OnInit {
       formData.append('profile', this.imgFile);
       formData.append('created_user_id', this.userInfo);
 
+      console.log(formData);
       this.userService.createUser(formData).then((dist) => {
         this.router.navigate(["user-list", { msg: "success" }]);
       })

@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'password-change', component: PasswordChangeComponent, canActivate: [AuthGuard] },
   { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'profile-edit/:id', component: ProfileEditComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] }
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

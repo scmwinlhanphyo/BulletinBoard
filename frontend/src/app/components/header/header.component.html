@@ -10,14 +10,14 @@
   <button mat-button class="header-btn" [routerLink]="['/user-create']">
     Create User
   </button>
-  <button mat-button class="header-btn">
-    Admin
+  <button mat-button class="header-btn" style="text-transform: capitalie;">
+    {{name}}
   </button>
   <button mat-icon-button class="header-btn" [matMenuTriggerFor]="menu">
     <mat-icon>person</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item [routerLink]="['/profile']">Profile</button>
+    <button mat-menu-item (click)="profile()">Profile</button>
     <button mat-menu-item (click)="logout()">Logout</button>
   </mat-menu>
 </mat-toolbar>
