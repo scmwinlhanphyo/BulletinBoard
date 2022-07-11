@@ -1,0 +1,7 @@
+PORT=5000
+BASE_URL=http://localhost:4200
+DATABSE=mongodb+srv://scmwinlhanphyo:cuhYHmD2P8GcNMQi@cluster0.uub1isn.mongodb.net/AngularBulletin?retryWrites=true&w=majority
+HOST=smtp.gmail.com
+SERVICE=gmail
+USER=
+PASS=
