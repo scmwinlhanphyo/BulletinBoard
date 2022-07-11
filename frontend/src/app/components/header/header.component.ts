@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   name!: string;
+  public userInfo: any;
 
   constructor(
     private router: Router,
@@ -19,19 +20,21 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const userID = localStorage.getItem('userId');
+    const userLoginData: any = localStorage.getItem('userLoginData') || "";
+    const data = JSON.parse(userLoginData);
+    this.userInfo = data._id;
+    this.name = data.name;
+    console.log(this.userInfo)
     const payload = {};
-    this.userService.findUser(payload, userID).then((dist) => {
-      // console.log(dist.data.name);
+    this.userService.findUser(payload, this.userInfo).then((dist) => {
       this.name = dist.data.name;
     })
   }
 
   public profile() {
-    const userID = localStorage.getItem('userId');
-    // const userID = userId._id;
-    console.log(userID);
-    this.router.navigate(['/profile/' + userID]);
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userInfo = JSON.parse(data)._id;
+    this.router.navigate(['/profile/' + this.userInfo]);
   }
 
   public logout() {

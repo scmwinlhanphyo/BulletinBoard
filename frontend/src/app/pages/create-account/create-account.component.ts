@@ -25,9 +25,6 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-    console.log(this.userInfo);
   }
 
   /**
@@ -47,7 +44,6 @@ export class CreateAccountComponent implements OnInit {
       password: this.createAccountForm.controls['password'].value
     }
     this.userService.createAccount(payload).then((dist) => {
-      console.log(dist);
     })
     this.router.navigate(['/login']);
   }

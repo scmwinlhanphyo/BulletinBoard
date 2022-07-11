@@ -51,7 +51,7 @@ export class ProfileEditComponent implements OnInit {
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
-      console.log(dist.data);
+      // console.log(dist.data);
       if (this.userData) {
         this.profileEditForm.controls['name'].setValue(this.userData.name);
         this.profileEditForm.controls['email'].setValue(this.userData.email);
@@ -70,22 +70,32 @@ export class ProfileEditComponent implements OnInit {
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
-      console.log(dist.data);
-    })
+    });
 
-    // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-
-    this.userID = localStorage.getItem('userId');
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userID = JSON.parse(data)._id;
   }
 
+  /**
+   * form controls.
+   */
   get myForm() {
     return this.profileEditForm.controls;
   }
 
+  /**
+   * form validation error.
+   * @param controlName
+   * @param errorName
+   * @returns
+   */
   public hasError = (controlName: string, errorName: string) => {
     return this.profileEditForm.controls[controlName].hasError(errorName);
   }
+
+  /**
+   * on clear form.
+   */
   public onClear = () => {
     if (this.confirmView == true) {
       this.profileEditForm.controls['name'].enable();
@@ -100,9 +110,11 @@ export class ProfileEditComponent implements OnInit {
       this.profileEditForm.reset();
     }
   }
-  public updateProfile = () => {
-    // let paramId =this.activatedRoute.snapshot.paramMap.get("id");
 
+  /**
+   * update profile.
+   */
+  public updateProfile = () => {
     const id: string = this.activatedRoute.snapshot.params['id'];
     if (this.confirmView == true) {
 
@@ -113,17 +125,10 @@ export class ProfileEditComponent implements OnInit {
       formData.append('phone', this.profileEditForm.controls['phone'].value);
       formData.append('dob', this.profileEditForm.controls['dob'].value);
       formData.append('address', this.profileEditForm.controls['address'].value);
-      formData.append('profile', this.imgFile);
+      this.imgFile ? formData.append('profile', this.imgFile) : "";
       formData.append('updated_user_id', this.userID);
 
       this.userService.updateUser(formData, id).then((dist) => {
-        console.log(dist);
-        // if (this.router.url.indexOf('/update-post/' + id) !== -1 && id !== undefined) {
-        //   this.router.navigate(["user-list", { editprofile: "success" }]);
-        // } else {
-        //   this.router.navigate(['profile/'+ id]);
-        // }
-        // this.router.navigate(['../'], {relativeTo: this.activatedRoute});
         this.location.back();
       })
     }
@@ -139,10 +144,13 @@ export class ProfileEditComponent implements OnInit {
     }
   }
 
+  /**
+   * user profile upload data.
+   * @param event
+   */
   imageUpload(event: any) {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-
       this.imgFile = file;
       const reader = new FileReader();
       reader.onload = e => this.profileImage = reader.result;
@@ -151,6 +159,10 @@ export class ProfileEditComponent implements OnInit {
     }
   }
 
+  /**
+   * on date change.
+   * @param event
+   */
   OnDateChange(event: any) {
     this.pickDate = event;
     console.log(this.pickDate);

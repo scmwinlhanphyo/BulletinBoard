@@ -10,6 +10,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileComponent implements OnInit {
   profileImage:any;
   userData: any;
+  public userInfo: any;
 
   public name! : string;
   public email! : string;
@@ -31,7 +32,6 @@ export class ProfileComponent implements OnInit {
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
-      console.log(dist.data);
       if (this.userData) {
         this.name = this.userData.name;
         this.email = this.userData.email;
@@ -43,8 +43,13 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
+
+  /**
+   * edit profile.
+   */
   public editProfile = () => {
-    const userID = localStorage.getItem('userId');
-    this.router.navigate(["profile-edit/", userID]);
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userInfo = JSON.parse(data)._id;
+    this.router.navigate(["profile-edit/", this.userInfo]);
   }
 }

@@ -35,11 +35,15 @@ export class UserService {
 
   public getUsers(payload: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
+    const data = localStorage.getItem('userLoginData') || "";
+    const userData = JSON.parse(data);
     const headerOptions = new HttpHeaders()
       .set('Content-Type', 'application/json;charset=utf-8;')
       .set('Cache-Control', 'no-cache')
       .set('Pragma', 'no-cache')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${token}`)
+      .set('userType', userData.type)
+      .set('userId', userData._id);
     const options = { headers: headerOptions };
     return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, options));
   }
@@ -80,11 +84,12 @@ export class UserService {
 
   public findByName(payload: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
+    const data = localStorage.getItem('userLoginData') || "";
+    const userData = JSON.parse(data);
     const headerOptions = new HttpHeaders()
-      .set('Content-Type', 'application/json;charset=utf-8;')
-      .set('Cache-Control', 'no-cache')
-      .set('Pragma', 'no-cache')
-      .set('Authorization', `Bearer ${token}`);
+      .set('Authorization', `Bearer ${token}`)
+      .set('userType', userData.type)
+      .set('userId', userData._id);
     const options = { headers: headerOptions };
     return lastValueFrom(this.http.post(`${environment.apiUrl}/users/search`, payload, options));
   }

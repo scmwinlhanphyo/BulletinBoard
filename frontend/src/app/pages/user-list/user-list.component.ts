@@ -3,23 +3,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
 import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
-import * as moment from 'moment';
-
-export interface UserDataModel {
-  name: string;
-  email: string;
-  created_user: string;
-  type: string;
-  phone: string;
-  dob: string;
-  address: string;
-  created_at: string;
-  updated_at: string;
-  updated_user: string;
-}
+import { UserDataModel } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-user-list',
@@ -67,7 +55,6 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.getUsers();
-    // this.dataSource.data = this.userLists;
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('msg') === 'success') {
         this.message = 'User successfully created.';
@@ -82,35 +69,30 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  /**
+   * get user data.
+   */
   public getUsers() {
     const payload = {}
     this.userService.getUsers(payload).then((dist) => {
-      console.log(dist);
       this.userLists = dist.data;
-      // const result = []
       this.dataSource.data = dist.data;
       this.dataSource.paginator = this.paginator;
       this.currentPage = 0;
       this.totalSize = this.userLists.length;
     })
   }
-  /**
-   * when pagination buttons click.
-   * @param (e)
-   */
-  public handlePage(e: any) { }
 
   /**
    * search user button click.
    */
   public searchUser() {
-    const payload = {
-      name: this.username,
-      email: this.email,
-      startDate: moment(this.fromDate).format('YYYY/MM/DD'),
-      endDate: moment(this.toDate).format('YYYY/MM/DD')
-    }
-    console.log(payload)
+    let payload: any = {};
+    this.username ? payload['username'] = this.username : '';
+    this.email ? payload['email'] = this.email : '';
+    this.fromDate ? payload['fromDate'] = moment(this.fromDate).format('YYYY/MM/DD') : '';
+    this.toDate ? payload['toDate'] = moment(this.toDate).format('YYYY/MM/DD') : '';
+
     this.userService.findByName(payload).then((dist) => {
       this.userLists = dist.data;
       this.dataSource.data = this.userLists;
@@ -125,42 +107,38 @@ export class UserListComponent implements OnInit {
    * @param data
    */
   public userDetail(data: any) {
-    console.log('data', data);
     this.dialog.open(UserDetailDialogComponent, {
       width: '40%',
       data: data,
     });
   }
 
+  /**
+   * update user form.
+   * @param userId
+   */
   updateUser(userId: any) {
     const userID = userId._id;
-    // console.log(userID)
     this.router.navigate(['profile-edit/' + userID]);
   }
 
+  /**
+   * delete user data.
+   * @param data
+   */
   public deleteUser(data: any) {
-    // console.log('data', data);
     const userId = data._id;
-    console.log(userId)
     let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
       width: '40%',
       data: data,
     });
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
-        // localStorage.setItem("userInfo", JSON.stringify(new String("62bea112b226e6d6c11caf93")));
-        // const deleted_user_id = JSON.parse(localStorage.getItem('userInfo') || "[]");
-        const deleted_user_id = localStorage.getItem('userId');
-        // const payload = {
-        //   deleted_user_id: deleted_user_id
-        // }
-        // console.log(payload)
         this.userService.deleteUser(userId).then((dist) => {
           console.log(dist);
           this.message = 'User Delete Successfully.';
           this.getUsers();
         })
-        // console.log('delete success');
       }
     });
   }
