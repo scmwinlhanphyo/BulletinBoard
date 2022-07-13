@@ -135,7 +135,6 @@ export class UserListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data) => {
       if (data) {
         this.userService.deleteUser(userId).then((dist) => {
-          console.log(dist);
           this.message = 'User Delete Successfully.';
           this.getUsers();
         })

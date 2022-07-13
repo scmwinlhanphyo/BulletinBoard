@@ -3,10 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "config": "ts-node ./scripts/setenv.ts",
+    "start": "npm run config -- --environment=dev && ng serve",
+    "build": "npm run config -- --environment=prod && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
+  },
+  "browser": {
+    "fs": true,
+    "path": true,
+    "os": true
   },
   "private": true,
   "dependencies": {
@@ -20,10 +26,12 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@types/dotenv": "^8.2.0",
     "mat-table-exporter": "^10.2.4",
     "moment": "^2.29.3",
     "ng2-file-upload": "^1.4.0",
     "rxjs": "~7.5.0",
+    "ts-node": "^10.8.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
@@ -32,6 +40,8 @@
     "@angular/cli": "~14.0.2",
     "@angular/compiler-cli": "^14.0.0",
     "@types/jasmine": "~4.0.0",
+    "@types/node": "^18.0.3",
+    "dotenv": "^16.0.1",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
