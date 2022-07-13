@@ -26,7 +26,6 @@ export class UserDetailDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('dialog', this.data);
   }
 
   cancel() {

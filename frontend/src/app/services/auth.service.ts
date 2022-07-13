@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, Subject, lastValueFrom } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+// import { environment } from 'src/environments/environment';
+// declare var require: any;
+// const env = require('dotenv').config();
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +16,11 @@ export class AuthService {
   protected authUserSubject = new Subject<any>();
   authUser$: Observable<any> = this.authUserSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {
+  console.log('env', process);
+
+  }
 
   async isLoggedIn() {
     if (localStorage.getItem('userLoginData')) {
@@ -22,7 +31,7 @@ export class AuthService {
   }
 
   public login(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/login`, payload));
+    return lastValueFrom(this.http.post(`${process.env['apiUrl']}/login`, payload));
   }
 
   public logout(): Promise<any> {
@@ -33,18 +42,18 @@ export class AuthService {
       .set('Pragma', 'no-cache')
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/logout`, {}, options));
+    return lastValueFrom(this.http.post(`${process.env['apiUrl']}/logout`, {}, options));
   }
 
   public forgetPassword(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/forgot-password`, payload));
+    return lastValueFrom(this.http.post(`${process.env['apiUrl']}/forgot-password`, payload));
   }
 
   public resetPassword(id: string, token: string): Promise<any> {
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/password-reset/${id}/${token}`));
+    return lastValueFrom(this.http.get(`${process.env['apiUrl']}/password-reset/${id}/${token}`));
   }
 
   public resetPasswordUpdate(id: string, token: string, payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/password-reset-update/${id}/${token}`, payload));
+    return lastValueFrom(this.http.post(`${process.env['apiUrl']}/password-reset-update/${id}/${token}`, payload));
   }
 }

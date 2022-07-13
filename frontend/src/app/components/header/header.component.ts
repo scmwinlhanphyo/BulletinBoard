@@ -24,7 +24,6 @@ export class HeaderComponent implements OnInit {
     const data = JSON.parse(userLoginData);
     this.userInfo = data._id;
     this.name = data.name;
-    console.log(this.userInfo)
     const payload = {};
     this.userService.findUser(payload, this.userInfo).then((dist) => {
       this.name = dist.data.name;
@@ -40,6 +39,7 @@ export class HeaderComponent implements OnInit {
   public logout() {
     this.authService.logout().then((dist: any) => {
       localStorage.removeItem('userId');
+      localStorage.clear();
       this.authService.isLoggedIn();
       this.router.navigateByUrl('/login');
     });

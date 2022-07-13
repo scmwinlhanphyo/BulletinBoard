@@ -40,7 +40,6 @@ export class UserCreateComponent implements OnInit {
     const userLoginData: any = localStorage.getItem('userLoginData') || "";
     const data = JSON.parse(userLoginData);
     this.userInfo = data._id;
-    console.log(this.userInfo)
 
     this.userCreateForm = this.fb.group({
       name: ['', Validators.required],

@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('userLoginData', JSON.stringify(dist.user));
       this.router.navigate(["/post-list"]);
     }).catch((err) => {
-      this.loginErrMsg = err;
+      this.loginErrMsg = "Wrong Gmail or Password";
     });
   }
 }

@@ -51,7 +51,6 @@ export class ProfileEditComponent implements OnInit {
     const payload = {};
     this.userService.findUser(payload, id).then((dist) => {
       this.userData = dist.data;
-      // console.log(dist.data);
       if (this.userData) {
         this.profileEditForm.controls['name'].setValue(this.userData.name);
         this.profileEditForm.controls['email'].setValue(this.userData.email);
@@ -165,6 +164,5 @@ export class ProfileEditComponent implements OnInit {
    */
   OnDateChange(event: any) {
     this.pickDate = event;
-    console.log(this.pickDate);
   }
 }
