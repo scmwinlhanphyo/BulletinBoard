@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 import { lastValueFrom } from 'rxjs';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +22,7 @@ export class PostService {
       .set('userId', userData._id)
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.get(`${process.env['apiUrl']}/posts`, options));
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/posts`, options));
   }
 
   public createPost(payload: any): Promise<any> {
@@ -33,7 +30,8 @@ export class PostService {
     const headerOptions = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${process.env['apiUrl']}/posts`, payload, options));
+    console.log('token', token, options);
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/posts`, payload, options));
   }
 
   public findPost(postId: any): Promise<any> {
@@ -41,7 +39,7 @@ export class PostService {
     const headerOptions = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.get(`${process.env['apiUrl']}/posts/` + postId, options));
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/posts/` + postId, options));
   }
 
   public updatePost(payload: any, postId: any): Promise<any> {
@@ -49,7 +47,7 @@ export class PostService {
     const headerOptions = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.put(`${process.env['apiUrl']}/posts/` + postId, payload, options));
+    return lastValueFrom(this.http.put(`${environment.apiUrl}/posts/` + postId, payload, options));
   }
 
   public deletePost(postId: any): Promise<any> {
@@ -60,7 +58,7 @@ export class PostService {
       .set('Pragma', 'no-cache')
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.delete(`${process.env['apiUrl']}/posts/` + postId, options));
+    return lastValueFrom(this.http.delete(`${environment.apiUrl}/posts/` + postId, options));
   }
 
   public findByName(payload: any): Promise<any> {
@@ -72,6 +70,6 @@ export class PostService {
       .set('userType', userData.type)
       .set('userId', userData._id);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${process.env['apiUrl']}/posts/search`, payload, options));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/posts/search`, payload, options));
   }
 }

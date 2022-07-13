@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+      "config": "ts-node ./scripts/setenv.ts",
+      "start": "npm run config -- --environment=dev && ng serve",
+      "build": "npm run config -- --environment=prod && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "browser": {
-    "fs": false,
-    "path": false,
-    "os": false
+    "fs": true,
+    "path": true,
+    "os": true
   },
   "private": true,
   "dependencies": {
@@ -46,7 +47,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.7.2",
-    "yargs": "^17.5.1"
+    "typescript": "~4.7.2"
   }
 }
