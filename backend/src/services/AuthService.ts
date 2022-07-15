@@ -13,7 +13,7 @@ export const loginService = async (
   req: Request,
   res: Response
 ) => {
-  User.findOne({ email: req.body.email }).then((user: any) => {
+  User.findOne({ email: req.body.email }).then(async (user: any) => {
     if (!user) {
       return res.status(401).send({
         success: false,
@@ -29,10 +29,10 @@ export const loginService = async (
     }
 
     const payload = {
-      email: user.email,
-      id: user.id,
+      email: await bcrypt.hash(user.email, 12),
+      id: await bcrypt.hash(user.id, 12)
     }
-
+    
     const token = jwt.sign(payload, 'abcd', { expiresIn: '1d' });
 
     return res.status(200).send({
@@ -45,7 +45,6 @@ export const loginService = async (
 }
 
 export const logoutService = (req: any, res: Response) => {
-  // req.logout();
   req.session = null;
   return res.json({ "message": "Logout Successfully" });
 };
@@ -71,7 +70,6 @@ export const forgetPasswordService = async (req: any, res: Response) => {
     });
   } catch (error) {
     res.send("An error occured");
-    console.log(error);
   }
 };
 
@@ -95,7 +93,6 @@ export const checkResetPasswordService = async (req: any, res: Response) => {
     });
   } catch (error) {
     res.send("An error occured");
-    console.log(error);
   }
 };
 
@@ -118,6 +115,5 @@ export const resetPasswordService = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.send("An error occured");
-    console.log(error);
   }
 }

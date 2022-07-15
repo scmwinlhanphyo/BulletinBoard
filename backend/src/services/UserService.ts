@@ -5,7 +5,7 @@ import moment from 'moment';
 import { deleteFile } from "../utils";
 import { UserCreate } from '../interfaces/User';
 import User from '../models/User';
-
+import { constData } from '../const/const';
 
 export const getUserService = async (
   req: Request,
@@ -16,7 +16,7 @@ export const getUserService = async (
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
     let condition: any = { deleted_at: null };
-    if (userType === "User") {
+    if (userType === constData.userType) {
       condition.created_user_id = userId;
     }
     const users: any = await User.find(condition);
@@ -122,13 +122,12 @@ export const updateUserService = async (
     let profile: string = req.body.profile;
     if (req.file) {
       profile = req.file.path.replace("\\", "/");
-    }
-    if (user.profile && user.profile != profile) {
-      deleteFile(user.profile);
-    }
-
-    if (profile) {
-      user.profile = profile;
+      if (user.profile && user.profile != profile) {
+        deleteFile(user.profile);
+      }
+      if (profile) {
+        user.profile = profile;
+      }
     }
     user.name = req.body.name;
     user.email = req.body.email;

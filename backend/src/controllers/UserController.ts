@@ -53,7 +53,6 @@ export const findByName = async (
   res: Response,
   next: NextFunction
 ) => {
-  console.log('req', req.body);
   findByNameService(req, res, next);
 }
 

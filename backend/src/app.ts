@@ -24,7 +24,6 @@ const fileStorage = multer.diskStorage({
   },
   filename: (_req, file, cb) => {
     cb(null, `${v4()}_${file.originalname}`);
-    // cb(null, file.fieldname + '-' + Date.now());
   },
 });
 
@@ -64,5 +63,5 @@ mongoose
     app.use("/api", auth_route);
     app.use(error);
   })
-  .catch((err: any) => console.log(err));
+
 

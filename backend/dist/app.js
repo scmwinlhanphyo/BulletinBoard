@@ -26,7 +26,6 @@ const fileStorage = multer_1.default.diskStorage({
     },
     filename: (_req, file, cb) => {
         cb(null, `${(0, uuid_1.v4)()}_${file.originalname}`);
-        // cb(null, file.fieldname + '-' + Date.now());
     },
 });
 const fileFilter = (_req, file, cb) => {
@@ -59,6 +58,5 @@ mongoose_1.default
     app.use('/api/posts', passport_1.default.authenticate('jwt', { session: false }), post_route_1.default);
     app.use("/api", auth_route_1.default);
     app.use(error_1.default);
-})
-    .catch((err) => console.log(err));
+});
 //# sourceMappingURL=app.js.map

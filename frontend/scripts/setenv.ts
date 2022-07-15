@@ -10,7 +10,6 @@ const targetPath = isProduction
    : `./src/environments/environment.ts`;
 
    if (!process.env['apiUrl'] || !process.env['storageUrl']) {
-    console.error('All the required environment variables were not provided!');
     process.exit(-1);
  }
 // we have access to our environment variables
@@ -25,7 +24,5 @@ export const environment = {
 // write the content to the respective file
 writeFile(targetPath, environmentFileContent, function (err:any) {
    if (err) {
-      console.log(err);
    }
-   console.log(`Wrote variables to ${targetPath}`);
   });

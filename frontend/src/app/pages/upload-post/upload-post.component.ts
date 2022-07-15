@@ -77,7 +77,6 @@ export class UploadPostComponent implements OnInit {
         })
       };
       reader.onerror = function () {
-        console.log('Error is occured while reading file!');
       };
     } else {
       this.uplaodPostErrMsg = "Please select a correct CSV file";
