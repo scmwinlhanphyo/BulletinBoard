@@ -24,7 +24,6 @@ export const getPostService = async (
     const posts = await Post.find(condition);
     res.json({ data: posts, status: 1 });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };

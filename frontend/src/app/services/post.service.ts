@@ -30,7 +30,6 @@ export class PostService {
     const headerOptions = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    console.log('token', token, options);
     return lastValueFrom(this.http.post(`${environment.apiUrl}/posts`, payload, options));
   }
 

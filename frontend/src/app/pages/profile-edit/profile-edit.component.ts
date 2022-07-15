@@ -42,7 +42,7 @@ export class ProfileEditComponent implements OnInit {
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
       type: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      profile: ['', this.profileImage?.length == 0 ? [Validators.required] : ''],
+      profile: [],
       dob: [''],
       phone: [''],
     }
@@ -59,7 +59,7 @@ export class ProfileEditComponent implements OnInit {
         this.profileEditForm.controls['type'].setValue(this.userData.type);
         this.profileEditForm.controls['dob'].setValue(this.userData.dob);
         this.profileImage = 'http://localhost:5000/' + this.userData.profile;
-        this.profileEditForm.controls['profile'].setValue(this.profileImage);
+        // this.profileEditForm.controls['profile'].setValue(this.profileImage);
       }
     })
   }
