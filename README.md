@@ -19,7 +19,7 @@ npm run dev
 ```
 cd frontend
 npm install
-ng serve
+npm run start
 ```
 
 **Login Information**
