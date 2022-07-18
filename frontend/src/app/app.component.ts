@@ -19,6 +19,9 @@ export class AppComponent {
         } else {
           this.showHeaderFooter = true;
         }
+        if(this.router.url === '/') {
+          this.router.navigate(['post-list']);
+        }
       }
     });
   }

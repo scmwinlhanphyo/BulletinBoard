@@ -21,7 +21,8 @@ const postSchema = new mongoose_1.Schema({
     },
     updated_user_id: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: "user"
+        ref: "user",
+        autopopulate: true
     },
     deleted_user_id: {
         type: mongoose_1.Schema.Types.ObjectId,

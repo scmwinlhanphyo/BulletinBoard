@@ -36,7 +36,15 @@
     <!-- Branch Column -->
     <ng-container matColumnDef="created_user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header class="table-header">Posted User</th>
-      <td mat-cell *matCellDef="let element">{{element?.created_user_id?.name}}
+      <td mat-cell *matCellDef="let element">
+
+        <div *ngIf="element?.created_user_id?.name">
+          {{element?.created_user_id?.name}}
+        </div>
+
+        <div *ngIf="!element?.created_user_id?.name">
+          {{element?.updated_user_id?.name}}
+        </div>
       </td>
     </ng-container>
 
