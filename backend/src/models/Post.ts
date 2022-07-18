@@ -20,7 +20,8 @@ const postSchema = new Schema({
   },
   updated_user_id: {
     type: Schema.Types.ObjectId,
-    ref: "user"
+    ref: "user",
+    autopopulate: true
   },
   deleted_user_id: {
     type: Schema.Types.ObjectId,

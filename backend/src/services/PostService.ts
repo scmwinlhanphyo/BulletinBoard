@@ -20,6 +20,7 @@ export const getPostService = async (
     let condition: any = { deleted_at: null };
     if (userType === "User") {
       condition.created_user_id = userId;
+      condition.updated_user_id = userId;
     }
     const posts = await Post.find(condition);
     res.json({ data: posts, status: 1 });
