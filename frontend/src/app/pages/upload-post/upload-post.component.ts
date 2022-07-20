@@ -41,13 +41,9 @@ export class UploadPostComponent implements OnInit {
       this.onClear();
     }
 
-    for (let i = 0; i < this.uploadData.length; i++) {
-      this.postService.createPost(this.uploadData[i]).then((dist) => {
-        if (i === this.uploadData.length - 1) {
-          this.router.navigate(["post-list", { msg: "success" }]);
-        }
-      })
-    }
+    this.postService.createPost(this.uploadData).then((dist) => {
+      this.router.navigate(["post-list", { msg: "success" }]);
+    });
   }
 
   /**

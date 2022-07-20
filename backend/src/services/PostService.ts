@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Post from '../models/Post';
 import { validationResult } from 'express-validator';
-import { PostCreate } from '../interfaces/Post';
 
 /**
  * get post service.
@@ -44,13 +43,8 @@ export const createPostService = async (req: Request, res: Response, next: NextF
       error.statusCode = 422;
       throw error;
     }
-    const postTdo: PostCreate = {
-      title: req.body.title,
-      description: req.body.description,
-      created_user_id: req.body.created_user_id,
-    }
-    const post = new Post(postTdo);
-    const result = await post.save();
+    const postList = req.body; 
+    const result: any = await Post.insertMany(postList);
     res
       .status(201)
       .json({ message: "Created Successfully!", data: result, status: 1 });
