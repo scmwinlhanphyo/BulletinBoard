@@ -27,6 +27,7 @@ import { UserDeleteDialogComponent } from './components/user-delete-dialog/user-
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
+import { AllownumbersonlyDirective } from './allownumbersonly.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +48,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     ForgetPasswordComponent,
     ProfileEditComponent,
     UserDeleteDialogComponent,
-    ProfileComponent
+    ProfileComponent,
+    AllownumbersonlyDirective
   ],
   imports: [
     BrowserModule,
