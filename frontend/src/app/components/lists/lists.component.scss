@@ -1,0 +1,17 @@
+.postTitle,
+.username {
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+}
+
+.postTitle:hover,
+.username:hover {
+  color: #0000ff;
+}
+
+table {
+  width: 95%;
+  margin: 30px auto;
+  margin-bottom: 20px;
+}

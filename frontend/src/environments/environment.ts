@@ -1,8 +1,6 @@
-import * as dotenv from 'dotenv';
 
-dotenv.config();
 export const environment = {
    production: false,
-   apiUrl: process.env['apiUrl'],
-   storageUrl: process.env['storageUrl']
+   apiUrl: "http://localhost:5000/api",
+   storageUrl: "http://localhost:5000/"
 };

@@ -27,7 +27,9 @@ import { UserDeleteDialogComponent } from './components/user-delete-dialog/user-
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
+import { MatTableExporterModule } from 'mat-table-exporter';
 import { AllownumbersonlyDirective } from './allownumbersonly.directive';
+import { ListsComponent } from './components/lists/lists.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +51,8 @@ import { AllownumbersonlyDirective } from './allownumbersonly.directive';
     ProfileEditComponent,
     UserDeleteDialogComponent,
     ProfileComponent,
-    AllownumbersonlyDirective
+    AllownumbersonlyDirective,
+    ListsComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,8 @@ import { AllownumbersonlyDirective } from './allownumbersonly.directive';
     ReactiveFormsModule,
     CommonModule,
     HttpClientModule,
-    FileUploadModule
+    FileUploadModule,
+    MatTableExporterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

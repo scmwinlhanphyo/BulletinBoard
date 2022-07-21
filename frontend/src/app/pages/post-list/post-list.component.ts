@@ -1,15 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { PostDeleteDialogComponent } from 'src/app/components/post-delete-dialog/post-delete-dialog.component';
-import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog/post-detail-dialog.component';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { postList } from 'src/app/constant/constant';
 import { PostService } from 'src/app/services/post.service';
 import { PostDataModel } from 'src/app/interfaces/interfaces';
-
-
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -19,16 +15,6 @@ import { PostDataModel } from 'src/app/interfaces/interfaces';
 export class PostListComponent implements OnInit {
   public tableData = postList;
   public dataSource = new MatTableDataSource<PostDataModel>();
-  public employees: any[] = [];
-  public selectedEmployeeName = '';
-  public showTimeFlag: any;
-  public columnToDisplay = [
-    'title',
-    'description',
-    'created_user',
-    'created_at',
-    'operation',
-  ];
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
@@ -49,17 +35,17 @@ export class PostListComponent implements OnInit {
     const userLoginData: any = localStorage.getItem('userLoginData') || "";
     const data = JSON.parse(userLoginData);
     this.userInfo = data._id;
-
     this.getPosts();
-    this.dataSource = new MatTableDataSource<PostDataModel>(this.postLists);
-    this.currentPage = 0;
-    this.totalSize = this.tableData.length;
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('msg') === "create success") {
         this.message = "Post successfully created."
         this.getPosts();
       } else if (params.get('msg') === "update success") {
         this.message = "Post successfully updated."
+        this.getPosts();
+      } else if (params.get('msg') === "delete success") {
+        this.message = "Post deleted successfully."
         this.getPosts();
       }
     })
@@ -99,36 +85,5 @@ export class PostListComponent implements OnInit {
       this.currentPage = 0;
       this.totalSize = this.postLists.length;
     })
-  }
-
-  /**
-   * post detail data.
-   * @param data
-   */
-  public postDetail(data: any) {
-    this.dialog.open(PostDetailDialogComponent, {
-      width: '40%',
-      data: data
-    });
-  }
-
-  /**
-   * delete post.
-   * @param data
-   */
-  public deletePost(data: any) {
-    const postId = data._id;
-    let dialogRef = this.dialog.open(PostDeleteDialogComponent, {
-      width: '40%',
-      data: data
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        this.postService.deletePost(postId).then((dist) => {
-          this.message = "Post Delete Successfully.";
-          this.getPosts();
-        });
-      }
-    });
   }
 }
