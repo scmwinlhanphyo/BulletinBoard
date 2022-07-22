@@ -13,13 +13,16 @@ export const getUserService = async (
   next: NextFunction
 ) => {
   try {
+    const page: any = req.query.page || 0;
+    const usersPerPage: any = req.query.upp
+
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
     let condition: any = { deleted_at: null };
     if (userType === constData.userType) {
       condition.created_user_id = userId;
     }
-    const users: any = await User.find(condition);
+    const users: any = await User.find(condition).skip(page * usersPerPage).limit(usersPerPage);
     const result: any = [];
     for (let i = 0; i < users.length; i++) {
       const index = users.findIndex((dist:any) => users[i]._id.equals(dist._id));
@@ -170,6 +173,9 @@ export const findByNameService = async (
   next: NextFunction
 ) => {
   try {
+    const page: any = req.query.page || 0;
+    const usersPerPage: any = req.query.upp
+
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
     let condition: any = { deleted_at: null };
@@ -186,7 +192,7 @@ export const findByNameService = async (
     req.body?.fromDate && req.body?.toDate && req.body?.fromDate === req.body?.toDate ?
     condition.createdAt = { $gte: moment(fromDate), $lte: moment(toDate).add(1, 'days') } : '';
 
-    const users: any = await User.find(condition);
+    const users: any = await User.find(condition).skip(page * usersPerPage).limit(usersPerPage);;
     const result: any = [];
     for (let i = 0; i < users.length; i++) {
       const index = users.findIndex((dist:any) => users[i]._id.equals(dist._id));

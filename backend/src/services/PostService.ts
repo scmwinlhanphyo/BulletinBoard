@@ -14,6 +14,9 @@ export const getPostService = async (
   next: NextFunction
 ) => {
   try {
+    const page: any = _req.query.page || 0;
+    const postsPerPage: any = _req.query.ppp
+
     const userType = _req.headers['userType'];
     const userId = _req.headers['userId'];
     let condition: any = { deleted_at: null };
@@ -21,7 +24,7 @@ export const getPostService = async (
       condition.created_user_id = userId;
       condition.updated_user_id = userId;
     }
-    const posts = await Post.find(condition);
+    const posts = await Post.find(condition).skip(page * postsPerPage).limit(postsPerPage);
     res.json({ data: posts, status: 1 });
   } catch (err) {
     next(err);
@@ -128,13 +131,16 @@ export const findByNameService = async (
   next: NextFunction
 ) => {
   try {
+    const page: any = req.query.page || 0;
+    const postsPerPage: any = req.query.ppp
+
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
     let condition: any = { title: { '$regex': req.body.title, '$options': 'i' }, deleted_at: null };
     if (userType === "User") {
       condition.created_user_id = userId;
     }
-    const posts = await Post.find(condition);
+    const posts = await Post.find(condition).skip(page * postsPerPage).limit(postsPerPage);
     res.json({ data: posts, status: 1 });
   } catch (err) {
     next(err);

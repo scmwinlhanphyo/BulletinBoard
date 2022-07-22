@@ -14,7 +14,6 @@ import { UserDataModel } from 'src/app/interfaces/interfaces';
 export class UserListComponent implements OnInit {
 
   public dataSource = new MatTableDataSource<UserDataModel>();
-  pageSizes = [2, 4, 8];
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
@@ -25,6 +24,8 @@ export class UserListComponent implements OnInit {
   today = new Date();
   public message: any = "";
   userLists: any;
+  pageSize = 5;
+  pageOptions = [5, 10, 15];
 
   constructor(
     private dialog: MatDialog,
@@ -57,12 +58,10 @@ export class UserListComponent implements OnInit {
    * get user data.
    */
   public getUsers() {
-    const payload = {}
-    this.userService.getUsers(payload).then((dist) => {
+    this.userService.getUsers(this.currentPage, this.pageSize).then((dist) => {
       this.userLists = dist.data;
       this.dataSource.data = dist.data;
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
       this.totalSize = this.userLists.length;
     })
   }
@@ -77,11 +76,25 @@ export class UserListComponent implements OnInit {
     this.fromDate ? payload['fromDate'] = moment(this.fromDate).format('YYYY/MM/DD') : '';
     this.toDate ? payload['toDate'] = moment(this.toDate).format('YYYY/MM/DD') : '';
 
-    this.userService.findByName(payload).then((dist) => {
+    this.userService.findByName(this.currentPage, this.pageSize, payload).then((dist) => {
       this.userLists = dist.data;
       this.dataSource.data = this.userLists;
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
+      this.totalSize = this.userLists.length;
+    })
+  }
+
+  /**
+   * when pagination buttons click.
+   * @param (e)
+   */
+   public handlePage(e: any) {
+    this.pageSize = e.pageOptions;
+    const pageIndex = e.pageIndex
+    this.userService.getUsers(this.pageSize, pageIndex).then((dist) => {
+      this.userLists = dist.data;
+      this.dataSource = new MatTableDataSource<any>(this.userLists);
+      this.dataSource.paginator = this.paginator;
       this.totalSize = this.userLists.length;
     })
   }

@@ -10,7 +10,7 @@ export class PostService {
 
   constructor(private http: HttpClient) { }
 
-  public getPosts(): Promise<any> {
+  public getPosts(pageSize: number, pageIndex: number): Promise<any> {
     const token = localStorage.getItem('token') || '';
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
@@ -22,7 +22,7 @@ export class PostService {
       .set('userId', userData._id)
       .set('Authorization', `Bearer ${token}`);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/posts`, options));
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/posts?page=${pageIndex}&ppp=${pageSize}`, options));
   }
 
   public createPost(payload: any): Promise<any> {
@@ -60,7 +60,7 @@ export class PostService {
     return lastValueFrom(this.http.delete(`${environment.apiUrl}/posts/` + postId, options));
   }
 
-  public findByName(payload: any): Promise<any> {
+  public findByName(pageSize: number, pageIndex: number, payload: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
@@ -69,6 +69,6 @@ export class PostService {
       .set('userType', userData.type)
       .set('userId', userData._id);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/posts/search`, payload, options));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/posts/search?page=${pageIndex}&ppp=${pageSize}`, payload, options));
   }
 }

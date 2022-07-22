@@ -15,5 +15,7 @@
 
   <app-lists [dataSource]="dataSource" mat-table matTableExporter #exporter="matTableExporter" [hiddenColumns]="[4]"></app-lists>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  <mat-paginator #paginator [pageSizeOptions]="pageOptions" showFirstLastButtons
+  [length]="totalSize" [pageIndex]="currentPage" (page)="handlePage($event)">
+  </mat-paginator>
 </div>

@@ -18,6 +18,8 @@ export class PostListComponent implements OnInit {
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
+  pageSize = 5;
+  pageOptions = [5, 10, 15];
   keyword = "";
   public message: any = "";
   postLists: any;
@@ -55,11 +57,10 @@ export class PostListComponent implements OnInit {
    * get post data.
    */
   public getPosts() {
-    this.postService.getPosts().then((dist) => {
+    this.postService.getPosts(this.currentPage, this.pageSize).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
       this.totalSize = this.postLists.length;
     })
   }
@@ -78,11 +79,25 @@ export class PostListComponent implements OnInit {
     const payload = {
       title: this.keyword,
     }
-    this.postService.findByName(payload).then((dist) => {
+    this.postService.findByName(this.currentPage, this.pageSize, payload).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
+      this.totalSize = this.postLists.length;
+    })
+  }
+
+  /**
+   * when pagination buttons click.
+   * @param (e)
+   */
+   public handlePage(e: any) {
+    this.pageSize = e.pageOptions;
+    const pageIndex = e.pageIndex
+    this.postService.getPosts(this.pageSize, pageIndex).then((dist) => {
+      this.postLists = dist.data;
+      this.dataSource = new MatTableDataSource<any>(this.postLists);
+      this.dataSource.paginator = this.paginator;
       this.totalSize = this.postLists.length;
     })
   }
