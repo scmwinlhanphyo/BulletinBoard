@@ -8,14 +8,13 @@ import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
 import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
-import { Subject } from 'rxjs';
+// import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.scss']
 })
 export class ListsComponent implements OnInit {
-  @Input() sub! : Subject<any>;
 
   dataSource: any;
   public columnToDisplayPost = [
@@ -38,6 +37,9 @@ export class ListsComponent implements OnInit {
     'operation',
   ];
   public userInfo: any;
+  public dataSubject: any = null;
+  public console = console;
+  @Input() exporter: any;
 
   constructor(
     private dialog: MatDialog,
@@ -45,7 +47,13 @@ export class ListsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
     private userService: UserService
-  ) { }
+  ) {
+    if (window.location.href.indexOf('/post-list') !== -1) {
+      this.dataSubject = this.postService.dataSubject;
+    } else {
+      this.dataSubject = this.userService.dataSubject;
+    }
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
@@ -53,8 +61,11 @@ export class ListsComponent implements OnInit {
     const data = JSON.parse(userLoginData);
     this.userInfo = data._id;
 
-    this.sub.subscribe((response :any) => this.dataSource = response);
-    // console.log(this.dataSource)
+    this.dataSubject.subscribe((response :any) => {
+      this.dataSource = response;
+      console.log(response, 'response');
+    });
+    // this.sub.subscribe((response :any) => console.log(response));
   }
 
   /**

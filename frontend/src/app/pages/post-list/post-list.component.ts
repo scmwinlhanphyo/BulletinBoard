@@ -6,7 +6,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { postList } from 'src/app/constant/constant';
 import { PostService } from 'src/app/services/post.service';
 import { PostDataModel } from 'src/app/interfaces/interfaces';
-import { Subject } from 'rxjs';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -25,15 +24,17 @@ export class PostListComponent implements OnInit {
   public message: any = "";
   postLists: any;
   public userInfo: any;
-
-  dataSubject : Subject<any> = new Subject();
+  public dataSubject: any = null;
+  public exporter: any = null;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private postService: PostService
-  ) { }
+  ) {
+    this.dataSubject = this.postService.dataSubject;
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
@@ -99,9 +100,10 @@ export class PostListComponent implements OnInit {
    */
    public handlePage(e: any) {
     this.pageSize = e.pageOptions;
-    this.currentPage = e.pageIndex;
-    console.log(this.currentPage)
-    this.postService.getPosts(this.pageSize, this.currentPage).then((dist) => {
+    // console.log(this.pageSize)
+    // this.pageSize = e.pageSize;
+    const pageIndex = e.pageIndex
+    this.postService.getPosts(this.pageSize, pageIndex).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;

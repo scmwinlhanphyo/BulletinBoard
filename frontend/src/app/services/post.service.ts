@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+  public dataSubject : Subject<any> = new Subject();
 
   constructor(private http: HttpClient) { }
 

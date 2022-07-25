@@ -6,7 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { UserDataModel } from 'src/app/interfaces/interfaces';
-import { Subject } from 'rxjs';
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -28,14 +28,16 @@ export class UserListComponent implements OnInit {
   pageSize = 5;
   pageOptions = [5, 10, 15];
 
-  dataSubject : Subject<any> = new Subject();
+  public dataSubject: any = null;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService
-  ) { }
+  ) {
+    this.dataSubject = this.userService.dataSubject;
+   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {

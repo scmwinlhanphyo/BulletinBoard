@@ -11,11 +11,14 @@
     <button mat-raised-button color="primary" class="user-btn" (click)="uploadPost()">Upload</button>
     <button mat-raised-button color="primary" class="download-user-btn"
     (click)="exporter.exportTable('csv',{fileName:'post-data',sheet: 'post_list', columnWidths: [20, 20, 20, 20, 20]});">Download</button>
+
+    <!-- <button mat-raised-button color="primary" class="download-user-btn"
+    (click)="exporter"></button> -->
   </div>
 
-  <app-lists [sub]="dataSubject" mat-table matTableExporter #exporter="matTableExporter" [hiddenColumns]="[4]"></app-lists>
+  <app-lists matTableExporter #exporter="matTableExporter" [hiddenColumns]="[4]"></app-lists>
 
-  <mat-paginator #paginator [pageSizeOptions]="pageOptions" showFirstLastButtons
+  <mat-paginator #paginator [pageSizeOptions]="pageOptions" [pageSize]="pageSize" showFirstLastButtons
   [length]="totalSize" [pageIndex]="currentPage" (page)="handlePage($event)">
   </mat-paginator>
 </div>

@@ -1,4 +1,5 @@
-<table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z8" matTableExporter #exporter="matTableExporter" [hiddenColumns]="[4]">
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows matTableExporter matSort  #exporter="matTableExporter" [hiddenColumns]="[4]">
+  {{console.log('dataSource', dataSource)}}
   <ng-container *ngIf="router.url.indexOf('/post-list') !== -1">
     <!-- ID Column -->
   <ng-container matColumnDef="title">

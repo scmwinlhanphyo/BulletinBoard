@@ -34,7 +34,7 @@
     </form>
   </div>
 
-  <app-lists [sub]="dataSubject"></app-lists>
+  <app-lists></app-lists>
 
   <mat-paginator #paginator [pageSizeOptions]="pageOptions" showFirstLastButtons
   [length]="totalSize" [pageIndex]="currentPage" (page)="handlePage($event)">
