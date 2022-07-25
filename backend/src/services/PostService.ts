@@ -15,7 +15,7 @@ export const getPostService = async (
 ) => {
   try {
     const page: any = _req.query.page || 0;
-    const postsPerPage: any = _req.query.ppp
+    const postsPerPage: any = _req.query.ppp || 5;
 
     const userType = _req.headers['userType'];
     const userId = _req.headers['userId'];
@@ -132,7 +132,7 @@ export const findByNameService = async (
 ) => {
   try {
     const page: any = req.query.page || 0;
-    const postsPerPage: any = req.query.ppp
+    const postsPerPage: any = req.query.ppp || 5;
 
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];

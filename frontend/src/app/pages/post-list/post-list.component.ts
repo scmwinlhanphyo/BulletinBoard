@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { postList } from 'src/app/constant/constant';
 import { PostService } from 'src/app/services/post.service';
 import { PostDataModel } from 'src/app/interfaces/interfaces';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -24,6 +25,8 @@ export class PostListComponent implements OnInit {
   public message: any = "";
   postLists: any;
   public userInfo: any;
+
+  dataSubject : Subject<any> = new Subject();
 
   constructor(
     private dialog: MatDialog,
@@ -51,6 +54,7 @@ export class PostListComponent implements OnInit {
         this.getPosts();
       }
     })
+
   }
 
   /**
@@ -60,6 +64,7 @@ export class PostListComponent implements OnInit {
     this.postService.getPosts(this.currentPage, this.pageSize).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
+      this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
       this.totalSize = this.postLists.length;
     })
@@ -82,6 +87,7 @@ export class PostListComponent implements OnInit {
     this.postService.findByName(this.currentPage, this.pageSize, payload).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
+      this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
       this.totalSize = this.postLists.length;
     })
@@ -93,8 +99,9 @@ export class PostListComponent implements OnInit {
    */
    public handlePage(e: any) {
     this.pageSize = e.pageOptions;
-    const pageIndex = e.pageIndex
-    this.postService.getPosts(this.pageSize, pageIndex).then((dist) => {
+    this.currentPage = e.pageIndex;
+    console.log(this.currentPage)
+    this.postService.getPosts(this.pageSize, this.currentPage).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSource.paginator = this.paginator;

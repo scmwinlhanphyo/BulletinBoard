@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
 import { UserDataModel } from 'src/app/interfaces/interfaces';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -26,6 +27,8 @@ export class UserListComponent implements OnInit {
   userLists: any;
   pageSize = 5;
   pageOptions = [5, 10, 15];
+
+  dataSubject : Subject<any> = new Subject();
 
   constructor(
     private dialog: MatDialog,
@@ -60,7 +63,8 @@ export class UserListComponent implements OnInit {
   public getUsers() {
     this.userService.getUsers(this.currentPage, this.pageSize).then((dist) => {
       this.userLists = dist.data;
-      this.dataSource.data = dist.data;
+      this.dataSource = new MatTableDataSource<any>(this.userLists);
+      this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
       this.totalSize = this.userLists.length;
     })

@@ -14,7 +14,7 @@ export const getUserService = async (
 ) => {
   try {
     const page: any = req.query.page || 0;
-    const usersPerPage: any = req.query.upp
+    const usersPerPage: any = req.query.upp || 5;
 
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];
@@ -174,7 +174,7 @@ export const findByNameService = async (
 ) => {
   try {
     const page: any = req.query.page || 0;
-    const usersPerPage: any = req.query.upp
+    const usersPerPage: any = req.query.upp || 5;
 
     const userType = req.headers['userType'];
     const userId = req.headers['userId'];

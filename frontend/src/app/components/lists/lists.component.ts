@@ -8,15 +8,16 @@ import { PostService } from 'src/app/services/post.service';
 import { UserService } from 'src/app/services/user.service';
 import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
 import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-lists',
   templateUrl: './lists.component.html',
   styleUrls: ['./lists.component.scss']
 })
 export class ListsComponent implements OnInit {
-  @Input() dataSource : any;
+  @Input() sub! : Subject<any>;
 
+  dataSource: any;
   public columnToDisplayPost = [
     'title',
     'description',
@@ -51,6 +52,9 @@ export class ListsComponent implements OnInit {
     const userLoginData: any = localStorage.getItem('userLoginData') || "";
     const data = JSON.parse(userLoginData);
     this.userInfo = data._id;
+
+    this.sub.subscribe((response :any) => this.dataSource = response);
+    // console.log(this.dataSource)
   }
 
   /**
@@ -124,3 +128,7 @@ export class ListsComponent implements OnInit {
     });
   }
 }
+function doSomething(): void {
+  throw new Error('Function not implemented.');
+}
+

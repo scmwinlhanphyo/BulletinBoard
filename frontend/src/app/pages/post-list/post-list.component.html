@@ -13,7 +13,7 @@
     (click)="exporter.exportTable('csv',{fileName:'post-data',sheet: 'post_list', columnWidths: [20, 20, 20, 20, 20]});">Download</button>
   </div>
 
-  <app-lists [dataSource]="dataSource" mat-table matTableExporter #exporter="matTableExporter" [hiddenColumns]="[4]"></app-lists>
+  <app-lists [sub]="dataSubject" mat-table matTableExporter #exporter="matTableExporter" [hiddenColumns]="[4]"></app-lists>
 
   <mat-paginator #paginator [pageSizeOptions]="pageOptions" showFirstLastButtons
   [length]="totalSize" [pageIndex]="currentPage" (page)="handlePage($event)">
