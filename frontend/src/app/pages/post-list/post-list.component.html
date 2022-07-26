@@ -9,14 +9,10 @@
     <button mat-raised-button color="primary" class="user-btn" (click)="searchUser()">Search</button>
     <button mat-raised-button color="primary" class="user-btn" [routerLink]="['/post-create']">Create</button>
     <button mat-raised-button color="primary" class="user-btn" (click)="uploadPost()">Upload</button>
-    <button mat-raised-button color="primary" class="download-user-btn"
-    (click)="exporter.exportTable('csv',{fileName:'post-data',sheet: 'post_list', columnWidths: [20, 20, 20, 20, 20]});">Download</button>
-
-    <!-- <button mat-raised-button color="primary" class="download-user-btn"
-    (click)="exporter"></button> -->
+    <a mat-raised-button color="primary" class="download-user-btn" csvLink [data]="postData">Download</a>
   </div>
 
-  <app-lists matTableExporter #exporter="matTableExporter" [hiddenColumns]="[4]"></app-lists>
+  <app-lists matSort></app-lists>
 
   <mat-paginator #paginator [pageSizeOptions]="pageOptions" [pageSize]="pageSize" showFirstLastButtons
   [length]="totalSize" [pageIndex]="currentPage" (page)="handlePage($event)">

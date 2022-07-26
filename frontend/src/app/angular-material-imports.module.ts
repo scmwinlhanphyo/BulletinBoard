@@ -21,7 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatTableExporterModule } from 'mat-table-exporter';
+import { CsvModule } from '@ctrl/ngx-csv';
 @NgModule({
   declarations: [],
   imports: [
@@ -49,7 +49,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatDatepickerModule,
     MatSlideToggleModule,
     MatGridListModule,
-    MatTableExporterModule
+    CsvModule
   ]
 })
 export class AngularMaterialImportsModule { }

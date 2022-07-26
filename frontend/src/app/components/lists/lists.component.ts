@@ -63,9 +63,8 @@ export class ListsComponent implements OnInit {
 
     this.dataSubject.subscribe((response :any) => {
       this.dataSource = response;
-      console.log(response, 'response');
+      // console.log(response, 'response');
     });
-    // this.sub.subscribe((response :any) => console.log(response));
   }
 
   /**

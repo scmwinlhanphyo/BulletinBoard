@@ -23,6 +23,8 @@ export class PostListComponent implements OnInit {
   keyword = "";
   public message: any = "";
   postLists: any;
+  postData: any = [];
+  postArr: any = [];
   public userInfo: any;
   public dataSubject: any = null;
   public exporter: any = null;
@@ -31,7 +33,7 @@ export class PostListComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private postService: PostService
+    private postService: PostService,
   ) {
     this.dataSubject = this.postService.dataSubject;
   }
@@ -64,6 +66,16 @@ export class PostListComponent implements OnInit {
   public getPosts() {
     this.postService.getPosts(this.currentPage, this.pageSize).then((dist) => {
       this.postLists = dist.data;
+      this.postLists.map((result: any) => {
+        let res = {
+          Title: result.title,
+          Description: result.description,
+          Posted_User: result.created_user_id ? result.created_user_id["name"]: result.updated_user_id["name"],
+          Posted_Date: new Date(result.createdAt).toLocaleString()
+        }
+        this.postArr.push(res);
+      })
+      this.postData = this.postArr;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
       this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
