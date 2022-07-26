@@ -27,7 +27,6 @@ import { UserDeleteDialogComponent } from './components/user-delete-dialog/user-
 import { ProfileComponent } from './pages/profile/profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
-import { MatTableExporterModule } from 'mat-table-exporter';
 import { AllownumbersonlyDirective } from './allownumbersonly.directive';
 import { ListsComponent } from './components/lists/lists.component';
 @NgModule({
@@ -64,7 +63,6 @@ import { ListsComponent } from './components/lists/lists.component';
     CommonModule,
     HttpClientModule,
     FileUploadModule,
-    MatTableExporterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
