@@ -1,12 +1,10 @@
 import { ViewChild, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import * as moment from 'moment';
 import { UserService } from 'src/app/services/user.service';
-import { UserDetailDialogComponent } from 'src/app/components/user-detail-dialog/user-detail-dialog.component';
-import { UserDeleteDialogComponent } from 'src/app/components/user-delete-dialog/user-delete-dialog.component';
 import { UserDataModel } from 'src/app/interfaces/interfaces';
 
 @Component({
@@ -17,23 +15,6 @@ import { UserDataModel } from 'src/app/interfaces/interfaces';
 export class UserListComponent implements OnInit {
 
   public dataSource = new MatTableDataSource<UserDataModel>();
-  public employees: any[] = [];
-  public selectedEmployeeName = '';
-  public showTimeFlag: any;
-  public columnToDisplay = [
-    'no',
-    'name',
-    'email',
-    'created_user',
-    'type',
-    'phone',
-    'dob',
-    'address',
-    'created_at',
-    'updated_at',
-    'operation',
-  ];
-  pageSizes = [2, 4, 8];
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
@@ -44,13 +25,19 @@ export class UserListComponent implements OnInit {
   today = new Date();
   public message: any = "";
   userLists: any;
+  pageSize = 5;
+  pageOptions = [5, 10, 15];
+
+  public dataSubject: any = null;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService
-  ) { }
+  ) {
+    this.dataSubject = this.userService.dataSubject;
+   }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
@@ -65,6 +52,9 @@ export class UserListComponent implements OnInit {
       } else if (params.get('editprofile') === 'success') {
         this.message = 'User profile successfully updated.';
         this.getUsers();
+      } else if (params.get('msg') === 'delete success') {
+        this.message = 'User deleted successfully.';
+        this.getUsers();
       }
     });
   }
@@ -73,12 +63,11 @@ export class UserListComponent implements OnInit {
    * get user data.
    */
   public getUsers() {
-    const payload = {}
-    this.userService.getUsers(payload).then((dist) => {
+    this.userService.getUsers(this.currentPage, this.pageSize).then((dist) => {
       this.userLists = dist.data;
-      this.dataSource.data = dist.data;
+      this.dataSource = new MatTableDataSource<any>(this.userLists);
+      this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
       this.totalSize = this.userLists.length;
     })
   }
@@ -93,52 +82,26 @@ export class UserListComponent implements OnInit {
     this.fromDate ? payload['fromDate'] = moment(this.fromDate).format('YYYY/MM/DD') : '';
     this.toDate ? payload['toDate'] = moment(this.toDate).format('YYYY/MM/DD') : '';
 
-    this.userService.findByName(payload).then((dist) => {
+    this.userService.findByName(this.currentPage, this.pageSize, payload).then((dist) => {
       this.userLists = dist.data;
       this.dataSource.data = this.userLists;
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
       this.totalSize = this.userLists.length;
     })
   }
 
   /**
-   * open user detail dialog.
-   * @param data
+   * when pagination buttons click.
+   * @param (e)
    */
-  public userDetail(data: any) {
-    this.dialog.open(UserDetailDialogComponent, {
-      width: '40%',
-      data: data,
-    });
-  }
-
-  /**
-   * update user form.
-   * @param userId
-   */
-  updateUser(userId: any) {
-    const userID = userId._id;
-    this.router.navigate(['profile-edit/' + userID]);
-  }
-
-  /**
-   * delete user data.
-   * @param data
-   */
-  public deleteUser(data: any) {
-    const userId = data._id;
-    let dialogRef = this.dialog.open(UserDeleteDialogComponent, {
-      width: '40%',
-      data: data,
-    });
-    dialogRef.afterClosed().subscribe((data) => {
-      if (data) {
-        this.userService.deleteUser(userId).then((dist) => {
-          this.message = 'User Delete Successfully.';
-          this.getUsers();
-        })
-      }
-    });
+   public handlePage(e: any) {
+    this.pageSize = e.pageOptions;
+    const pageIndex = e.pageIndex
+    this.userService.getUsers(this.pageSize, pageIndex).then((dist) => {
+      this.userLists = dist.data;
+      this.dataSource = new MatTableDataSource<any>(this.userLists);
+      this.dataSource.paginator = this.paginator;
+      this.totalSize = this.userLists.length;
+    })
   }
 }

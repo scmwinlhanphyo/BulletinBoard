@@ -14,15 +14,20 @@ import { ForgetPasswordComponent } from './pages/forget-password/forget-password
 import { ProfileEditComponent } from './pages/profile-edit/profile-edit.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ListsComponent } from './components/lists/lists.component';
+
+// Post Resolver
+import { PostResolver } from './resolver/post.resolver';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'lists', component: ListsComponent },
   { path: 'post-list', component: PostListComponent, canActivate: [AuthGuard] },
   { path: 'user-list', component: UserListComponent, canActivate: [AuthGuard] },
   { path: 'upload-csv-post', component: UploadPostComponent, canActivate: [AuthGuard] },
   { path: 'post-create', component: PostFormComponent, canActivate: [AuthGuard] },
-  { path: 'update-post/:id', component: PostFormComponent, canActivate: [AuthGuard] },
+  { path: 'update-post/:id', component: PostFormComponent, canActivate: [AuthGuard], resolve: {post: PostResolver} },
   { path: 'signup', component: CreateAccountComponent },
   { path: 'forget-password-update/:userId/:token', component: ForgetPasswordUpdateComponent },
   { path: 'user-create', component: UserCreateComponent, canActivate: [AuthGuard] },

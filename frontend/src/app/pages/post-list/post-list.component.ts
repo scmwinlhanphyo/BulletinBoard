@@ -1,15 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { PostDeleteDialogComponent } from 'src/app/components/post-delete-dialog/post-delete-dialog.component';
-import { PostDetailDialogComponent } from 'src/app/components/post-detail-dialog/post-detail-dialog.component';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { postList } from 'src/app/constant/constant';
 import { PostService } from 'src/app/services/post.service';
 import { PostDataModel } from 'src/app/interfaces/interfaces';
-
-
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
@@ -19,41 +15,36 @@ import { PostDataModel } from 'src/app/interfaces/interfaces';
 export class PostListComponent implements OnInit {
   public tableData = postList;
   public dataSource = new MatTableDataSource<PostDataModel>();
-  public employees: any[] = [];
-  public selectedEmployeeName = '';
-  public showTimeFlag: any;
-  public columnToDisplay = [
-    'title',
-    'description',
-    'created_user',
-    'created_at',
-    'operation',
-  ];
   actualPaginator?: MatPaginator;
   currentPage = 0;
   totalSize = 0;
+  pageSize = 5;
+  pageOptions = [5, 10, 15];
   keyword = "";
   public message: any = "";
   postLists: any;
+  postData: any = [];
+  postArr: any = [];
   public userInfo: any;
+  public dataSubject: any = null;
+  public exporter: any = null;
 
   constructor(
     private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private postService: PostService
-  ) { }
+    private postService: PostService,
+  ) {
+    this.dataSubject = this.postService.dataSubject;
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     const userLoginData: any = localStorage.getItem('userLoginData') || "";
     const data = JSON.parse(userLoginData);
     this.userInfo = data._id;
-
     this.getPosts();
-    this.dataSource = new MatTableDataSource<PostDataModel>(this.postLists);
-    this.currentPage = 0;
-    this.totalSize = this.tableData.length;
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params.get('msg') === "create success") {
         this.message = "Post successfully created."
@@ -61,19 +52,33 @@ export class PostListComponent implements OnInit {
       } else if (params.get('msg') === "update success") {
         this.message = "Post successfully updated."
         this.getPosts();
+      } else if (params.get('msg') === "delete success") {
+        this.message = "Post deleted successfully."
+        this.getPosts();
       }
     })
+
   }
 
   /**
    * get post data.
    */
   public getPosts() {
-    this.postService.getPosts().then((dist) => {
+    this.postService.getPosts(this.currentPage, this.pageSize).then((dist) => {
       this.postLists = dist.data;
+      this.postLists.map((result: any) => {
+        let res = {
+          Title: result.title,
+          Description: result.description,
+          Posted_User: result.created_user_id ? result.created_user_id["name"]: result.updated_user_id["name"],
+          Posted_Date: new Date(result.createdAt).toLocaleString()
+        }
+        this.postArr.push(res);
+      })
+      this.postData = this.postArr;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
+      this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
       this.totalSize = this.postLists.length;
     })
   }
@@ -92,43 +97,29 @@ export class PostListComponent implements OnInit {
     const payload = {
       title: this.keyword,
     }
-    this.postService.findByName(payload).then((dist) => {
+    this.postService.findByName(this.currentPage, this.pageSize, payload).then((dist) => {
       this.postLists = dist.data;
       this.dataSource = new MatTableDataSource<any>(this.postLists);
+      this.dataSubject.next(this.dataSource);
       this.dataSource.paginator = this.paginator;
-      this.currentPage = 0;
       this.totalSize = this.postLists.length;
     })
   }
 
   /**
-   * post detail data.
-   * @param data
+   * when pagination buttons click.
+   * @param (e)
    */
-  public postDetail(data: any) {
-    this.dialog.open(PostDetailDialogComponent, {
-      width: '40%',
-      data: data
-    });
-  }
-
-  /**
-   * delete post.
-   * @param data
-   */
-  public deletePost(data: any) {
-    const postId = data._id;
-    let dialogRef = this.dialog.open(PostDeleteDialogComponent, {
-      width: '40%',
-      data: data
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      if (data) {
-        this.postService.deletePost(postId).then((dist) => {
-          this.message = "Post Delete Successfully.";
-          this.getPosts();
-        });
-      }
-    });
+   public handlePage(e: any) {
+    this.pageSize = e.pageOptions;
+    // console.log(this.pageSize)
+    // this.pageSize = e.pageSize;
+    const pageIndex = e.pageIndex
+    this.postService.getPosts(this.pageSize, pageIndex).then((dist) => {
+      this.postLists = dist.data;
+      this.dataSource = new MatTableDataSource<any>(this.postLists);
+      this.dataSource.paginator = this.paginator;
+      this.totalSize = this.postLists.length;
+    })
   }
 }

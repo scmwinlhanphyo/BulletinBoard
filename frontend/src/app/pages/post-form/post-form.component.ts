@@ -15,7 +15,7 @@ export class PostFormComponent implements OnInit {
   buttonName: string = 'Create';
   public userInfo: any;
   postData: any;
-
+  data: any;
   constructor(
     public router: Router,
     private activatedRoute: ActivatedRoute,
@@ -29,20 +29,19 @@ export class PostFormComponent implements OnInit {
     }
 
   ngOnInit() {
+
     let paramId =this.activatedRoute.snapshot.paramMap.get("id");
     if (this.router.url.indexOf('/update-post') !== -1 && paramId !== undefined) {
       this.pageTitle = 'Update a post';
       this.buttonName = 'Update';
 
+      this.data = this.activatedRoute.snapshot.data['post'];
       const id: string = this.activatedRoute.snapshot.params['id'];
-      this.postService.findPost(id).then((dist) => {
-        this.postData = dist.data;
-        if (this.postData) {
-          this.postForm.controls['title'].setValue(this.postData.title);
-          this.postForm.controls['description'].setValue(this.postData.description);
-          this.postForm.controls['status'].setValue(this.postData.status)
-        }
-      })
+      if (this.data) {
+          this.postForm.controls['title'].setValue(this.data.data.title);
+          this.postForm.controls['description'].setValue(this.data.data.description);
+          this.postForm.controls['status'].setValue(this.data.data.status)
+      }
     }
   }
 

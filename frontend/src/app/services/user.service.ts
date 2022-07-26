@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  public dataSubject : Subject<any> = new Subject();
 
   constructor(private http: HttpClient) { }
 
@@ -33,7 +34,7 @@ export class UserService {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/users`, payload, options));
   }
 
-  public getUsers(payload: any): Promise<any> {
+  public getUsers(pageSize: number, pageIndex: number): Promise<any> {
     const token = localStorage.getItem('token') || '';
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
@@ -45,7 +46,7 @@ export class UserService {
       .set('userType', userData.type)
       .set('userId', userData._id);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.get(`${environment.apiUrl}/users`, options));
+    return lastValueFrom(this.http.get(`${environment.apiUrl}/users?page=${pageIndex}&upp=${pageSize}`, options));
   }
 
   public findUser(payload: any, userId: any): Promise<any> {
@@ -82,7 +83,7 @@ export class UserService {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/signup`, payload));
   }
 
-  public findByName(payload: any): Promise<any> {
+  public findByName(pageSize: number, pageIndex: number, payload: any): Promise<any> {
     const token = localStorage.getItem('token') || '';
     const data = localStorage.getItem('userLoginData') || "";
     const userData = JSON.parse(data);
@@ -91,6 +92,6 @@ export class UserService {
       .set('userType', userData.type)
       .set('userId', userData._id);
     const options = { headers: headerOptions };
-    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/search`, payload, options));
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/users/search?page=${pageIndex}&upp=${pageSize}`, payload, options));
   }
 }
