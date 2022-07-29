@@ -39,7 +39,7 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
   }
 };
 
-const PORT = process.env.port;
+const PORT = process.env.PORT;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -50,13 +50,15 @@ app.use(cookieParser());
 app.use(passport.initialize());
 
 app.get("/", (_req, res) => {
-  res.json({ country: 'USA' })
+  res.json({ country: 'USA' });
 })
+
 
 mongoose
   .connect(process.env.DATABSE || "")
   .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, () => console.log("Server running on port "+ PORT));
 
     app.use('/api/users', passport.authenticate('jwt', { session: false }), user_route);
     app.use('/api/posts', passport.authenticate('jwt', { session: false }), post_route);

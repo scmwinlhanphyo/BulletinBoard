@@ -7,18 +7,17 @@ services:
       restart: always
       command: npm run dev
       ports:
-        - "5000:8080"
+        - "5000:5000"
       env_file: 
         - ./backend/.env
-     
 
-  # angular:
-  #   image: angular-frontend:v2
-  #   build: ./frontend
-  #   ports:
-  #     - "4200:80"
-  #   environment:
-  #     - apiUrl=http://localhost:5000/api
-  #     - storageUrl=http://localhost:5000/
+  angular:
+    image: angular-frontend:v2
+    build: ./frontend
+    ports:
+      - "4200:80"
+    environment:
+      - apiUrl=http://localhost:5000/api
+      - storageUrl=http://localhost:5000/
   
   
