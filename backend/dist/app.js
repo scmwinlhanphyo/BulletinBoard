@@ -38,7 +38,7 @@ const fileFilter = (_req, file, cb) => {
         cb(null, false);
     }
 };
-const PORT = process.env.port;
+const PORT = process.env.PORT;
 const app = (0, express_1.default)();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -53,7 +53,8 @@ app.get("/", (_req, res) => {
 mongoose_1.default
     .connect(process.env.DATABSE || "")
     .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, () => console.log("Server running on port " + PORT));
     app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
     app.use('/api/posts', passport_1.default.authenticate('jwt', { session: false }), post_route_1.default);
     app.use("/api", auth_route_1.default);
