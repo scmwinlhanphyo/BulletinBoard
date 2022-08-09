@@ -47,4 +47,8 @@ export class AuthService {
   public resetPasswordUpdate(id: string, token: string, payload: any): Promise<any> {
     return lastValueFrom(this.http.post(`${environment.apiUrl}/password-reset-update/${id}/${token}`, payload));
   }
+
+  public passwordChange(id: string, payload: any, token: string): Promise<any> {
+    return lastValueFrom(this.http.post(`${environment.apiUrl}/password-change/${id}/${token}`, payload));
+  }
 }

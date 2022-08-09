@@ -129,18 +129,22 @@ export const passwordChangeService = async (req: Request, res: Response) => {
           message: 'Could not find user'
         })
       }
+
+      const token= req.params.token;
+      if (!token) return res.status(400).send("Unauthorized");
+
   
       if (!compareSync(req.body.oldPassword, user.password)) {
         return res.status(401).send({
           success: false,
-          messages: 'Incorrect password'
+          message: 'Incorrect password'
         });
       }
 
       if(compareSync(req.body.newPassword, user.password)) {
         return res.status(401).send({
           success: false,
-          messages: 'Current Password and New Password are same.'
+          message: 'Current Password and New Password are same.'
         });
       }
 

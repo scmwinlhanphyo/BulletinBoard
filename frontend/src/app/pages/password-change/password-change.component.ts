@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 import { MustMatch } from 'src/app/validators/must-match.validator';
 
@@ -18,7 +19,8 @@ export class PasswordChangeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -27,9 +29,9 @@ export class PasswordChangeComponent implements OnInit {
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, MustMatch]]
     },
-    {
+      {
         validator: MustMatch('newPassword', 'confirmPassword')
-    });
+      });
   }
 
   /**
@@ -55,19 +57,27 @@ export class PasswordChangeComponent implements OnInit {
    */
   onSubmit(formValue: any) {
     if (this.passwordForm.valid) {
-      if (this.password !== formValue.oldPassword) {
-        this.errorConfirm = "Current Password is wrong!.";
+      const data: any = localStorage.getItem('userLoginData') || "";
+      const token: any = localStorage.getItem('token');
+      const id: string = JSON.parse(data)._id;
+      const payload = {
+        oldPassword: this.passwordForm.controls['oldPassword'].value,
+        newPassword: this.passwordForm.controls['newPassword'].value,
       }
-     else {
-        this.passwordForm.controls['oldPassword']
-        this.passwordForm.controls['newPassword'];
-        this.passwordForm.controls['CurrentPassword']
-        this.router.navigate(["user-list", { updatepw: "success"}]);
+      this.authService.passwordChange(id, payload, token).then((dist) => {
+        this.authService.logout().then((dist: any) => {
+          localStorage.removeItem('userId');
+          localStorage.clear();
+          this.authService.isLoggedIn();
+          this.router.navigateByUrl('/login');
+        });
+      }).catch((err) => {
+        this.errorConfirm = err.error.message;
+      });
+    } else {
+      this.submitted = true;
     }
-  } else {
-    this.submitted = true;
   }
-}
 
   changePasswordText() {
     if (this.passwordForm.controls['newPassword'].value !== this.passwordForm.controls['confirmPassword'].value) {

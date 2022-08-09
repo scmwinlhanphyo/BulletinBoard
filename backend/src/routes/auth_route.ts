@@ -44,6 +44,6 @@ router
   .post(resetPassword);
 
 router
-  .route('/password-change/:userId')
+  .route('/password-change/:userId/:token')
   .post(passwordChange);
 export default router;
