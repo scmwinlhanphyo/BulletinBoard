@@ -4,7 +4,8 @@ import {
   logoutService,
   forgetPasswordService,
   checkResetPasswordService,
-  resetPasswordService
+  resetPasswordService,
+  passwordChangeService
 } from '../services/AuthService';
 
 export const login = async (
@@ -28,4 +29,8 @@ export const checkResetPassword = async (req: any, res: Response) => {
 
 export const resetPassword = async (req: Request, res: Response) => {
   resetPasswordService(req, res);
+}
+
+export const passwordChange = async (req: Request, res: Response) => {
+  passwordChangeService(req, res);
 }

@@ -36,6 +36,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/profile/' + this.userInfo]);
   }
 
+  public pwChange() {
+    const data: any = localStorage.getItem('userLoginData') || "";
+    this.userInfo = JSON.parse(data)._id;
+    this.router.navigate(['/password-change/' + this.userInfo]);
+  }
+
   public logout() {
     this.authService.logout().then((dist: any) => {
       localStorage.removeItem('userId');
