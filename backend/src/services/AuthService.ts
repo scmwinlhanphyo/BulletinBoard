@@ -6,6 +6,7 @@ import moment from 'moment';
 import bcrypt from 'bcrypt';
 import User from '../models/User';
 import PasswordReset from '../models/PasswordReset';
+// import { use } from 'passport';
 const sendEmail = require("../utils/sendEmail");
 
 
@@ -32,7 +33,7 @@ export const loginService = async (
       email: await bcrypt.hash(user.email, 12),
       id: await bcrypt.hash(user.id, 12)
     }
-    
+
     const token = jwt.sign(payload, 'abcd', { expiresIn: '1d' });
 
     return res.status(200).send({
@@ -113,6 +114,40 @@ export const resetPasswordService = async (req: Request, res: Response) => {
     res.json({
       message: "Password reset sucessfully."
     });
+  } catch (error) {
+    res.send("An error occured");
+  }
+}
+
+export const passwordChangeService = async (req: Request, res: Response) => {
+  try {
+    await User.findById(req.params.userId)
+    .then(async (user: any) => {
+      if (!user) {
+        return res.status(401).send({
+          success: false,
+          message: 'Could not find user'
+        })
+      }
+  
+      if (!compareSync(req.body.oldPassword, user.password)) {
+        return res.status(401).send({
+          success: false,
+          messages: 'Incorrect password'
+        });
+      }
+
+      if(compareSync(req.body.newPassword, user.password)) {
+        return res.status(401).send({
+          success: false,
+          messages: 'Current Password and New Password are same.'
+        });
+      }
+
+      user.password = await bcrypt.hash(req.body.newPassword, 12);
+      await user.save();
+      res.json({ message: "Password Change Successfully!" });
+    })
   } catch (error) {
     res.send("An error occured");
   }

@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'signup', component: CreateAccountComponent },
   { path: 'forget-password-update/:userId/:token', component: ForgetPasswordUpdateComponent },
   { path: 'user-create', component: UserCreateComponent, canActivate: [AuthGuard] },
-  { path: 'password-change', component: PasswordChangeComponent, canActivate: [AuthGuard] },
+  { path: 'password-change/:id', component: PasswordChangeComponent, canActivate: [AuthGuard] },
   { path: 'forget-password', component: ForgetPasswordComponent },
   { path: 'profile-edit/:id', component: ProfileEditComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] }
