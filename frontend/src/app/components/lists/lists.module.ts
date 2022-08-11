@@ -2,16 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialImportsModule } from 'src/app/angular-material-imports.module';
+import { ListsRoutingModule } from './lists-routing.module';
+import { ListsComponent } from './lists.component';
 
-import { HeaderRoutingModule } from './header-routing.module';
 @NgModule({
-  declarations: [ ],
+  declarations: [ ListsComponent ],
   imports: [
     CommonModule,
-    HeaderRoutingModule,
+    ListsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularMaterialImportsModule
-  ]
+    AngularMaterialImportsModule,
+  ],
+  exports: [ ListsComponent ]
 })
-export class HeaderModule { }
+export class ListsModule { }

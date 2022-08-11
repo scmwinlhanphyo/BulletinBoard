@@ -4,10 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialImportsModule } from 'src/app/angular-material-imports.module';
 
 import { FooterRoutingModule } from './footer-routing.module';
-import { FooterComponent } from './footer.component';
 
 @NgModule({
-  declarations: [ FooterComponent ],
+  declarations: [ ],
   imports: [
     CommonModule,
     FooterRoutingModule,

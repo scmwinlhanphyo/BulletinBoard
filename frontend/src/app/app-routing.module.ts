@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { PostListComponent } from './pages/post-list/post-list.component';
-import { UserListComponent } from './pages/user-list/user-list.component';
 import { AuthGuard } from './guards/auth.guard';
-import { ListsComponent } from './components/lists/lists.component';
 
 // Post Resolver
 import { PostResolver } from './resolver/post.resolver';
@@ -20,15 +16,15 @@ const routes: Routes = [
   },
   {
     path: 'lists',
-    component: ListsComponent
+    loadChildren: () => import('./components/lists/lists.module').then(m => m.ListsModule), data: { preload: true },
   },
   { path: 'post-list',
-    component: PostListComponent,
+    loadChildren: () => import('./pages/post-list/post-list.module').then(m => m.PostListModule),  data: { preload: true },
     canActivate: [AuthGuard]
   },
   {
     path: 'user-list',
-    component: UserListComponent,
+    loadChildren: () => import('./pages/user-list/user-list.module').then(m => m.UserListModule),  data: { preload: true },
     canActivate: [AuthGuard]
   },
   {
