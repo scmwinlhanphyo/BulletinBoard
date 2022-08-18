@@ -6,6 +6,7 @@ import { deleteFile } from "../utils";
 import { UserCreate } from '../interfaces/User';
 import User from '../models/User';
 import { constData } from '../const/const';
+const logger = require('../loggers/logger');
 
 export const getUserService = async (
   req: Request,
@@ -50,7 +51,7 @@ export const getUserService = async (
 export const createUserService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const errors = validationResult(req.body);
@@ -81,7 +82,8 @@ export const createUserService = async (
       .status(201)
       .json({ message: "Created User Successfully!", data: result, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.userLogger.log('error', 'Error Create User')
   }
 };
 

@@ -1,7 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import Post from '../models/Post';
 import { validationResult } from 'express-validator';
-
+// import postLogger from './logger';
+// import { Logger } from 'winston';
+// import { logger } from '../loggers/logger'
+const logger = require('../loggers/logger');
 /**
  * get post service.
  * @param _req 
@@ -37,7 +40,7 @@ export const getPostService = async (
  * @param res 
  * @param next 
  */
-export const createPostService = async (req: Request, res: Response, next: NextFunction) => {
+export const createPostService = async (req: Request, res: Response, _next: NextFunction) => {
   try {
     const errors = validationResult(req.body);
     if (!errors.isEmpty()) {
@@ -52,7 +55,9 @@ export const createPostService = async (req: Request, res: Response, next: NextF
       .status(201)
       .json({ message: "Created Successfully!", data: result, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    // logger.postLogger.log('error', 'Error Create Post')
+    logger.postLogger.log('error', 'Error Create Post')
   }
 };
 
