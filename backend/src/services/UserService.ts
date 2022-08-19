@@ -6,11 +6,12 @@ import { deleteFile } from "../utils";
 import { UserCreate } from '../interfaces/User';
 import User from '../models/User';
 import { constData } from '../const/const';
+const logger = require('../loggers/logger');
 
 export const getUserService = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const page: any = req.query.page || 0;
@@ -43,14 +44,15 @@ export const getUserService = async (
       }
     });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.userInfoLogger.log('info', 'Error User Lists')
   }
 };
 
 export const createUserService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const errors = validationResult(req.body);
@@ -81,14 +83,17 @@ export const createUserService = async (
       .status(201)
       .json({ message: "Created User Successfully!", data: result, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    // Logger Usage
+    // logger.userLogger.log('error', 'Error Create User')
+    logger.userInfoLogger.log('info', 'Error Create User')
   }
 };
 
 export const findUserService = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const user = await User.findById(req.params.id);
@@ -99,14 +104,15 @@ export const findUserService = async (
     }
     res.json({ data: user, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.userErrorLogger.log('error', 'Error User Not Found')
   }
 }
 
 export const updateUserService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const errors = validationResult(req.body);
@@ -143,14 +149,15 @@ export const updateUserService = async (
     const result = await user.save();
     res.json({ message: "Updated User Successfully!", data: result, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.userErrorLogger.log('error', 'Error Update User')
   }
 };
 
 export const deleteUserService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const user: any = await User.findById(req.params.id);
@@ -163,14 +170,15 @@ export const deleteUserService = async (
     const result = await user.save();
     res.json({ message: "Delete User Successfully!", data: result, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.userErrorLogger.log('error', 'Error Delete User')
   }
 };
 
 export const findByNameService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const page: any = req.query.page || 0;
@@ -206,6 +214,7 @@ export const findByNameService = async (
     }
     res.json({ data: result, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured")
+    logger.userErrorLogger.log('error', 'Error Search User')
   }
 }
