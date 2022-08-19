@@ -11,7 +11,7 @@ const logger = require('../loggers/logger');
 export const getPostService = async (
   _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const page: any = _req.query.page || 0;
@@ -27,7 +27,8 @@ export const getPostService = async (
     const posts = await Post.find(condition).skip(page * postsPerPage).limit(postsPerPage);
     res.json({ data: posts, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.postErrorLogger.log('error', 'Error Post Lists')
   }
 };
 
@@ -53,15 +54,16 @@ export const createPostService = async (req: Request, res: Response, _next: Next
       .json({ message: "Created Successfully!", data: result, status: 1 });
   } catch (err) {
     res.send("An error occured");
-    // logger.postLogger.log('warn', 'Error Create Post')
-    logger.dailyLogger.log('info', 'Error CP')
+    // Logger Usage
+    // logger.postLogger.log('warn', 'Error Create Post') 
+    logger.postInfoLogger.log('info', 'Error Create Post')
   }
 };
 
 export const findPostService = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -72,14 +74,15 @@ export const findPostService = async (
     }
     res.json({ data: post, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.postErrorLogger.log('error', 'Post Not Found!')
   }
 }
 
 export const updatePostService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const errors = validationResult(req.body);
@@ -103,14 +106,15 @@ export const updatePostService = async (
     const result = await post.save();
     res.json({ message: "Updated Successfully!", data: result, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.postErrorLogger.log('info', 'Error Update Post!')
   }
 };
 
 export const deletePostService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const post: any = await Post.findById(req.params.id);
@@ -123,14 +127,15 @@ export const deletePostService = async (
     await post.save();
     res.sendStatus(204)
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.postErrorLogger.log('error', 'Error Delete Post')
   }
 };
 
 export const findByNameService = async (
   req: any,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   try {
     const page: any = req.query.page || 0;
@@ -145,6 +150,7 @@ export const findByNameService = async (
     const posts = await Post.find(condition).skip(page * postsPerPage).limit(postsPerPage);
     res.json({ data: posts, status: 1 });
   } catch (err) {
-    next(err);
+    res.send("An error occured");
+    logger.postErrorLogger.log('error', 'Error Search Post!')
   }
 }
