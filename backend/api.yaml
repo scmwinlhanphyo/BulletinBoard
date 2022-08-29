@@ -1,0 +1,334 @@
+openapi: 3.0.2
+servers:
+  - url: http://127.0.0.1:3000
+info:
+  description: This is API Doc for Angular+ NodeJS Bulletinboard
+  title: Swagger API Doc for Angular+NodeJS Bulletinboard
+  version: 1.0.0
+
+tags:
+  - name: Authentication
+    description: Operations about Authentication
+  - name: Posts
+    description: Operations about Posts
+  - name: Users
+    description: Operations about Users
+
+paths:
+  /api/login:
+    post:
+      tags:
+        - Authentication
+      summary: Logs user into the system
+      requestBody:
+        description: Login User into the system
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "email@gmail.com"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
+      responses:
+        '200':
+          description: Login Successfully.
+
+  /api/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: Logout Successfully.
+
+  /api/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Sign Up
+      requestBody:
+        description: Signup user into the system
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "UserOne"
+                email:
+                  type: string
+                  example: "email@gmail.com"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
+      responses:
+        '200':
+          description: Signup user Successfully.
+
+  /api/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Forget Password
+      description: ''
+      responses:
+        default:
+          description: successful operation
+
+  /api/posts:
+    get:
+      tags:
+        - Posts
+      summary: Get all posts
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns all Posts
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      tags:
+        - Posts
+      summary: Add a new post
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Create a new post
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+          application/xml:
+              schema:
+                $ref: '#/components/schemas/Post'
+          application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '405':
+          description: Invalid input
+      
+        
+  /post/{postId}:
+    get:
+      tags:
+        - Posts
+      summary: Find post by ID
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      operationId: getPostById
+      parameters:
+        - name: postId
+          in: path
+          description: ID of post to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Post not found
+    put:
+      tags:
+        - Posts
+      summary: Updates a post
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      operationId: updatePostWithForm
+      parameters:
+        - name: postId
+          in: path
+          description: ID of post that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Name of post that needs to be updated
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Status of post that needs to be updated
+          schema:
+            type: string
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - Posts
+      summary: Deletes a pet
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      operationId: deletePet
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: petId
+          in: path
+          description: Pet id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid pet value
+
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Get all Users
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns all Users
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      tags:
+        - Users
+      summary: Create user
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      operationId: createUser
+      requestBody:
+        description: Created user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+components:
+  schemas:
+    Post:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Post01"
+        description:
+          type: string
+          example: "Description01"
+        status:
+          type: boolean
+          example: true
+        created_user_id:
+          type: string
+          example: "62fde243b554f4955fdf7914"
+      xml:
+        name: post
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Post01"
+        email:
+          type: string
+          example: "Description01"
+        password:
+          type: string
+          format: password
+          example: "password123"
+        type:
+          type: string
+          description: User Roles
+          enum:
+            - Admin
+            - User
+        phone:
+          type: string
+          example: "0912345678"
+        dob:
+          type: string
+          format: date
+          example: 2022-06-30
+        address:
+          type: string
+          example: "Address"
+        profile:
+          type: string
+          example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
+      xml:
+        name: user
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+
+# 2) Apply the security globally to all operations
+security:
+  - bearerAuth: []

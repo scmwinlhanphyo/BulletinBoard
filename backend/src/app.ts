@@ -13,6 +13,10 @@ import passport from 'passport';
 import { rootDir } from "./utils";
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
+
 require('./config/passport');
 
 
@@ -39,7 +43,7 @@ const fileFilter = (_req: Request, file: any, cb: FileFilterCallback) => {
   }
 };
 
-const PORT = process.env.PORT;
+const PORT = 3000;
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -53,13 +57,13 @@ app.get("/", (_req, res) => {
   res.json({ country: 'USA' });
 })
 
-
 mongoose
   .connect(process.env.DATABSE || "")
   .then(() => {
     // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     app.listen(PORT, () => console.log("Server running on port "+ PORT));
 
+    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
     app.use('/api/users', passport.authenticate('jwt', { session: false }), user_route);
     app.use('/api/posts', passport.authenticate('jwt', { session: false }), post_route);
     app.use("/api", auth_route);

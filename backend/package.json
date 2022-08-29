@@ -6,7 +6,7 @@
   "scripts": {
     "tsc": "tsc --init",
     "start": "node dist/app",
-    "dev": "nodemon dist/app",
+    "dev": "concurrently \"tsc --watch \" \"nodemon -q dist/app.js\"",
     "watch": "tsc -w"
   },
   "author": "",
@@ -34,9 +34,12 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0",
     "uuid": "^8.3.2",
     "winston": "^3.8.1",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston-daily-rotate-file": "^4.7.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
