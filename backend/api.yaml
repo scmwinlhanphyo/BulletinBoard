@@ -15,6 +15,7 @@ tags:
     description: Operations about Users
 
 paths:
+# Auth Routes
   /api/login:
     post:
       tags:
@@ -86,6 +87,8 @@ paths:
         default:
           description: successful operation
 
+
+# Post Routes
   /api/posts:
     get:
       tags:
@@ -132,9 +135,8 @@ paths:
                 $ref: '#/components/schemas/Post'
         '405':
           description: Invalid input
-      
-        
-  /post/{postId}:
+              
+  /api/posts/{postId}:
     get:
       tags:
         - Posts
@@ -197,11 +199,11 @@ paths:
     delete:
       tags:
         - Posts
-      summary: Deletes a pet
+      summary: Deletes a post
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
-      operationId: deletePet
+      operationId: deletePost
       parameters:
         - name: api_key
           in: header
@@ -209,17 +211,35 @@ paths:
           required: false
           schema:
             type: string
-        - name: petId
+        - name: postId
           in: path
-          description: Pet id to delete
+          description: Post id to delete
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '400':
-          description: Invalid pet value
+          description: Invalid post value
 
+  /api/posts/search:
+    post:
+        tags:
+          - Posts
+        summary: Get search posts
+        description: This can only be done by the logged in user.
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: Returns search Posts
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
+
+
+
+
+# User Routes
   /api/users:
     get:
       tags:
@@ -266,6 +286,106 @@ paths:
                 $ref: '#/components/schemas/User'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+
+  /api/users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Find user by ID
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Post not found
+    put:
+      tags:
+        - User
+      summary: Updates a user
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      operationId: updateUsertWithForm
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          description: Name of user that needs to be updated
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Status of user that needs to be updated
+          schema:
+            type: string
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - Users
+      summary: Deletes a user
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      operationId: deleteUser
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: User id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid user value
+
+  /api/users/search:
+    post:
+        tags:
+          - Users
+        summary: Get search users
+        description: This can only be done by the logged in user.
+        security:
+          - bearerAuth: []
+        responses:
+          '200':
+            description: Returns search Users
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
 
 components:
   schemas:
