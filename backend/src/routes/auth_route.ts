@@ -1,7 +1,7 @@
 import express from 'express';
 import { createUser } from '../controllers/UserController';
 import { body } from 'express-validator';
-import { forgotPassword, resetPassword, checkResetPassword, passwordChange } from '../controllers/AuthController';
+import { forgotPassword, resetPassword, passwordChange } from '../controllers/AuthController';
 import { logout, login } from '../controllers/AuthController';
 
 
@@ -35,9 +35,9 @@ router
       body("email").notEmpty().withMessage("Email must not be empty")
     ], forgotPassword);
 
-router
-  .route('/password-reset/:userId/:token')
-  .get(checkResetPassword);
+// router
+//   .route('/password-reset/:userId/:token')
+//   .get(checkResetPassword);
 
 router
   .route('/password-reset-update/:userId/:token')

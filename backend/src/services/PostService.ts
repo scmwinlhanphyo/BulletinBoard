@@ -74,7 +74,9 @@ export const findPostService = async (
     }
     res.json({ data: post, status: 1 });
   } catch (err) {
-    res.send("An error occured");
+      res
+        .status(404)
+        .json({ message: "Post not found!", status: 0 });
     logger.postErrorLogger.log('error', 'Post Not Found!')
   }
 }
@@ -125,7 +127,7 @@ export const deletePostService = async (
     }
     post.deleted_at = new Date();
     await post.save();
-    res.sendStatus(204)
+    res.json({ message: "Deleted Successfully!", status: 1 });
   } catch (err) {
     res.send("An error occured");
     logger.postErrorLogger.log('error', 'Error Delete Post')

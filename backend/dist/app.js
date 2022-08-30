@@ -18,6 +18,9 @@ const passport_1 = __importDefault(require("passport"));
 const utils_1 = require("./utils");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./api.yaml');
 require('./config/passport');
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
@@ -55,6 +58,7 @@ mongoose_1.default
     .then(() => {
     // app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
     app.listen(PORT, () => console.log("Server running on port " + PORT));
+    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
     app.use('/api/users', passport_1.default.authenticate('jwt', { session: false }), user_route_1.default);
     app.use('/api/posts', passport_1.default.authenticate('jwt', { session: false }), post_route_1.default);
     app.use("/api", auth_route_1.default);

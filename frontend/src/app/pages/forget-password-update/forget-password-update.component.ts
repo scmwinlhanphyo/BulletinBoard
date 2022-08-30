@@ -27,21 +27,22 @@ export class ForgetPasswordUpdateComponent implements OnInit {
     this.userId = this.activatedRoute.snapshot.params['userId'];
     this.token = this.activatedRoute.snapshot.params['token'];
 
-    this.authService.resetPassword(this.userId, this.token).then((data: any) => {
-      this.forgetPasswordUpdateForm = new FormGroup({
-        password: new FormControl('', Validators.required),
-        confirmPassword: new FormControl('', Validators.required),
-      });
-    }).catch((err: any) => {
-      this.router.navigate(['/forget-password', {forgetPassword: "failed"}]);
+    this.forgetPasswordUpdateForm = new FormGroup({
+      password: new FormControl('', Validators.required),
+      confirmPassword: new FormControl('', Validators.required),
     });
+    // this.authService.resetPassword(this.userId, this.token).then((data: any) => {
+    //   console.log(data);
+    // }).catch((err: any) => {
+    //   this.router.navigate(['/forget-password', {forgetPassword: "failed"}]);
+    // });
   }
 
   /**
    * event for error.
-   * @param controlName 
-   * @param errorName 
-   * @returns 
+   * @param controlName
+   * @param errorName
+   * @returns
    */
   public hasError = (controlName: string, errorName: string) => {
     return this.forgetPasswordUpdateForm.controls[controlName].hasError(errorName);
