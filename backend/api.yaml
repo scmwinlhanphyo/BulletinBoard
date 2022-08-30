@@ -1,6 +1,6 @@
 openapi: 3.0.2
 servers:
-  - url: http://127.0.0.1:3000
+  - url: http://127.0.0.1:5000
 info:
   description: This is API Doc for Angular+ NodeJS Bulletinboard
   title: Swagger API Doc for Angular+NodeJS Bulletinboard
@@ -202,6 +202,17 @@ paths:
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: PageNumber 
+          schema:
+            type: number
+        - name: ppp
+          in: query
+          description: Number of posts that want to show per Page
+          schema:
+            type: number
       responses:
         "200":
           description: Returns all Posts
@@ -475,6 +486,17 @@ paths:
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: PageNumber 
+          schema:
+            type: number
+        - name: ppp
+          in: query
+          description: Number of posts that want to show per Page
+          schema:
+            type: number
       requestBody:
         description: Title of the post that you want to search
         content:
@@ -502,6 +524,17 @@ paths:
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: PageNumber 
+          schema:
+            type: number
+        - name: upp
+          in: query
+          description: Number of users that want to show per Page
+          schema:
+            type: number
       responses:
         "200":
           description: Returns all Users
@@ -853,6 +886,17 @@ paths:
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: PageNumber 
+          schema:
+            type: number
+        - name: upp
+          in: query
+          description: Number of users that want to show per Page
+          schema:
+            type: number
       requestBody:
         description: Search with Username, Email, Fromdate & Todate
         content:
