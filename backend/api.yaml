@@ -9,13 +9,15 @@ info:
 tags:
   - name: Authentication
     description: Operations about Authentication
+  - name: Password
+    description: Operations about Password
   - name: Posts
     description: Operations about Posts
   - name: Users
     description: Operations about Users
 
 paths:
-# Auth Routes
+  # Auth Routes
   /api/login:
     post:
       tags:
@@ -35,8 +37,30 @@ paths:
                   type: string
                   format: password
                   example: "password123"
+          application/xml:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "email@gmail.com"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "email@gmail.com"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
       responses:
-        '200':
+        "200":
           description: Login Successfully.
 
   /api/logout:
@@ -44,7 +68,7 @@ paths:
       tags:
         - Authentication
       summary: Logs out current logged in user session
-      description: ''
+      description: ""
       operationId: logoutUser
       parameters: []
       responses:
@@ -74,21 +98,102 @@ paths:
                   format: password
                   example: "password123"
       responses:
-        '200':
+        "200":
           description: Signup user Successfully.
 
+  # Password Routes
   /api/forgot-password:
     post:
       tags:
-        - Authentication
+        - Password
       summary: Forget Password
-      description: ''
+      requestBody:
+        description: Enter email to get Password reset link
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "email@gmail.com"
       responses:
-        default:
-          description: successful operation
+        "200":
+          description: Password reset link sent to your email account
 
+  /api/password-reset-update/{userId}/{token}:
+    post:
+      tags:
+        - Password
+      summary: Password Reset Update
+      parameters:
+        - name: userId
+          in: path
+          description: UserId id that want to change password
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: path
+          description: Token of user who want to change password
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Forget Password Update
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: "password123"
+      responses:
+        "200":
+          description: Password reset sucessfully.
 
-# Post Routes
+  /api/password-change/{userId}/{token}:
+    post:
+      tags:
+        - Password
+      summary: Password Change
+      parameters:
+        - name: userId
+          in: path
+          description: UserId id that want to change password
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: path
+          description: Token of user who want to change password
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Change old password with new one
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                  example: "passwordold"
+                newPassword:
+                  type: string
+                  example: "passwordnew"
+      responses:
+        "200":
+          description: Password Change Successfully
+        "401":
+          description: Current Password and New Password are same.
+        "400":
+          $ref: "#/components/responses/UnauthorizedError"
+        "404":
+          description: Could not find user
+  # Post Routes
   /api/posts:
     get:
       tags:
@@ -98,15 +203,14 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: Returns all Posts
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
     post:
       tags:
         - Posts
-      summary: Add a new post
+      summary: Create a new post
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
@@ -115,27 +219,110 @@ paths:
         required: true
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Post01"
+                description:
+                  type: string
+                  example: "Description01"
+                status:
+                  type: boolean
+                  example: true
+                created_user_id:
+                  type: string
+                  example: "62fde243b554f4955fdf7914"
           application/xml:
-              schema:
-                $ref: '#/components/schemas/Post'
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Post01"
+                description:
+                  type: string
+                  example: "Description01"
+                status:
+                  type: boolean
+                  example: true
+                created_user_id:
+                  type: string
+                  example: "62fde243b554f4955fdf7914"
           application/x-www-form-urlencoded:
-              schema:
-                $ref: '#/components/schemas/Post'
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Post01"
+                description:
+                  type: string
+                  example: "Description01"
+                status:
+                  type: boolean
+                  example: true
+                created_user_id:
+                  type: string
+                  example: "62fde243b554f4955fdf7914"
+
+      # Sechma Insert Methods
+
+      # requestBody:
+      #   description: Create a new post
+      #   required: true
+      #   content:
+      #     application/json:
+      #         schema:
+      #           $ref: '#/components/schemas/Post'
+      #     application/xml:
+      #         schema:
+      #           $ref: '#/components/schemas/Post'
+      #     application/x-www-form-urlencoded:
+      #         schema:
+      #           $ref: '#/components/schemas/Post'
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Post'          
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: "Post01"
+                  description:
+                    type: string
+                    example: "Description01"
+                  status:
+                    type: boolean
+                    example: true
+                  created_user_id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
             application/xml:
               schema:
-                $ref: '#/components/schemas/Post'
-        '405':
+                type: object
+                properties:
+                  title:
+                    type: string
+                    example: "Post01"
+                  description:
+                    type: string
+                    example: "Description01"
+                  status:
+                    type: boolean
+                    example: true
+                  created_user_id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+        "405":
           description: Invalid input
-              
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+
   /api/posts/{postId}:
     get:
       tags:
@@ -151,95 +338,162 @@ paths:
           description: ID of post to return
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Post'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Post'
-        '400':
-          description: Invalid ID supplied
-        '404':
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  title:
+                    type: string
+                    example: "Title01"
+                  description:
+                    type: string
+                    example: "Description01"
+                  status:
+                    type: boolean
+                    example: true
+                  created_user_id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  _v:
+                    type: number
+                    example: 0
+                  createdAt:
+                    type: string
+                    format: date
+                  updatedAt:
+                    type: string
+                    format: date
+        "404":
           description: Post not found
     put:
       tags:
         - Posts
-      summary: Updates a post
+      summary: Update a post
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
-      operationId: updatePostWithForm
+      operationId: updatePostId
       parameters:
         - name: postId
           in: path
-          description: ID of post that needs to be updated
+          description: ID of post to return
           required: true
           schema:
-            type: integer
-            format: int64
-        - name: name
-          in: query
-          description: Name of post that needs to be updated
-          schema:
             type: string
-        - name: status
-          in: query
-          description: Status of post that needs to be updated
-          schema:
-            type: string
+      requestBody:
+        description: Update an existing post
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Post01"
+                description:
+                  type: string
+                  example: "Description01"
+                status:
+                  type: boolean
+                  example: true
+                created_user_id:
+                  type: string
+                  example: "62fde243b554f4955fdf7914"
+                updated_user_id:
+                  type: string
+                  example: "62fde243b554f4955fdf7914"
       responses:
-        '405':
+        "200":
+          description: Updated Successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  title:
+                    type: string
+                    example: "Title Updated"
+                  description:
+                    type: string
+                    example: "Description Updated"
+                  status:
+                    type: boolean
+                    example: true
+                  created_user_id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  updated_user_id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  createdAt:
+                    type: string
+                    format: date
+                  updatedAt:
+                    type: string
+                    format: date
+        "405":
           description: Invalid input
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
     delete:
       tags:
         - Posts
-      summary: Deletes a post
+      summary: Delete a post
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
       operationId: deletePost
       parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: false
-          schema:
-            type: string
         - name: postId
           in: path
           description: Post id to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
-        '400':
+        "200":
+          description: Deleted Successfully!
+        "400":
           description: Invalid post value
 
   /api/posts/search:
     post:
-        tags:
-          - Posts
-        summary: Get search posts
-        description: This can only be done by the logged in user.
-        security:
-          - bearerAuth: []
-        responses:
-          '200':
-            description: Returns search Posts
-          '401':
-            $ref: '#/components/responses/UnauthorizedError'
+      tags:
+        - Posts
+      summary: Get search posts
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Title of the post that you want to search
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Post"
+      responses:
+        "200":
+          description: Returns search Posts
+        "400":
+          description: An error occured
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
-
-
-
-# User Routes
+  # User Routes
   /api/users:
     get:
       tags:
@@ -249,11 +503,10 @@ paths:
       security:
         - bearerAuth: []
       responses:
-        '200':
+        "200":
           description: Returns all Users
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
     post:
       tags:
         - Users
@@ -267,28 +520,142 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Post01"
+                email:
+                  type: string
+                  example: "Description01"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
+                type:
+                  type: string
+                  description: User Roles
+                  enum:
+                    - Admin
+                    - User
+                phone:
+                  type: string
+                  example: "0912345678"
+                dob:
+                  type: string
+                  format: date
+                  example: 2022-06-30
+                address:
+                  type: string
+                  example: "Address"
+                profile:
+                  type: string
+                  example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
           application/xml:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Post01"
+                email:
+                  type: string
+                  example: "Description01"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
+                type:
+                  type: string
+                  description: User Roles
+                  enum:
+                    - Admin
+                    - User
+                phone:
+                  type: string
+                  example: "0912345678"
+                dob:
+                  type: string
+                  format: date
+                  example: 2022-06-30
+                address:
+                  type: string
+                  example: "Address"
+                profile:
+                  type: string
+                  example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Post01"
+                email:
+                  type: string
+                  example: "Description01"
+                password:
+                  type: string
+                  format: password
+                  example: "password123"
+                type:
+                  type: string
+                  description: User Roles
+                  enum:
+                    - Admin
+                    - User
+                phone:
+                  type: string
+                  example: "0912345678"
+                dob:
+                  type: string
+                  format: date
+                  example: 2022-06-30
+                address:
+                  type: string
+                  example: "Address"
+                profile:
+                  type: string
+                  example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
       responses:
-        '200':
-          description: successful operation
+        "200":
+          description: Created User Successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  password:
+                    type: string
+                    format: password
+                  type:
+                    type: string
+                  phone:
+                    type: string
+                  dob:
+                    type: string
+                    format: date
+                  address:
+                    type: string
+                  profile:
+                    type: string
+                  _id:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  _v:
+                    type: number
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
   /api/users/{userId}:
-    get:
+    post:
       tags:
         - Users
       summary: Find user by ID
@@ -302,51 +669,161 @@ paths:
           description: ID of user to return
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
-        '200':
+        "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Post not found
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "62c6a49a087a13d74076e514"
+                  name:
+                    type: string
+                    example: "User One"
+                  email:
+                    type: string
+                    example: "userone@gmail.com"
+                  password:
+                    type: string
+                    format: password
+                    example: "password123"
+                  type:
+                    type: string
+                    description: User Roles
+                    enum:
+                      - Admin
+                      - User
+                  phone:
+                    type: string
+                    example: "0912345678"
+                  dob:
+                    type: string
+                    format: date
+                  address:
+                    type: string
+                    example: "Address"
+                  profile:
+                    type: string
+                    example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
+                  createdAt:
+                    type: string
+                    format: date
+                  updatedAt:
+                    type: string
+                    format: date
+        "404":
+          description: User not found
     put:
       tags:
-        - User
-      summary: Updates a user
+        - Users
+      summary: Update a user
       description: This can only be done by the logged in user.
       security:
         - bearerAuth: []
-      operationId: updateUsertWithForm
+      operationId: updateUserId
       parameters:
         - name: userId
           in: path
-          description: ID of user that needs to be updated
+          description: ID of user to return
           required: true
           schema:
-            type: integer
-            format: int64
-        - name: name
-          in: query
-          description: Name of user that needs to be updated
-          schema:
             type: string
-        - name: status
-          in: query
-          description: Status of user that needs to be updated
-          schema:
-            type: string
+      requestBody:
+        description: Update an existing user data
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "User One"
+                email:
+                  type: string
+                  example: "Description01"
+                type:
+                  type: string
+                  description: User Roles
+                  enum:
+                    - Admin
+                    - User
+                phone:
+                  type: string
+                  example: "0912345678"
+                dob:
+                  type: string
+                  format: date
+                address:
+                  type: string
+                  example: "Address"
+                profile:
+                  type: string
+                  example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
+                created_user_id:
+                  type: string
+                  example: "62fde243b554f4955fdf7914"
+                updated_user_id:
+                  type: string
+                  example: "62fde243b554f4955fdf7914"
       responses:
-        '405':
+        "200":
+          description: Updated Successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  name:
+                    type: string
+                    example: "User One"
+                  email:
+                    type: string
+                    example: "Description01"
+                  password:
+                    type: string
+                    format: password
+                    example: "password123"
+                  type:
+                    type: string
+                    description: User Roles
+                    enum:
+                      - Admin
+                      - User
+                  phone:
+                    type: string
+                    example: "0912345678"
+                  dob:
+                    type: string
+                    format: date
+                  address:
+                    type: string
+                    example: "Address"
+                  profile:
+                    type: string
+                    example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
+                  created_user_id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  updated_user_id:
+                    type: string
+                    example: "62fde243b554f4955fdf7914"
+                  createdAt:
+                    type: string
+                    format: date
+                  updatedAt:
+                    type: string
+                    format: date
+        "405":
           description: Invalid input
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
     delete:
       tags:
         - Users
@@ -356,95 +833,112 @@ paths:
         - bearerAuth: []
       operationId: deleteUser
       parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: false
-          schema:
-            type: string
         - name: userId
           in: path
           description: User id to delete
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
-        '400':
-          description: Invalid user value
+        "200":
+          description: Deleted User Successfully!
+        "400":
+          description: Invalid post value
 
   /api/users/search:
     post:
-        tags:
-          - Users
-        summary: Get search users
-        description: This can only be done by the logged in user.
-        security:
-          - bearerAuth: []
-        responses:
-          '200':
-            description: Returns search Users
-          '401':
-            $ref: '#/components/responses/UnauthorizedError'
+      tags:
+        - Users
+      summary: Get search users
+      description: This can only be done by the logged in user.
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Search with Username, Email, Fromdate & Todate
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "Example User"
+                email:
+                  type: string
+                  example: "example@gmail.com"
+                fromDate:
+                  type: string
+                  format: date
+                toDate:
+                  type: string
+                  format: date
+      responses:
+        "200":
+          description: Returns search Users
+        "400":
+          description: An error occured
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
 components:
-  schemas:
-    Post:
-      type: object
-      properties:
-        title:
-          type: string
-          example: "Post01"
-        description:
-          type: string
-          example: "Description01"
-        status:
-          type: boolean
-          example: true
-        created_user_id:
-          type: string
-          example: "62fde243b554f4955fdf7914"
-      xml:
-        name: post
-    User:
-      type: object
-      properties:
-        name:
-          type: string
-          example: "Post01"
-        email:
-          type: string
-          example: "Description01"
-        password:
-          type: string
-          format: password
-          example: "password123"
-        type:
-          type: string
-          description: User Roles
-          enum:
-            - Admin
-            - User
-        phone:
-          type: string
-          example: "0912345678"
-        dob:
-          type: string
-          format: date
-          example: 2022-06-30
-        address:
-          type: string
-          example: "Address"
-        profile:
-          type: string
-          example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
-      xml:
-        name: user
+  # Schema Usage in component
+  # schemas:
+  #   Post:
+  #     type: object
+  #     properties:
+  #       title:
+  #         type: string
+  #         example: "Post01"
+  #       description:
+  #         type: string
+  #         example: "Description01"
+  #       status:
+  #         type: boolean
+  #         example: true
+  #       created_user_id:
+  #         type: string
+  #         example: "62fde243b554f4955fdf7914"
+  #     xml:
+  #       name: post
+  #   User:
+  #     type: object
+  #     properties:
+  #       name:
+  #         type: string
+  #         example: "Post01"
+  #       email:
+  #         type: string
+  #         example: "Description01"
+  #       password:
+  #         type: string
+  #         format: password
+  #         example: "password123"
+  #       type:
+  #         type: string
+  #         description: User Roles
+  #         enum:
+  #           - Admin
+  #           - User
+  #       phone:
+  #         type: string
+  #         example: "0912345678"
+  #       dob:
+  #         type: string
+  #         format: date
+  #         example: 2022-06-30
+  #       address:
+  #         type: string
+  #         example: "Address"
+  #       profile:
+  #         type: string
+  #         example: "apiuploads/0fe05c06-2f9d-4056-b80d-ffa37dee7c93_img1.jpg"
+  #     xml:
+  #       name: user
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuth: # arbitrary name for the security scheme
       type: http
       scheme: bearer
-      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid

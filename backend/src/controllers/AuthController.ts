@@ -3,7 +3,7 @@ import {
   loginService,
   logoutService,
   forgetPasswordService,
-  checkResetPasswordService,
+  // checkResetPasswordService,
   resetPasswordService,
   passwordChangeService
 } from '../services/AuthService';
@@ -23,9 +23,9 @@ export const forgotPassword = async (req: any, res: Response) => {
   forgetPasswordService(req, res);
 };
 
-export const checkResetPassword = async (req: any, res: Response) => {
-  checkResetPasswordService(req, res);
-};
+// export const checkResetPassword = async (req: any, res: Response) => {
+//   checkResetPasswordService(req, res);
+// };
 
 export const resetPassword = async (req: Request, res: Response) => {
   resetPasswordService(req, res);

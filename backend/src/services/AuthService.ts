@@ -2,7 +2,7 @@ import { compareSync } from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import moment from 'moment';
+// import moment from 'moment';
 import bcrypt from 'bcrypt';
 import User from '../models/User';
 import PasswordReset from '../models/PasswordReset';
@@ -56,7 +56,7 @@ export const forgetPasswordService = async (req: any, res: Response) => {
     if (!user)
       return res.status(400).send("Email does not exist");
 
-    let token = await PasswordReset.findOne({ userId: user._id });
+    let token = await PasswordReset.findOne({ email: req.body.email });
     if (!token) {
       token = await new PasswordReset({
         email: req.body.email,
@@ -67,35 +67,35 @@ export const forgetPasswordService = async (req: any, res: Response) => {
     await sendEmail(user.email, "Password reset", link);
 
     res.status(200).json({
-      message: "Password reset link sent to your email account"
+      message: "Password reset link sent to your email account."
     });
   } catch (error) {
     res.send("An error occured");
   }
 };
 
-export const checkResetPasswordService = async (req: any, res: Response) => {
-  try {
-    const user = await User.findById(req.params.userId);
-    if (!user) return res.status(400).send("Invalid link or expired");
+// export const checkResetPasswordService = async (req: any, res: Response) => {
+//   try {
+//     const user = await User.findById(req.params.userId);
+//     if (!user) return res.status(400).send("Invalid link or expired");
 
-    const token = await PasswordReset.findOne({
-      email: user.email,
-      token: req.params.token,
-      createdAt: { $gte: moment().subtract(1, 'hours').utc() }
-    });
-    if (!token) return res.status(400).send("Invalid link or expired");
+//     const token = await PasswordReset.findOne({
+//       email: user.email,
+//       token: req.params.token,
+//       createdAt: { $gte: moment().subtract(1, 'hours').utc() }
+//     });
+//     if (!token) return res.status(400).send("Invalid link or expired");
 
-    user.password = req.body.password;
-    await user.save();
+//     user.password = req.body.password;
+//     await user.save();
 
-    res.json({
-      message: "Forget password sucessfully."
-    });
-  } catch (error) {
-    res.send("An error occured");
-  }
-};
+//     res.json({
+//       message: "Forget password sucessfully."
+//     });
+//   } catch (error) {
+//     res.send("An error occured");
+//   }
+// };
 
 export const resetPasswordService = async (req: Request, res: Response) => {
   try {
@@ -124,25 +124,25 @@ export const passwordChangeService = async (req: Request, res: Response) => {
     await User.findById(req.params.userId)
     .then(async (user: any) => {
       if (!user) {
-        return res.status(401).send({
+        return res.status(404).send({
           success: false,
           message: 'Could not find user'
         })
       }
 
       const token= req.params.token;
-      if (!token) return res.status(400).send("Unauthorized");
+      if (!token) return res.status(401).send("Unauthorized");
 
   
       if (!compareSync(req.body.oldPassword, user.password)) {
-        return res.status(401).send({
+        return res.send({
           success: false,
           message: 'Incorrect password'
         });
       }
 
       if(compareSync(req.body.newPassword, user.password)) {
-        return res.status(401).send({
+        return res.send({
           success: false,
           message: 'Current Password and New Password are same.'
         });
@@ -154,5 +154,6 @@ export const passwordChangeService = async (req: Request, res: Response) => {
     })
   } catch (error) {
     res.send("An error occured");
+    // next(error)
   }
 }

@@ -41,7 +41,7 @@ const fileFilter = (_req, file, cb) => {
         cb(null, false);
     }
 };
-const PORT = 3000;
+const PORT = process.env.PORT;
 const app = (0, express_1.default)();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
